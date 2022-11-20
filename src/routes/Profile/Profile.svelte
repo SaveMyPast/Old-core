@@ -1,14 +1,9 @@
 <script>
-
-	
 </script>
+
+<header />
+<main />
+<footer />
+
 <style>
-
 </style>
-
-<header>
-	<Nav />
-</header>
-<main></main>
-<footer></footer>
-
