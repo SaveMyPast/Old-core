@@ -1,12 +1,12 @@
 <script>
+  import { onDestroy } from "svelte";
   import { displayLoginBulletin } from "../../stores/loginStore";
-  let displayLogin;
+
   const loginClick = () => {
-    displayLoginBulletin.subscribe((data) => {
-      displayLogin = data;
-    });
-    displayLoginBulletin.set(!displayLogin);
+    displayLoginBulletin.set(!$displayLoginBulletin);
   };
+
+  onDestroy(() => {});
 </script>
 
 <nav>
