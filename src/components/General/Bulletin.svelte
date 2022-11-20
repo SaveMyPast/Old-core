@@ -33,9 +33,9 @@
         </p>
       {/if}
       {#if subtitle}
-        <h3 class="bulletin-content-subtitle">
+        <h2 class="bulletin-content-subtitle">
           {subtitle}
-        </h3>
+        </h2>
       {/if}
       {#if paragraph}
         <p class="bulletin-content-paragraph">
@@ -55,30 +55,14 @@
     align-items: center;
     width: 100%;
     border: 1px solid black;
-    border-radius: 1.5rem;
+    border-radius: 0.33rem;
     box-shadow: -2px 5px 5px darkgrey;
-  }
-
-  h1 {
-    color: black;
-    font-size: 1.5rem;
-    text-align: justify;
-  }
-
-  h3 {
-    font-size: 0.75rem;
-    color: darkgrey;
-    text-align: justify;
   }
 
   .bulletin-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-  }
-
-  .bulletin-content-subtitle {
-    font-size: 1.25rem;
   }
 
   .bulletin-content-paragraph {

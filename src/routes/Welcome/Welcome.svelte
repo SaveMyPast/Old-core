@@ -1,7 +1,10 @@
 <script>
+  import LoginBulletin from "./../../components/General/LoginBulletin.svelte";
   import Bulletin from "../../components/General/Bulletin.svelte";
-
+  import Header from "../../components/General/Header.svelte";
+  import SamplePromptsBulletin from "../../components/SamplePromptsBulletin.svelte";
   import { setContext } from "svelte";
+  import { displayLoginBulletin } from "../../stores/loginStore";
 
   const welcomeParagraph =
     "This website is aimed at helping individuals think about, record, and build up their own personal history. Just start off with a prompt, and let your memories flow onto the page, and if the prompt just doesn't match your personal experience, you can customize them any way you'd like ensuring your life is remembered the way you experienced it.";
@@ -29,16 +32,20 @@
 </script>
 
 <main>
-  <!-- <Header /> -->
+  <Header />
 
-  <article>
-    <section id="content">
+  <section id="wrapper">
+    <article>
       <Bulletin context="welcomeBulletin" />
-      <!-- 		<ActionBulletin /> -->
-    </section>
-  </article>
-
-  <!-- <Footer /> -->
+    </article>
+    <article>
+      {#if $displayLoginBulletin}
+        <LoginBulletin />
+      {:else}
+        <SamplePromptsBulletin />
+      {/if}
+    </article>
+  </section>
 </main>
 
 <style>
@@ -51,16 +58,18 @@
   main {
     display: flex;
     flex-direction: column;
+    width: 100%;
     height: 100%;
   }
 
-  article {
+  #wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     width: 100%;
   }
 
-  #content {
-    width: 70%;
+  article {
+    margin: 1.5rem;
+    width: 40%;
   }
 </style>
