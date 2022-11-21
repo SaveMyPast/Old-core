@@ -1,15 +1,38 @@
 <script>
+  import { user } from "../../stores/loginStore.js";
+  import {
+    loginWithUsernameAndPassword,
+    loginWithGoogle,
+    logout,
+  } from "./../../services/Auth/login-service.js";
+
+  let credentials = { email: null, password: null };
 </script>
 
 <article class="bulletin">
-  <section>
-    <input />
-    <input />
-  </section>
-  <section>
-    <button>Log in</button>
-    <button>Log in with Google</button>
-  </section>
+  {#if !$user}
+    <section>
+      <input placeholder="Email" bind:value={credentials.email} />
+      <input
+        placeholder="Password"
+        type="password"
+        bind:value={credentials.password}
+      />
+    </section>
+    <section>
+      <button
+        on:click={loginWithUsernameAndPassword(
+          credentials.email,
+          credentials.password
+        )}>Log in</button
+      >
+      <button on:click={loginWithGoogle}>Log in with Google</button>
+    </section>
+  {:else}
+    <section>
+      <button on:click={logout}>Log out </button>
+    </section>
+  {/if}
 </article>
 
 <style>
