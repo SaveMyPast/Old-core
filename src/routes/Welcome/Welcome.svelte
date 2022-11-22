@@ -1,10 +1,11 @@
 <script>
-  import LoginBulletin from "./../../components/General/LoginBulletin.svelte";
+  import LoginBulletin from "../../components/Account/Login/LoginBulletin.svelte";
   import Bulletin from "../../components/General/Bulletin.svelte";
-  import Header from "../../components/General/Header.svelte";
   import SamplePromptsBulletin from "../../components/SamplePromptsBulletin.svelte";
   import { setContext } from "svelte";
-  import { displayLoginBulletin } from "../../stores/loginStore";
+  import { displayLogInBulletin } from "../../stores/loginStore";
+  import { displaySignUpBulletin } from "./../../stores/loginStore.js";
+  import SignupBulletin from "../../components/Account/Login/signupBulletin.svelte";
 
   const welcomeParagraph =
     "This website is aimed at helping individuals think about, record, and build up their own personal history. Just start off with a prompt, and let your memories flow onto the page, and if the prompt just doesn't match your personal experience, you can customize them any way you'd like ensuring your life is remembered the way you experienced it.";
@@ -32,14 +33,19 @@
 </script>
 
 <main>
-  <Header />
-
   <section id="wrapper">
+    {#if $displaySignUpBulletin}
+      <article>
+        <SignupBulletin />
+        <Bulletin context="welcomeBulletin" />
+      </article>
+    {:else}
+      <article>
+        <Bulletin context="welcomeBulletin" />
+      </article>
+    {/if}
     <article>
-      <Bulletin context="welcomeBulletin" />
-    </article>
-    <article>
-      {#if $displayLoginBulletin}
+      {#if $displayLogInBulletin}
         <LoginBulletin />
       {:else}
         <SamplePromptsBulletin />

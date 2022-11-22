@@ -1,4 +1,5 @@
 <script>
+  import { displaySignUpBulletin } from "./../stores/loginStore.js";
   let prompts = [
     "Where did you live when you were 12? What was the neighborhood like? Your friends? What sort of activities did you do?",
     "Do your best to tell me about a time you were happy beyond description. What happened? How old were you? Who was involved?",
@@ -6,6 +7,10 @@
   let randomPrompt = 0;
   const randomizePrompt = () => {
     randomPrompt = Math.floor(Math.random() * prompts.length);
+  };
+
+  const toggleSignUpBulletin = () => {
+    displaySignUpBulletin.set(!$displaySignUpBulletin);
   };
 </script>
 
@@ -19,7 +24,7 @@
     these with FamilySearch Memories to store these away forever! (Coming soon)
   </p>
   <button on:click={randomizePrompt}>Cycle through random prompts!</button>
-  <button>Answer a prompt like this!</button>
+  <button on:click={toggleSignUpBulletin}>Answer a prompt like this!</button>
 </article>
 
 <style>

@@ -1,12 +1,18 @@
 <script>
+  import Prompt from "./components/Prompt/Prompt.svelte";
   import Welcome from "./routes/Welcome/Welcome.svelte";
+  import { userAuth } from "./stores/loginStore";
+  import Header from "./components/General/Header.svelte";
 </script>
 
-<header />
+<Header />
 <article>
-  <Welcome />
+  {#if $userAuth}
+    <Prompt />
+  {:else}
+    <Welcome />
+  {/if}
 </article>
-<footer />
 
 <style>
   :global(input) {

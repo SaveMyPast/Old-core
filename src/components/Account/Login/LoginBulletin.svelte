@@ -1,16 +1,16 @@
 <script>
-  import { user } from "../../stores/loginStore.js";
+  import { userAuth } from "../../../stores/loginStore.js";
   import {
     loginWithUsernameAndPassword,
     loginWithGoogle,
     logout,
-  } from "./../../services/Auth/login-service.js";
+  } from "../../../services/Auth/login-service.js";
 
   let credentials = { email: null, password: null };
 </script>
 
 <article class="bulletin">
-  {#if !$user}
+  {#if !$userAuth}
     <section>
       <input placeholder="Email" bind:value={credentials.email} />
       <input
@@ -26,7 +26,7 @@
           credentials.password
         )}>Log in</button
       >
-      <button on:click={loginWithGoogle}>Log in with Google</button>
+      <button on:click={loginWithGoogle} disabled>Log in with Google</button>
     </section>
   {:else}
     <section>
