@@ -2,12 +2,18 @@ import { auth, db } from "./firebase.js";
 import {
   userRespondedPromptStore,
   promptStore,
-  singleRandomPromptStore,
 } from "../../stores/promptStore.js";
-// Create
-import { doc, setDoc, getDocs, collection } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getDocs,
+  collection,
+  getDoc,
+  addDoc,
+} from "firebase/firestore";
+import { userInformationStore } from "../../stores/loginStore.js";
 
-// addUser to users collection.
+// Create
 export const addUser = async (signUpObject) => {
   await setDoc(doc(db, "users", auth.currentUser.uid), {
     email: auth.currentUser.email,
@@ -23,35 +29,76 @@ export const addUser = async (signUpObject) => {
     });
 };
 
-export const addPromptResponse = (promptData) => {
-  //
+export const adminAddNewPrompt = async (promptData) => {
+  await setDoc(doc(db, "prompts"), {
+    promptData,
+  }).catch((err) => {
+    console.error(err);
+  });
+};
+
+export const addPromptResponse = async (promptData) => {
+  await addDoc(
+    collection(db, "users", auth.currentUser.uid, "promptResponses"),
+    {
+      promptData,
+    }
+  )
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.error(err.code);
+    });
 };
 
 // Read
 export const getAllPrompts = async () => {
-  const querySnapshot = await getDocs(collection(db, "prompts"));
   let allPrompts = [];
+
+  const querySnapshot = await getDocs(collection(db, "prompts")).catch(
+    (error) => {
+      console.error(error);
+    }
+  );
+
   querySnapshot.forEach((doc) => {
     allPrompts.push(doc.data());
   });
+
   promptStore.set(allPrompts);
-  singleRandomPromptStore.set(
-    allPrompts[Math.floor(Math.random * allPrompts.length)]
-  );
 };
 
 export const getUserAccountInformation = async () => {
-  // await
+  const docSnapshot = await getDoc(doc(db, "users", auth.currentUser.uid));
+
+  if (docSnapshot.exists()) {
+    userInformationStore.set(docSnapshot.data());
+    console.log(docSnapshot.data());
+  } else {
+    console.log("No such document!");
+  }
 };
 
 export const getUserRespondedPrompts = async () => {
-  //
+  const querySnapshot = await getDocs(
+    collection(db, "users", auth.currentUser.uid, "promptResponses")
+  ).catch((err) => {
+    console.error(err);
+  });
+  let allUserResponses = [];
+  querySnapshot.forEach((doc) => {
+    allUserResponses.push(doc.data());
+  });
+  userRespondedPromptStore.set(allUserResponses);
 };
 
 // Update
 
 export const updateUserInformation = async (userInformation) => {
-  //
+  await setDoc(doc(db, "users", auth.currentUser.uid), userInformation, {
+    merge: true,
+  }).catch((err) => console.error(err));
 };
 
 export const updatePrompt = async (promptData) => {

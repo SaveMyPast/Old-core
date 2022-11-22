@@ -32,50 +32,30 @@
   });
 </script>
 
-<main>
-  <section id="wrapper">
-    {#if $displaySignUpBulletin}
-      <article>
-        <SignupBulletin />
-        <Bulletin context="welcomeBulletin" />
-      </article>
-    {:else}
-      <article>
-        <Bulletin context="welcomeBulletin" />
-      </article>
-    {/if}
+<section id="wrapper">
+  {#if $displaySignUpBulletin}
     <article>
-      {#if $displayLogInBulletin}
-        <LoginBulletin />
-      {:else}
-        <SamplePromptsBulletin />
-      {/if}
+      <SignupBulletin />
+      <Bulletin context="welcomeBulletin" />
     </article>
-  </section>
-</main>
+  {:else}
+    <article>
+      <Bulletin context="welcomeBulletin" />
+    </article>
+  {/if}
+  <article>
+    {#if $displayLogInBulletin}
+      <LoginBulletin />
+    {:else}
+      <SamplePromptsBulletin />
+    {/if}
+  </article>
+</section>
 
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-  }
-
-  main {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-  }
-
   #wrapper {
     display: flex;
     justify-content: space-around;
-    width: 100%;
-  }
-
-  article {
-    margin: 1.5rem;
-    width: 40%;
+    flex: 1 1;
   }
 </style>

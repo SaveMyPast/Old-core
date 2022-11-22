@@ -6,12 +6,13 @@ import {
 } from "firebase/auth";
 import { auth, googleProvider } from "../DB/firebase.js";
 import { userAuth } from "../../stores/loginStore";
-import { addUser } from "../DB/CRUD.js";
+import { addUser, getUserAccountInformation } from "../DB/CRUD.js";
 
 export const loginWithUsernameAndPassword = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       userAuth.set(userCredential.user);
+      getUserAccountInformation();
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -32,6 +33,7 @@ export const signUpNewUser = (signUpObject) => {
     .then((userCredential) => {
       userAuth.set(userCredential.user);
       addUser(signUpObject);
+      getUserAccountInformation();
     })
     .catch((error) => {
       if (error.message == "auth/email-already-in-use") {
@@ -48,6 +50,7 @@ export const loginWithGoogle = () => {
   signInWithPopup(auth, googleProvider)
     .then((result) => {
       userAuth.set(result.user);
+      getUserAccountInformation();
     })
     .catch((error) => {
       const errorCode = error.code;

@@ -34,7 +34,6 @@
     padding: 1rem;
     justify-content: center;
     align-items: center;
-    width: 100%;
     border: 1px solid black;
     border-radius: 0.33rem;
     box-shadow: -2px 5px 5px darkgrey;
