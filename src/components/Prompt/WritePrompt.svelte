@@ -1,5 +1,5 @@
 <script>
-../../stores/promptStore.js
+  import {
     singleRandomPromptStore,
     promptStore,
   } from "./../../stores/promptStore.js";
