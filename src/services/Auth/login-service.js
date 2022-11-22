@@ -5,25 +5,38 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth, googleProvider } from "../DB/firebase.js";
-import { user } from "../../stores/loginStore";
+import { userAuth } from "../../stores/loginStore";
+import { addUser, getUserAccountInformation } from "../DB/CRUD.js";
 
 export const loginWithUsernameAndPassword = (email, password) => {
-  createUserWithEmailAndPassword(auth, email, password)
+  signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      user.set(userCredential.user);
+      userAuth.set(userCredential.user);
+      getUserAccountInformation();
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if (errorCode == "auth/user-not-found") {
+      } else {
+        console.error(`${errorCode}: ${errorMessage}`);
+      }
+    });
+};
+
+export const signUpNewUser = (signUpObject) => {
+  createUserWithEmailAndPassword(
+    auth,
+    signUpObject.email,
+    signUpObject.password
+  )
+    .then((userCredential) => {
+      userAuth.set(userCredential.user);
+      addUser(signUpObject);
+      getUserAccountInformation();
     })
     .catch((error) => {
       if (error.message == "auth/email-already-in-use") {
-        signInWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            user.set(userCredential.user);
-          })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-
-            console.error(`${errorCode}: ${errorMessage}`);
-          });
       } else {
         const errorCode = error.code;
         const errorMessage = error.message;
@@ -36,7 +49,8 @@ export const loginWithUsernameAndPassword = (email, password) => {
 export const loginWithGoogle = () => {
   signInWithPopup(auth, googleProvider)
     .then((result) => {
-      user.set(result.user);
+      userAuth.set(result.user);
+      getUserAccountInformation();
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -49,9 +63,21 @@ export const loginWithGoogle = () => {
 export const logout = () => {
   signOut(auth)
     .then(() => {
-      user.set(null);
+      userAuth.set(null);
     })
     .catch((error) => {
       console.error(error);
     });
 };
+
+// export const updateProfile => {
+//   updateProfile(auth.currentUser, {
+//   displayName: "",
+// }).then(() => {
+//   // Profile updated!
+//   // ...
+// }).catch((error) => {
+//   // An error occurred
+//   // ...
+// });
+// }

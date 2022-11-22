@@ -1,14 +1,35 @@
 <script>
+  import Prompt from "./components/Prompt/Prompt.svelte";
   import Welcome from "./routes/Welcome/Welcome.svelte";
+  import { userAuth } from "./stores/loginStore";
+  import Header from "./components/General/Header.svelte";
+  import WritePrompt from "./components/Prompt/WritePrompt.svelte";
 </script>
 
-<header />
-<article>
-  <Welcome />
-</article>
-<footer />
+<section>
+  <Header />
+  <section id="main">
+    {#if $userAuth}
+      <Prompt />
+      <WritePrompt />
+    {:else}
+      <Welcome />
+    {/if}
+  </section>
+</section>
 
 <style>
+  #main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: auto;
+  }
+  :global(article) {
+    margin: 1.5rem;
+    flex: 1 1;
+  }
   :global(input) {
     background-color: var(--primary);
     color: var(--dark-paperlike);
@@ -19,6 +40,8 @@
   :global(button) {
     background-color: var(--primary);
     color: var(--dark-paperlike);
+    outline: none;
+    min-width: 10rem;
     max-width: 20rem;
     border: none;
     border-radius: 0.33rem;
@@ -61,5 +84,6 @@
     padding: 0;
     background-color: var(--paperlike);
     color: var(--dark-paperlike);
+    height: 100%;
   }
 </style>

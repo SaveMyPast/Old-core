@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "firebase": "^9.14.0",
+    "lodash": "^4.17.21",
     "sirv-cli": "^2.0.0"
   }
 }

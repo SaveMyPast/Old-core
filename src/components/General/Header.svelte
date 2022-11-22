@@ -1,9 +1,18 @@
 <script>
+  import { logout } from "./../../services/Auth/login-service.js";
   import { onDestroy } from "svelte";
-  import { displayLoginBulletin } from "../../stores/loginStore";
+  import {
+    displayLogInBulletin,
+    displaySignUpBulletin,
+    userAuth,
+  } from "../../stores/loginStore";
+
+  const signUpClick = () => {
+    displaySignUpBulletin.set(!$displaySignUpBulletin);
+  };
 
   const loginClick = () => {
-    displayLoginBulletin.set(!$displayLoginBulletin);
+    displayLogInBulletin.set(!$displayLogInBulletin);
   };
 
   onDestroy(() => {});
@@ -15,7 +24,12 @@
     <li>Timeline</li>
     <li>Profile</li>
     <li>Settings</li>
-    <li on:click={loginClick} on:keydown={loginClick}>Login</li>
+    {#if !$userAuth}
+      <li on:click={signUpClick} on:keydown={signUpClick}>Sign up</li>
+      <li on:click={loginClick} on:keydown={loginClick}>Log in</li>
+    {:else}
+      <li on:click={logout} on:keydown={logout}>Log out</li>
+    {/if}
   </ul>
 </nav>
 
