@@ -1,49 +1,38 @@
 <script>
   import { logout } from "./../../services/Auth/login-service.js";
-  import { onDestroy } from "svelte";
-  import {
-    displayLogInBulletin,
-    displaySignUpBulletin,
-    userAuth,
-  } from "../../stores/loginStore";
-
-  const signUpClick = () => {
-    displaySignUpBulletin.set(!$displaySignUpBulletin);
-  };
-
-  const loginClick = () => {
-    displayLogInBulletin.set(!$displayLogInBulletin);
-  };
-
-  onDestroy(() => {});
+  import { link } from "svelte-routing";
+  import { userAuth } from "../../stores/loginStore";
 </script>
 
 <nav>
-  <ul>
-    <li>Welcome</li>
-    <li>Timeline</li>
-    <li>Profile</li>
-    <li>Settings</li>
-    {#if !$userAuth}
-      <li on:click={signUpClick} on:keydown={signUpClick}>Sign up</li>
-      <li on:click={loginClick} on:keydown={loginClick}>Log in</li>
-    {:else}
-      <li on:click={logout} on:keydown={logout}>Log out</li>
-    {/if}
-  </ul>
+  {#if $userAuth}
+    <a class="link" href="prompts" use:link>Prompts</a>
+    <a class="link" href="profile" use:link>Profile</a>
+    <a class="link" href="settings" use:link>Settings</a>
+    <a class="link" href="timeline" use:link>Timeline</a>
+  {/if}
+  <a class="link" href="/" use:link>Welcome</a>
+  {#if !$userAuth}
+    <a class="link" href="/signup" use:link> Sign up </a>
+    <a class="link" href="/login" use:link>Log in </a>
+  {:else}
+    <button class="link" on:click={logout} on:keydown={logout} use:link>
+      Log out
+    </button>
+  {/if}
 </nav>
 
 <style>
-  ul {
+  nav {
     display: inline-flex;
     width: 100%;
-    list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: var(--primary);
   }
-  li {
+  .link,
+  :global(a) {
     display: block;
     color: var(--dark-paperlike);
     text-align: center;
@@ -51,7 +40,8 @@
     text-decoration: none;
   }
 
-  li:hover {
+  .link:hover,
+  :global(a:hover) {
     background-color: var(--secondary);
     color: var(--paperlike);
   }

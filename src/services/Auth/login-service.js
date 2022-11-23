@@ -6,13 +6,19 @@ import {
 } from "firebase/auth";
 import { auth, googleProvider } from "../DB/firebase.js";
 import { userAuth } from "../../stores/loginStore";
-import { addUser, getUserAccountInformation } from "../DB/CRUD.js";
+import {
+  addUser,
+  getUserAccountInformation,
+  getUserRespondedPrompts,
+} from "../DB/CRUD.js";
+import { navigate } from "svelte-routing";
 
 export const loginWithUsernameAndPassword = (email, password) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       userAuth.set(userCredential.user);
       getUserAccountInformation();
+      getUserRespondedPrompts();
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -22,6 +28,7 @@ export const loginWithUsernameAndPassword = (email, password) => {
         console.error(`${errorCode}: ${errorMessage}`);
       }
     });
+  navigate("/", { replace: true });
 };
 
 export const signUpNewUser = (signUpObject) => {
@@ -44,6 +51,7 @@ export const signUpNewUser = (signUpObject) => {
         console.error(`${errorCode}: ${errorMessage}`);
       }
     });
+  navigate("/", { replace: true });
 };
 
 export const loginWithGoogle = () => {
@@ -51,6 +59,7 @@ export const loginWithGoogle = () => {
     .then((result) => {
       userAuth.set(result.user);
       getUserAccountInformation();
+      getUserRespondedPrompts();
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -58,6 +67,7 @@ export const loginWithGoogle = () => {
 
       console.error(`${errorCode}: ${errorMessage}`);
     });
+  navigate("/", { replace: true });
 };
 
 export const logout = () => {
@@ -68,6 +78,7 @@ export const logout = () => {
     .catch((error) => {
       console.error(error);
     });
+  navigate("/", { replace: true });
 };
 
 // export const updateProfile => {

@@ -1,35 +1,37 @@
 <script>
-  import Prompt from "./components/Prompt/Prompt.svelte";
-  import Welcome from "./routes/Welcome/Welcome.svelte";
+  import { Router, Link, Route } from "svelte-routing";
+  import WelcomePage from "./routes/Welcome/WelcomePage.svelte";
+  import PromptPage from "./routes/Prompts/PromptPage.svelte";
+  import TimelinePage from "./routes/Timeline/TimelinePage.svelte";
+  import ProfilePage from "./routes/Profile/ProfilePage.svelte";
+  import SettingsPage from "./routes/Settings/SettingsPage.svelte";
   import { userAuth } from "./stores/loginStore";
   import Header from "./components/General/Header.svelte";
-  import WritePrompt from "./components/Prompt/WritePrompt.svelte";
+  import LoginBulletin from "./components/Account/Login/LoginBulletin.svelte";
+  import SignupBulletin from "./components/Account/Login/signupBulletin.svelte";
 </script>
 
-<section>
+<Router basepath="/">
   <Header />
-  <section id="main">
-    {#if $userAuth}
-      <Prompt />
-      <WritePrompt />
-    {:else}
-      <Welcome />
-    {/if}
-  </section>
-</section>
+  <Route path="login"><LoginBulletin /></Route>
+  <Route path="signup"><SignupBulletin /></Route>
+  {#if $userAuth}
+    <Route path="prompts"><PromptPage /></Route>
+    <Route path="profile"><ProfilePage /></Route>
+    <Route path="settings"><SettingsPage /></Route>
+    <Route path="timeline"><TimelinePage /></Route>
+  {/if}
+  <Route path="/"><WelcomePage /></Route>
+</Router>
 
 <style>
-  #main {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: auto;
-  }
   :global(article) {
     margin: 1.5rem;
-    flex: 1 1;
+    border: 1px solid var(--dark-paperlike);
+    border-radius: 0.33rem;
+    box-shadow: -2px 5px 5px darkgrey;
   }
+
   :global(input) {
     background-color: var(--primary);
     color: var(--dark-paperlike);
@@ -49,31 +51,34 @@
   :global(h1) {
     color: var(--secondary);
     font-size: 1.75rem;
-    text-align: justify;
-    margin: 0;
+    text-align: center;
+    margin: 0.33rem;
   }
 
   :global(h2) {
     color: var(--secondary);
     font-size: 1.5rem;
-    text-align: justify;
-    margin: 0;
+    text-align: center;
+    margin: 0.25rem;
   }
 
   :global(p) {
     color: var(--dark-paperlike);
     font-size: 1rem;
+    margin: 0.1rem;
+    text-align: justify;
   }
 
   :global(h3) {
     color: var(--primary);
     font-size: 0.75rem;
-    text-align: justify;
-    margin: 0;
+    text-shadow: 1px 1px 1px var(--primary);
+    text-align: center;
+    margin: 0.1rem;
   }
 
   :global(body) {
-    --primary: #bfd0ee;
+    --primary: #aec4ea;
     --secondary: #5c88c1;
     --dark-primary: #3e72cc;
     --dark-secondary: #2d4d76;
