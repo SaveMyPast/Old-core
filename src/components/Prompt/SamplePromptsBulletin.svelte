@@ -1,5 +1,5 @@
 <script>
-  import { displaySignUpBulletin } from "./../stores/loginStore.js";
+  import { link } from "svelte-routing";
   let prompts = [
     "Where did you live when you were 12? What was the neighborhood like? Your friends? What sort of activities did you do?",
     "Do your best to tell me about a time you were happy beyond description. What happened? How old were you? Who was involved?",
@@ -8,13 +8,9 @@
   const randomizePrompt = () => {
     randomPrompt = Math.floor(Math.random() * prompts.length);
   };
-
-  const toggleSignUpBulletin = () => {
-    displaySignUpBulletin.set(!$displaySignUpBulletin);
-  };
 </script>
 
-<article class="bulletin">
+<section>
   <h2>{prompts[randomPrompt]}</h2>
   <p>
     When you log into SaveMyPast.com, you will be presented with prompts like
@@ -24,18 +20,15 @@
     these with FamilySearch Memories to store these away forever! (Coming soon)
   </p>
   <button on:click={randomizePrompt}>Cycle through random prompts!</button>
-  <button on:click={toggleSignUpBulletin}>Answer a prompt like this!</button>
-</article>
+  <button href="login" use:link>Answer a prompt like this!</button>
+</section>
 
 <style>
-  .bulletin {
+  section {
     display: flex;
     flex-direction: column;
     padding: 1rem;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
-    border-radius: 0.33rem;
-    box-shadow: -2px 5px 5px darkgrey;
   }
 </style>

@@ -50,6 +50,7 @@ export const addPromptResponse = async (promptData) => {
     .catch((err) => {
       console.error(err.code);
     });
+  userRespondedPromptStore.update((data) => data.push(promptData));
 };
 
 // Read
@@ -74,22 +75,24 @@ export const getUserAccountInformation = async () => {
 
   if (docSnapshot.exists()) {
     userInformationStore.set(docSnapshot.data());
-    console.log(docSnapshot.data());
   } else {
     console.log("No such document!");
   }
 };
 
 export const getUserRespondedPrompts = async () => {
+  let allUserResponses = [];
+
   const querySnapshot = await getDocs(
     collection(db, "users", auth.currentUser.uid, "promptResponses")
   ).catch((err) => {
     console.error(err);
   });
-  let allUserResponses = [];
+
   querySnapshot.forEach((doc) => {
     allUserResponses.push(doc.data());
   });
+
   userRespondedPromptStore.set(allUserResponses);
 };
 
