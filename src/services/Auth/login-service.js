@@ -5,7 +5,11 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth, googleProvider } from "../DB/firebase.js";
-import { userAuth } from "../../stores/loginStore";
+import {
+  userAuth,
+  userAuthFailStore,
+  userInformationStore,
+} from "../../stores/loginStore";
 import {
   addUser,
   getUserAccountInformation,
@@ -27,8 +31,11 @@ export const loginWithUsernameAndPassword = (email, password) => {
       } else {
         console.error(`${errorCode}: ${errorMessage}`);
       }
+      userAuthFailStore.set(`Login Failed: ${errorCode}`);
     });
-  navigate("/", { replace: true });
+  if (userAuthFailStore == null) {
+    navigate("/", { replace: true });
+  }
 };
 
 export const signUpNewUser = (signUpObject) => {
@@ -49,9 +56,12 @@ export const signUpNewUser = (signUpObject) => {
         const errorMessage = error.message;
 
         console.error(`${errorCode}: ${errorMessage}`);
+        userAuthFailStore.set(`${errorCode}: ${errorMessage}`);
       }
     });
-  navigate("/", { replace: true });
+  if (userAuthFailStore == null) {
+    navigate("/", { replace: true });
+  }
 };
 
 export const loginWithGoogle = () => {
@@ -66,14 +76,18 @@ export const loginWithGoogle = () => {
       const errorMessage = error.message;
 
       console.error(`${errorCode}: ${errorMessage}`);
+      userAuthFailStore.set(`${errorCode}: ${errorMessage}`);
     });
-  navigate("/", { replace: true });
+  if (userAuthFailStore == null) {
+    navigate("/", { replace: true });
+  }
 };
 
 export const logout = () => {
   signOut(auth)
     .then(() => {
       userAuth.set(null);
+      userInformationStore.set({ isAdmin: false });
     })
     .catch((error) => {
       console.error(error);
