@@ -1,49 +1,108 @@
 <script>
-  import { userAuth } from "../../../stores/loginStore.js";
+  import { userAuth, userAuthFailStore } from "../../../stores/loginStore.js";
   import {
     loginWithUsernameAndPassword,
     loginWithGoogle,
     logout,
   } from "../../../services/Auth/login-service.js";
+  import { writable } from "svelte/store";
 
-  let credentials = { email: null, password: null };
+  const validationStore = writable();
+
+  const emailRegex = () => {
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      credentials.email
+    );
+  };
+
+  let credentials = { email: "", password: "" };
+
+  const emailValidation = () => {
+    emailRegex()
+      ? validationStore.set("Valid email.")
+      : validationStore.set("Invalid email address.");
+  };
+
+  const handleLogin = () => {
+    loginWithUsernameAndPassword(credentials.email, credentials.password);
+  };
 </script>
 
-<article class="bulletin">
-  {#if !$userAuth}
-    <section>
-      <input placeholder="Email" bind:value={credentials.email} />
+<form on:submit|preventDefault={handleLogin}>
+  <article class="bulletin">
+    {#if !$userAuth}
       <input
+        id="email"
+        placeholder="Email"
+        on:change={emailValidation}
+        bind:value={credentials.email}
+      />
+      <input
+        id="password"
         placeholder="Password"
         type="password"
         bind:value={credentials.password}
       />
-    </section>
-    <section>
-      <button
-        on:click={loginWithUsernameAndPassword(
-          credentials.email,
-          credentials.password
-        )}>Log in</button
+      {#if $validationStore}
+        <h3 id="message1">{$validationStore}</h3>
+      {/if}
+      {#if $userAuthFailStore}
+        <h3 id="message2">{$userAuthFailStore}</h3>
+      {/if}
+
+      <button id="button1" on:click|preventDefault={handleLogin}>Log in</button>
+      <button id="button2" on:click|once={loginWithGoogle} disabled
+        >Log in with Google</button
       >
-      <button on:click={loginWithGoogle} disabled>Log in with Google</button>
-    </section>
-  {:else}
-    <section>
-      <button on:click={logout}>Log out </button>
-    </section>
-  {/if}
-</article>
+    {:else}
+      <section>
+        <button on:click={logout}>Log out </button>
+      </section>
+    {/if}
+  </article>
+</form>
 
 <style>
   .bulletin {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr 1rem 1fr 1rem 1fr;
+    grid-template-areas:
+      "email email"
+      "message1 message1"
+      "password password"
+      "message2 message2"
+      "button1 button2";
+    justify-items: center;
     padding: 1rem;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid black;
-    border-radius: 0.33rem;
-    box-shadow: -2px 5px 5px darkgrey;
+  }
+
+  #email {
+    grid-area: email;
+    margin: 1rem;
+  }
+  #password {
+    grid-area: password;
+    margin: 1rem;
+  }
+  #message1 {
+    grid-area: message1;
+    color: var(--warn);
+  }
+  #message2 {
+    grid-area: message2;
+    color: var(--warn);
+    margin: 1rem;
+  }
+  #button1 {
+    grid-area: button1;
+    justify-self: end;
+    margin: 1rem;
+  }
+
+  #button2 {
+    grid-area: button2;
+    justify-self: start;
+    margin: 1rem;
   }
 </style>
