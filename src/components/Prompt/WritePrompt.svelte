@@ -5,7 +5,6 @@
     singleRandomPromptStore,
     promptStore,
     modifiedRandomPromptStore,
-    modifiedRandomPromptStore,
   } from "./../../stores/promptStore.js";
   import { userInformationStore } from "../../stores/loginStore.js";
   import { addPromptResponse } from "../../services/DB/CRUD.js";
