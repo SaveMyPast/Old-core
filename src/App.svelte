@@ -1,5 +1,5 @@
 <script>
-  import { Router, Link, Route } from "svelte-routing";
+  import { Router, Route } from "svelte-routing";
   import WelcomePage from "./routes/Welcome/WelcomePage.svelte";
   import PromptPage from "./routes/Prompts/PromptPage.svelte";
   import TimelinePage from "./routes/Timeline/TimelinePage.svelte";
@@ -9,6 +9,8 @@
   import Header from "./components/General/Header.svelte";
   import LoginBulletin from "./components/Account/Login/LoginBulletin.svelte";
   import SignupBulletin from "./components/Account/Login/signupBulletin.svelte";
+
+  let showLogin = false;
 </script>
 
 <Router basepath="/">

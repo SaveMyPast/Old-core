@@ -15,13 +15,13 @@
     );
   };
 
-  let credentials = { email: "", password: "" };
-
   const emailValidation = () => {
     emailRegex()
-      ? validationStore.set("Valid email.")
+      ? validationStore.set()
       : validationStore.set("Invalid email address.");
   };
+
+  let credentials = { email: "", password: "" };
 
   const handleLogin = () => {
     loginWithUsernameAndPassword(credentials.email, credentials.password);
@@ -29,7 +29,7 @@
 </script>
 
 <form on:submit|preventDefault={handleLogin}>
-  <article class="bulletin">
+  <section class="bulletin">
     {#if !$userAuth}
       <input
         id="email"
@@ -56,10 +56,10 @@
       >
     {:else}
       <section>
-        <button on:click={logout}>Log out </button>
+        <button id="logout" on:click={logout}>Log out </button>
       </section>
     {/if}
-  </article>
+  </section>
 </form>
 
 <style>
@@ -103,6 +103,12 @@
   #button2 {
     grid-area: button2;
     justify-self: start;
+    margin: 1rem;
+  }
+
+  #logout {
+    grid-area: email;
+    justify-self: center;
     margin: 1rem;
   }
 </style>
