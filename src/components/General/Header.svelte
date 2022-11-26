@@ -2,7 +2,21 @@
   import { logout } from "./../../services/Auth/login-service.js";
   import { link } from "svelte-routing";
   import { userAuth } from "../../stores/loginStore";
+  import Modal from "./Modal.svelte";
+  import LoginBulletin from "../Account/Login/LoginBulletin.svelte";
+
+  let showLogin = false;
 </script>
+
+{#if showLogin}
+  <Modal
+    closer={"closeLogin"}
+    on:closeLogin={() => {
+      showLogin = false;
+    }}
+    ><LoginBulletin />
+  </Modal>
+{/if}
 
 <nav>
   {#if $userAuth}
@@ -14,7 +28,11 @@
   <a class="link" href="/" use:link>Welcome</a>
   {#if !$userAuth}
     <a class="link" href="/signup" use:link> Sign up </a>
-    <a class="link" href="/login" use:link>Log in </a>
+    <span
+      class="link"
+      on:click={() => (showLogin = true)}
+      on:keydown={() => (showLogin = true)}>Login</span
+    >
   {:else}
     <button class="link" on:click={logout} on:keydown={logout} use:link>
       Log out
