@@ -4,17 +4,31 @@
   import { userAuth } from "../../stores/loginStore";
   import Modal from "./Modal.svelte";
   import LoginBulletin from "../Account/Login/LoginBulletin.svelte";
+  import SignupBulletin from "../Account/Login/signupBulletin.svelte";
 
   let showLogin = false;
+  let showSignup = false;
 </script>
 
 {#if showLogin}
   <Modal
+    headerText={"Log in."}
     closer={"closeLogin"}
     on:closeLogin={() => {
       showLogin = false;
     }}
     ><LoginBulletin />
+  </Modal>
+{/if}
+
+{#if showSignup}
+  <Modal
+    headerText={"Sign up."}
+    closer={"closeSignup"}
+    on:closeSignup={() => {
+      showSignup = false;
+    }}
+    ><SignupBulletin />
   </Modal>
 {/if}
 
@@ -27,7 +41,13 @@
   {/if}
   <a class="link" href="/" use:link>Welcome</a>
   {#if !$userAuth}
-    <a class="link" href="/signup" use:link> Sign up </a>
+    <span
+      class="link"
+      on:click={() => (showSignup = true)}
+      on:keydown={() => (showSignup = true)}
+    >
+      Sign up
+    </span>
     <span
       class="link"
       on:click={() => (showLogin = true)}

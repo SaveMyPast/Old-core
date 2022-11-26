@@ -15,13 +15,13 @@
     );
   };
 
-  let credentials = { email: "", password: "" };
-
   const emailValidation = () => {
     emailRegex()
       ? validationStore.set()
       : validationStore.set("Invalid email address.");
   };
+
+  let credentials = { email: "", password: "" };
 
   const handleLogin = () => {
     loginWithUsernameAndPassword(credentials.email, credentials.password);

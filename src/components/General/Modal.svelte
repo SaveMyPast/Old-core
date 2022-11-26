@@ -1,6 +1,7 @@
 <script>
-  import { createEventDispatcher, onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
 
+  export let headerText;
   export let closer;
 
   const dispatcher = createEventDispatcher();
@@ -10,22 +11,44 @@
   };
 </script>
 
+<!-- 
+    @component
+    Creates a modal that displays over the entire page. 
+
+    Accepts:
+
+    Header string
+
+    a component: e.g. `<SomeComponent />`
+
+    Custom Event: will be fired when closeModal is triggered
+
+    Usage: 
+
+    `<Modal headerText={"Login Window"} closer={closeModal} on:closeModal={() => {seeModal = false}}> <SomeComponent /> </Modal`
+
+ -->
+
 <section class="background" on:keydown={closeModal} on:click={closeModal} />
 <section class="card">
   <section class="header" />
+  <h2 class="title">{headerText}</h2>
   <span class="closeButton" on:keydown={closeModal} on:click={closeModal}
     >X</span
   >
   <section class="content">
     <slot>
-      <h3 style:color="var(--warn)">
+      <h2 style:color="var(--warn)">
         This modal has failed to load properly. Click away to close.
-      </h3>
+      </h2>
     </slot>
   </section>
 </section>
 
 <style>
+  .title {
+    grid-area: header;
+  }
   .background {
     background-color: grey;
     opacity: 50%;
@@ -51,7 +74,7 @@
     background-color: white;
     display: grid;
     grid-template-areas:
-      "header header header header header close"
+      "empty header header header header close"
       "content content content content content content"
       "content content content content content content"
       "content content content content content content"

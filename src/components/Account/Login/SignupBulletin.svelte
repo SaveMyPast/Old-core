@@ -5,6 +5,9 @@
     loginWithGoogle,
     logout,
   } from "../../../services/Auth/login-service.js";
+  import { writable } from "svelte/store";
+
+  const validationStore = writable();
 
   let validForm = false;
 
@@ -12,6 +15,18 @@
     if (credentials) {
       validForm = true;
     }
+  };
+
+  const emailRegex = () => {
+    return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
+      credentials.email
+    );
+  };
+
+  const emailValidation = () => {
+    emailRegex()
+      ? validationStore.set()
+      : validationStore.set("Invalid email address.");
   };
 
   let credentials = {
@@ -22,40 +37,38 @@
   };
 </script>
 
-<article class="bulletin">
+<section class="bulletin">
   {#if !$userAuth}
-    <section>
-      <input placeholder="Full Name" bind:value={credentials.fullName} />
-      <input placeholder="Birthdate" bind:value={credentials.birthdate} />
-      <input placeholder="Email" type="email" bind:value={credentials.email} />
-      <input
-        placeholder="Password"
-        type="password"
-        bind:value={credentials.password}
-        on:change={validateFields}
-      />
-    </section>
-    <section>
-      <button on:click={signUpNewUser(credentials)}>Sign Up</button>
-      <button on:click={loginWithGoogle} disabled>Sign up with Google</button>
-    </section>
+    <input placeholder="Full Name" bind:value={credentials.fullName} />
+    <input placeholder="Birthdate" bind:value={credentials.birthdate} />
+    <input
+      placeholder="Email"
+      on:change={emailValidation}
+      type="email"
+      bind:value={credentials.email}
+    />
+    <input
+      placeholder="Password"
+      type="password"
+      bind:value={credentials.password}
+      on:change={validateFields}
+    />
+    <button on:click={signUpNewUser(credentials)}>Sign Up</button>
+    <button on:click={loginWithGoogle} disabled>Sign up with Google</button>
   {:else}
-    <section>
-      <h3>You are already signed up.</h3>
-      <button on:click={logout}>Log out</button>
-    </section>
+    <h3>You are signed up.</h3>
+    <button on:click={logout}>Log out</button>
   {/if}
-</article>
+</section>
 
 <style>
   .bulletin {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     padding: 1rem;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
-    border-radius: 0.33rem;
-    box-shadow: -2px 5px 5px darkgrey;
   }
 </style>
