@@ -29,9 +29,6 @@
 <style>
   :global(article) {
     margin: 1.5rem;
-    border: 1px solid var(--dark-paperlike);
-    border-radius: 0.33rem;
-    box-shadow: -2px 5px 5px darkgrey;
   }
 
   :global(input) {
@@ -39,7 +36,6 @@
     color: var(--dark-paperlike);
     border: none;
     border-radius: 0.33rem;
-    max-width: 15rem;
   }
   :global(button) {
     background-color: var(--primary);

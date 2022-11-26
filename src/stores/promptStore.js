@@ -9,5 +9,6 @@ export const singleRandomPromptStore = derived(
     set(sample($promptStore));
   }
 );
+export const modifiedRandomPromptStore = writable(null);
 
 export const userRespondedPromptStore = writable(null);
