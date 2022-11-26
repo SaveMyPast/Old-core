@@ -1,5 +1,6 @@
 <script>
   import {
+    modifiedRandomPromptStore,
     promptStore,
     singleRandomPromptStore,
   } from "./../../stores/promptStore.js";
@@ -16,7 +17,11 @@
     <h3>
       Answer this prompt in as much detail as you'd like. It's your history!
     </h3>
-    <h2>{$singleRandomPromptStore.prompt}</h2>
+    {#if $modifiedRandomPromptStore}
+      <h2>{$modifiedRandomPromptStore.prompt}</h2>
+    {:else}
+      <h2>{$singleRandomPromptStore.prompt}</h2>
+    {/if}
   {:else}
     <h2>Loading prompt...</h2>
   {/if}
@@ -24,17 +29,13 @@
 
 <style>
   #wrapper {
-    width: 80%;
     display: flex;
     flex-direction: column;
     padding: 1rem;
     margin: 1rem;
     justify-content: center;
     align-items: center;
-    border: 1px solid var(--dark-paperlike);
-    border-radius: 0.33rem;
     padding: 1rem;
-    box-shadow: -2px 5px 5px darkgrey;
   }
 
   h2,

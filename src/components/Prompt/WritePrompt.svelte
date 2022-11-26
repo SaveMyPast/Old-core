@@ -1,10 +1,16 @@
 <script>
+  import ModifyPrompt from "./ModifyPrompt.svelte";
+  import Modal from "./../General/Modal.svelte";
   import {
     singleRandomPromptStore,
     promptStore,
+    modifiedRandomPromptStore,
+    modifiedRandomPromptStore,
   } from "./../../stores/promptStore.js";
   import { userInformationStore } from "../../stores/loginStore.js";
   import { addPromptResponse } from "../../services/DB/CRUD.js";
+
+  let showModifyPromptModal = false;
 
   let promptData = {
     age: null,
@@ -21,7 +27,11 @@
   };
 
   const handleSave = () => {
-    promptData.prompt = $singleRandomPromptStore.prompt;
+    if ($modifiedRandomPromptStore) {
+      promptData.prompt = $modifiedRandomPromptStore.prompt;
+    } else {
+      promptData.prompt = $singleRandomPromptStore.prompt;
+    }
     if (promptData.age == null) {
       promptData.age = $userInformationStore.birthdate - promptData.year;
     }
@@ -29,13 +39,27 @@
     if (promptData.year == null) {
       promptData.year = $userInformationStore.birthdate + promptData.age;
     }
-
     addPromptResponse(promptData);
   };
 </script>
 
+{#if showModifyPromptModal}
+  <Modal
+    headerText={"Modify Prompt"}
+    closer={"closeModifyPromptModal"}
+    on:closeModifyPromptModal={() => {
+      showModifyPromptModal = false;
+    }}><ModifyPrompt /></Modal
+  >
+{/if}
+
 <section id="wrapper">
   <section id="actions">
+    <button
+      on:click={() => {
+        showModifyPromptModal = true;
+      }}>Modify Prompt</button
+    >
     {#if $userInformationStore.isAdmin}
       <button on:click={handleAdminNewPrompt}>Create New Prompt</button>
     {/if}
@@ -66,22 +90,19 @@
     margin: 0;
   }
   #wrapper {
-    width: 80%;
     display: flex;
     flex-direction: column;
     padding: 1rem;
     margin: 1rem;
     justify-content: center;
     align-items: center;
-    border: 1px solid var(--dark-paperlike);
-    border-radius: 0.33rem;
     padding: 1rem;
-    box-shadow: -2px 5px 5px darkgrey;
   }
 
   #actions {
     align-self: flex-end;
   }
+
   textarea {
     width: 100%;
     height: 25rem;
