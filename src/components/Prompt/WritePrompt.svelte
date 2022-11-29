@@ -45,7 +45,15 @@
       }-${birthdate[2]}`;
     }
     console.log(promptData);
-    addPromptResponse(promptData);
+    addPromptResponse(promptData).then(() => {
+      promptData = {
+        age: null,
+        year: null,
+        prompt: null,
+        userResponse: null,
+        positive: null,
+      };
+    });
   };
 </script>
 

@@ -9,8 +9,6 @@
   import Header from "./components/General/Header.svelte";
   import LoginBulletin from "./components/Account/Login/LoginBulletin.svelte";
   import SignupBulletin from "./components/Account/Login/signupBulletin.svelte";
-
-  let showLogin = false;
 </script>
 
 <Router basepath="/">

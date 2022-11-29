@@ -24,7 +24,11 @@
   let credentials = { email: "", password: "" };
 
   const handleLogin = () => {
-    loginWithUsernameAndPassword(credentials.email, credentials.password);
+    if ($validationStore != "Invalid email address.") {
+      loginWithUsernameAndPassword(credentials.email, credentials.password);
+
+      credentials = { email: "", password: "" };
+    }
   };
 </script>
 
@@ -33,12 +37,14 @@
     {#if !$userAuth}
       <input
         id="email"
+        required
         placeholder="Email"
         on:change={emailValidation}
         bind:value={credentials.email}
       />
       <input
         id="password"
+        required
         placeholder="Password"
         type="password"
         bind:value={credentials.password}
@@ -50,7 +56,7 @@
         <h3 id="message2">{$userAuthFailStore}</h3>
       {/if}
 
-      <button id="button1" on:click|preventDefault={handleLogin}>Log in</button>
+      <button id="button1" type="submit">Log in</button>
       <button id="button2" on:click|once={loginWithGoogle} disabled
         >Log in with Google</button
       >

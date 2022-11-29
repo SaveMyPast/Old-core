@@ -54,9 +54,9 @@
       on:keydown={() => (showLogin = true)}>Login</span
     >
   {:else}
-    <button class="link" on:click={logout} on:keydown={logout} use:link>
+    <span class="link" on:click={logout} on:keydown={logout} use:link>
       Log out
-    </button>
+    </span>
   {/if}
 </nav>
 
