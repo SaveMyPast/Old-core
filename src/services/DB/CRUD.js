@@ -105,15 +105,21 @@ export const updateUserInformation = async (userInformation) => {
 };
 
 export const updatePrompt = async (promptData) => {
-  //
+  await setDoc(doc(db, "prompts"), promptData, {
+    merge: true,
+  }).catch((err) => console.error(err));
 };
 
 // Delete
 
 export const deletePromptResponse = async (promptData) => {
-  //
+  await deleteDoc(
+    doc(db, "users", auth.currentUser.uid, "promptResponses", promptData)
+  ).catch((err) => console.error(err));
 };
 
 export const deleteCurrentUserAccount = async () => {
-  //
+  await deleteDoc(doc(db, "users", auth.currentUser.uid)).catch((err) =>
+    console.error(err)
+  );
 };
