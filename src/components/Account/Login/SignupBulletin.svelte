@@ -54,6 +54,12 @@
   let handleSignup = () => {
     if ($formValidStore) {
       signUpNewUser(credentials);
+      credentials = {
+        email: null,
+        password: null,
+        fullName: null,
+        birthdate: null,
+      };
     } else {
       validationMessageStore.set("Form is invalid");
     }
