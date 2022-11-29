@@ -32,12 +32,19 @@
       promptData.prompt = $singleRandomPromptStore.prompt;
     }
     if (promptData.age == null) {
-      promptData.age = $userInformationStore.birthdate - promptData.year;
+      let birthdate = $userInformationStore.birthdate.split("-");
+      let year = promptData.year.split("-");
+      promptData.age = `${Number(year[0]) - Number(birthdate[0])}`;
     }
 
     if (promptData.year == null) {
-      promptData.year = $userInformationStore.birthdate + promptData.age;
+      let birthdate = $userInformationStore.birthdate.split("-");
+      let age = promptData.age;
+      promptData.year = `${Number(birthdate[0]) + Number(age)}-${
+        birthdate[1]
+      }-${birthdate[2]}`;
     }
+    console.log(promptData);
     addPromptResponse(promptData);
   };
 </script>
@@ -73,8 +80,11 @@
     <label
       ><input type="checkbox" bind:checked={promptData.positive} /> Positive memory?</label
     >
-    <input placeholder="Your age" bind:value={promptData.age} />
-    <input placeholder="The year" bind:value={promptData.year} />
+    <input placeholder="Your age" type="number" bind:value={promptData.age} />
+    <label for="year"
+      >Year:
+      <input placeholder="The year" type="date" bind:value={promptData.year} />
+    </label>
   </section>
 </section>
 
