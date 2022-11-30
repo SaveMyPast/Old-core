@@ -75,20 +75,35 @@
 
 <form on:submit|preventDefault={handleSignup}>
   {#if !$userAuth}
+    <label for="fullName" id="flabel">
+      <p>Full Name</p>
+    </label>
+    <label for="birthdate" id="blabel">
+      <p>Birthdate</p>
+    </label>
     <input
+      id="fullName"
       placeholder="Full Name"
       required
       type="name"
       bind:value={credentials.fullName}
     />
     <input
+      id="birthdate"
       placeholder="Birthdate"
       required
       type="date"
       bind:value={credentials.birthdate}
     />
+    <label for="email" id="elabel">
+      <p>Email</p>
+    </label>
+    <label for="password" id="plabel">
+      <p>Password</p>
+    </label>
     <input
       placeholder="Email"
+      id="email"
       required
       autocomplete="false"
       on:change={emailValidation}
@@ -96,6 +111,7 @@
       bind:value={credentials.email}
     />
     <input
+      id="password"
       placeholder="Password"
       required
       autocomplete="new-password"
@@ -103,13 +119,15 @@
       bind:value={credentials.password}
       on:change={passwordValidation}
     />
-    <h3 class="password" style:color="var(--warn)">
+    <h3 class="message">
       {$validationMessageStore}
     </h3>
-    <button type="submit">Sign Up</button>
-    <button on:click={loginWithGoogle} disabled>Sign up with Google</button>
+    <button id="submit" type="submit">Sign Up</button>
+    <button id="google" on:click={loginWithGoogle} disabled
+      >Sign up with Google</button
+    >
   {:else}
-    <h3>You are signed up.</h3>
+    <h3 class="message">You are signed up.</h3>
     <button on:click={logout}>Log out</button>
   {/if}
 </form>
@@ -117,15 +135,23 @@
 <style>
   form {
     display: grid;
-    grid-gap: 1rem;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1.5rem 2rem 1.5rem 2rem 1.5rem 2rem;
+    grid-template-areas:
+      "fname blabel"
+      "fullName birthdate"
+      "elabel plabel"
+      "email password"
+      "message message"
+      "submit google";
+    grid-gap: 0.5rem;
     padding: 1rem;
     justify-content: center;
     align-items: center;
   }
-  .password {
-    grid-row: 3/4;
-    grid-column: 2/3;
+
+  .message {
+    color: var(--warn);
+    grid-area: message;
   }
 </style>

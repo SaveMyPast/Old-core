@@ -54,8 +54,15 @@
   :global(h2) {
     color: var(--secondary);
     font-size: 1.5rem;
-    text-align: center;
+    text-align: left;
     margin: 0.25rem;
+  }
+  :global(h3) {
+    color: var(--primary);
+    font-size: 0.75rem;
+    text-shadow: 1px 1px 1px var(--primary);
+    text-align: center;
+    margin: 0.1rem;
   }
 
   :global(p) {
@@ -63,14 +70,6 @@
     font-size: 1rem;
     margin: 0.1rem;
     text-align: justify;
-  }
-
-  :global(h3) {
-    color: var(--primary);
-    font-size: 0.75rem;
-    text-shadow: 1px 1px 1px var(--primary);
-    text-align: center;
-    margin: 0.1rem;
   }
 
   :global(body) {

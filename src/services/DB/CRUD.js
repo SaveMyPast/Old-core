@@ -10,6 +10,7 @@ import {
   collection,
   getDoc,
   addDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { userInformationStore } from "../../stores/loginStore.js";
 
@@ -119,7 +120,5 @@ export const deletePromptResponse = async (promptData) => {
 };
 
 export const deleteCurrentUserAccount = async () => {
-  await deleteDoc(doc(db, "users", auth.currentUser.uid)).catch((err) =>
-    console.error(err)
-  );
+  await deleteDoc(doc(db, "users", auth.currentUser.uid));
 };

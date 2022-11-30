@@ -3,6 +3,7 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
   signOut,
+  deleteUser,
 } from "firebase/auth";
 import { auth, googleProvider } from "../DB/firebase.js";
 import {
@@ -12,6 +13,7 @@ import {
 } from "../../stores/loginStore";
 import {
   addUser,
+  deleteCurrentUserAccount,
   getUserAccountInformation,
   getUserRespondedPrompts,
 } from "../DB/CRUD.js";
@@ -88,6 +90,23 @@ export const logout = () => {
     .then(() => {
       userAuth.set(null);
       userInformationStore.set({ isAdmin: false });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  navigate("/", { replace: true });
+};
+
+// delete userAuth
+export const deleteUserAccount = () => {
+  deleteCurrentUserAccount()
+    .then(() => {
+      deleteUser(auth.currentUser)
+        .then(() => {
+          userAuth.set(null);
+          userInformationStore.set({ isAdmin: false });
+        })
+        .catch((error) => console.error(error));
     })
     .catch((error) => {
       console.error(error);
