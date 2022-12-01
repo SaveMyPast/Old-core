@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher } from "svelte";
-
+  import { fade } from "svelte/transition";
   export let headerText;
   export let closer;
 
@@ -30,7 +30,7 @@
  -->
 
 <section class="background" on:keydown={closeModal} on:click={closeModal} />
-<section class="card">
+<section class="card" out:fade>
   <section class="header" />
   <h2 class="title">{headerText}</h2>
   <span class="closeButton" on:keydown={closeModal} on:click={closeModal}
