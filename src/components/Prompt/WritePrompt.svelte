@@ -1,4 +1,5 @@
 <script>
+  import Toast from "./../General/Toast.svelte";
   import ModifyPrompt from "./ModifyPrompt.svelte";
   import Modal from "./../General/Modal.svelte";
   import {
@@ -10,6 +11,7 @@
   import { addPromptResponse } from "../../services/DB/CRUD.js";
 
   let showModifyPromptModal = false;
+  let showPromptSavedToast = false;
 
   let promptData = {
     age: null,
@@ -44,18 +46,29 @@
         birthdate[1]
       }-${birthdate[2]}`;
     }
-    console.log(promptData);
-    addPromptResponse(promptData).then(() => {
-      promptData = {
-        age: null,
-        year: null,
-        prompt: null,
-        userResponse: null,
-        positive: null,
-      };
-    });
+    addPromptResponse(promptData)
+      .then(() => {
+        promptData = {
+          age: null,
+          year: null,
+          prompt: null,
+          userResponse: null,
+          positive: null,
+        };
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    showPromptSavedToast = true;
   };
 </script>
+
+{#if showPromptSavedToast}
+  <Toast
+    notification={"Your prompt has saved correctly."}
+    on:closeToast={() => (showPromptSavedToast = false)}
+  />
+{/if}
 
 {#if showModifyPromptModal}
   <Modal
