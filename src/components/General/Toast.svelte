@@ -15,7 +15,7 @@
 
   const emitClose = (seconds) => {
     console.log("starting countdown");
-    setInterval(() => {
+    setTimeout(() => {
       dispatcher("closeToast");
       console.log("Emitting close event");
     }, seconds * 1000);
