@@ -35,13 +35,13 @@
 *   A toast modal for displaying temporary messages, will emit an event after a set number of seconds, default 5
 *   
 *   Accepts the following parameters: 
-
+*
 *   `seconds` - number of seconds to display before closing the toast.
-
+*
 *   `notification` - notification to display in the toast.
-
+*
 *   `warning` - if true, the toast will display as a warning.
-
+*
 *   usage: 
 *   `<Toast seconds="5" notification="That didn't work" on:closeToast={() => showWarningToast = false} warning />`
  -->
