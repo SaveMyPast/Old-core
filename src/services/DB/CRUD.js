@@ -65,7 +65,8 @@ export const getAllPrompts = async () => {
   );
 
   querySnapshot.forEach((doc) => {
-    allPrompts.push(doc.data());
+    const docObject = { id: doc.id, ...doc.data() };
+    allPrompts.push(docObject);
   });
 
   promptStore.set(allPrompts);
