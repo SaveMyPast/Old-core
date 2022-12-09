@@ -58,6 +58,7 @@
     border: 1px solid var(--dark-paperlike);
     border-radius: 0.33rem;
     background-color: var(--paperlike);
+    overflow: scroll;
   }
 
   .newPrompt {
