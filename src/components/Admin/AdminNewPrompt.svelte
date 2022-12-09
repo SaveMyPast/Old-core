@@ -27,7 +27,21 @@
   };
 
   const handleSave = () => {
-    adminAddNewPrompt(newPromptData);
+    adminAddNewPrompt(newPromptData)
+      .then(() => {
+        newPromptData = {
+          age: null,
+          goodMemory: null,
+          prompt: null,
+          userResponse: null,
+          year: null,
+          category: null,
+          location: null,
+        };
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 </script>
 
