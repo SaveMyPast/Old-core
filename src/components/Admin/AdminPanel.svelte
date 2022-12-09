@@ -1,6 +1,22 @@
 <script>
   import AdminPromptPanel from "./AdminPromptPanel.svelte";
+  import Modal from "../General/Modal.svelte";
+  import AdminNewPrompt from "./AdminNewPrompt.svelte";
+
+  let showCreateNewPromptModal = false;
 </script>
+
+{#if showCreateNewPromptModal}
+  <Modal
+    on:closeNewPrompt={() => {
+      showCreateNewPromptModal = false;
+    }}
+    closer={"closeNewPrompt"}
+    headerText={"Create New Prompt"}
+  >
+    <AdminNewPrompt />
+  </Modal>
+{/if}
 
 <h1>User Administration</h1>
 
@@ -9,7 +25,13 @@
     <h2 class="title">Prompts</h2>
   </section>
   <section class="panelContent"><AdminPromptPanel /></section>
-  <section class="newPrompt"><button>New Prompt</button></section>
+  <section class="newPrompt">
+    <button
+      on:click={() => {
+        showCreateNewPromptModal = true;
+      }}>New Prompt</button
+    >
+  </section>
   <section class="titleContainer">
     <h2 class="title">Users</h2>
   </section>

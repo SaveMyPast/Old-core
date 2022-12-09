@@ -32,8 +32,8 @@ export const addUser = async (signUpObject) => {
 };
 
 export const adminAddNewPrompt = async (promptData) => {
-  await setDoc(doc(db, "prompts"), {
-    promptData,
+  await addDoc(collection(db, "prompts"), {
+    ...promptData,
   }).catch((err) => {
     console.error(err);
   });
