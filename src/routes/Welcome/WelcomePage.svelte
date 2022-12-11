@@ -15,7 +15,7 @@
 <style>
   #wrapper {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
-    flex: 1 1;
   }
 </style>

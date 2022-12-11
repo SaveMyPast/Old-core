@@ -10,8 +10,23 @@
   import { userInformationStore } from "../../stores/loginStore.js";
   import { addPromptResponse } from "../../services/DB/CRUD.js";
 
+  // A list of categories to choose from
+  const promptCategories = [
+    "School",
+    "Work",
+    "Love",
+    "Family",
+    "Friends",
+    "Hobbies",
+    "Travel",
+    "Health",
+    "Money",
+    "Miscellaneous",
+  ];
+
   let showModifyPromptModal = false;
   let showPromptSavedToast = false;
+  let showPromptFailedToast = false;
 
   let promptData = {
     age: null,
@@ -19,47 +34,74 @@
     prompt: null,
     userResponse: null,
     positive: null,
+    category: null,
+    location: null,
   };
-
-  const handleAdminNewPrompt = () => {};
 
   const handleNew = () => {
     promptStore.update((data) => data);
   };
 
-  const handleSave = () => {
-    if ($modifiedRandomPromptStore) {
-      promptData.prompt = $modifiedRandomPromptStore.prompt;
-    } else {
-      promptData.prompt = $singleRandomPromptStore.prompt;
-    }
-    if (promptData.age == null) {
-      let birthdate = $userInformationStore.birthdate.split("-");
-      let year = promptData.year.split("-");
-      promptData.age = `${Number(year[0]) - Number(birthdate[0])}`;
-    }
+  const calculateAge = () => {
+    let birthdate = $userInformationStore.birthdate.split("-");
+    let year = promptData.year.split("-");
+    promptData.age = `${Number(year[0]) - Number(birthdate[0])}`;
+  };
 
-    if (promptData.year == null) {
-      let birthdate = $userInformationStore.birthdate.split("-");
-      let age = promptData.age;
-      promptData.year = `${Number(birthdate[0]) + Number(age)}-${
-        birthdate[1]
-      }-${birthdate[2]}`;
+  const calculateYear = () => {
+    let birthdate = $userInformationStore.birthdate.split("-");
+    let age = promptData.age;
+    promptData.year = `${Number(birthdate[0]) + Number(age)}-${birthdate[1]}-${
+      birthdate[2]
+    }`;
+  };
+
+  const validateForm = () => {
+    if (promptData.userResponse === null) {
+      alert("Please enter a response.");
+      return false;
     }
-    addPromptResponse(promptData)
-      .then(() => {
-        promptData = {
-          age: null,
-          year: null,
-          prompt: null,
-          userResponse: null,
-          positive: null,
-        };
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    showPromptSavedToast = true;
+    if (promptData.positive === null) {
+      alert("Please select a positive or negative response.");
+      return false;
+    }
+    if (promptData.category === null) {
+      alert("Please select a category.");
+      return false;
+    }
+    if (promptData.location === null) {
+      alert("Please select a location.");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSave = () => {
+    if (validateForm()) {
+      if ($modifiedRandomPromptStore) {
+        promptData.prompt = $modifiedRandomPromptStore.prompt;
+      } else {
+        promptData.prompt = $singleRandomPromptStore.prompt;
+      }
+      addPromptResponse(promptData)
+        .then(() => {
+          promptData = {
+            age: null,
+            year: null,
+            prompt: null,
+            userResponse: null,
+            positive: null,
+            category: null,
+            location: null,
+          };
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      showPromptSavedToast = true;
+    } else {
+      showPromptFailedToast = true;
+    }
   };
 </script>
 
@@ -67,6 +109,13 @@
   <Toast
     notification={"Your prompt has saved correctly."}
     on:closeToast={() => (showPromptSavedToast = false)}
+  />
+{/if}
+
+{#if showPromptFailedToast}
+  <Toast
+    notification={"Your prompt has not saved correctly."}
+    on:closeToast={() => (showPromptFailedToast = false)}
   />
 {/if}
 
@@ -87,9 +136,6 @@
         showModifyPromptModal = true;
       }}>Modify Prompt</button
     >
-    {#if $userInformationStore.isAdmin}
-      <button on:click={handleAdminNewPrompt}>Create New Prompt</button>
-    {/if}
     <button on:click={handleNew}>Replace Prompt</button>
     <button on:click={handleSave}>Save</button>
   </section>
@@ -99,12 +145,47 @@
   />
   <section id="promptMetadata">
     <label
-      ><input type="checkbox" bind:checked={promptData.positive} /> Positive memory?</label
+      ><input type="checkbox" bind:checked={promptData.positive} /> Positive experience
+      if checked.</label
     >
-    <input placeholder="Your age" type="number" bind:value={promptData.age} />
+    <label for="age">
+      <input
+        id="age"
+        placeholder="Your age"
+        type="number"
+        on:change={calculateYear}
+        bind:value={promptData.age}
+      />
+    </label>
     <label for="year"
       >Year:
-      <input placeholder="The year" type="date" bind:value={promptData.year} />
+      <input
+        placeholder="The year"
+        on:change={calculateAge}
+        type="date"
+        bind:value={promptData.year}
+      />
+    </label>
+    <label for="location">
+      Location:
+      <input
+        placeholder="location"
+        id="location"
+        type="location"
+        bind:value={promptData.location}
+      />
+    </label>
+    <label for="categoryDropdown">
+      Select a category for this prompt.
+      <select
+        type="dropdown"
+        id="categoryDropdown"
+        bind:value={promptData.category}
+      >
+        {#each promptCategories as category}
+          <option>{category}</option>
+        {/each}
+      </select>
     </label>
   </section>
 </section>
@@ -115,6 +196,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    flex-wrap: wrap;
   }
   #actions {
     margin: 0;

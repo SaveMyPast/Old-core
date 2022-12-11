@@ -1,4 +1,5 @@
 <script>
+  import { userInformationStore } from "./../../stores/loginStore.js";
   import { logout } from "./../../services/Auth/login-service.js";
   import { link } from "svelte-routing";
   import { userAuth } from "../../stores/loginStore";
@@ -34,6 +35,9 @@
 
 <nav>
   {#if $userAuth}
+    {#if $userInformationStore.isAdmin}
+      <a class="link" href="/admin" use:link>Administration</a>
+    {/if}
     <a class="link" href="prompts" use:link>Prompts</a>
     <a class="link" href="profile" use:link>Profile</a>
     <a class="link" href="settings" use:link>Settings</a>

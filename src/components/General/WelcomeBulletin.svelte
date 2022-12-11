@@ -2,16 +2,16 @@
   const headerTitle = "Welcome to Save my Past.";
   const headerSubtitle = "The place for making your personal history happen";
   const welcomeParagraph =
-    "This website is aimed at helping individuals think about, record, and build up their own personal history. Just start off with a prompt, and let your memories flow onto the page, and if the prompt just doesn't match your personal experience, you can customize them any way you'd like ensuring your life is remembered the way you experienced it.";
+    "Welcome to SaveMyPast.com, where we help you write your own personal history! Our site is designed to make it fun and easy for you to record and preserve your memories. We use prompts to encourage you to write about different aspects of your life, from your childhood to your present day experiences. Whether you're a seasoned writer or just starting out, we're here to help you capture your story and share it with others. So why wait? Start writing your history today with SaveMyPast.com!";
 
   const exampleSubtitle =
-    "A prompt a day makes personal histories quick and fun!";
+    "Daily prompts make writing your personal history a breeze!";
   const exampleParagraph =
-    "Thought provoking prompts makes writing a personal history to be shared with your friends, family, or children accessible to all! The prompts are well planned and engineered to get those memory juices flowing, helping you to highlight what was important in your life.";
+    "Our thought-provoking prompts make writing a personal history that can be shared with your loved ones accessible to everyone! These carefully crafted prompts are designed to spark your memories and help you focus on the most significant events and moments in your life. Whether you're looking to share your history with your friends, family, or children, our prompts will guide you through the process and make it easy and enjoyable to record your story.";
 
-  const timelineSubtitle = "Never forget the details.";
+  const timelineSubtitle = "Capture your memories.";
   const timelineParagraph =
-    "With the timeline, you can find past entries, prompts, and even add a new one if you find yourself on a roll remembering all the wonderful, life changing, or difficult times you've experienced.";
+    "Our timeline feature allows you to easily access your past entries and prompts, as well as add new ones whenever inspiration strikes. Whether you're reminiscing about life-changing events or simply remembering the little things that made your life special, our timeline makes it easy to keep track of your progress and continue writing your personal history. So why wait? Start exploring your past and sharing your story today with SaveMyPast.com!";
 </script>
 
 <section class="header">
@@ -22,17 +22,6 @@
     {headerSubtitle}
   </h3>
 </section>
-
-<!-- 
-    <section>
-      <div class="bulletin-image-container">
-        <img src={content.image.src} alt={content.image.title} />
-        <h3>
-          {content.image.title}
-        </h3>
-      </div>
-    </section>
--->
 
 <section class="bulletin-content">
   <p class="bulletin-content-paragraph">

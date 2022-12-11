@@ -1,4 +1,5 @@
 <script>
+  import { userInformationStore } from "./stores/loginStore.js";
   import { Router, Route } from "svelte-routing";
   import WelcomePage from "./routes/Welcome/WelcomePage.svelte";
   import PromptPage from "./routes/Prompts/PromptPage.svelte";
@@ -9,6 +10,7 @@
   import Header from "./components/General/Header.svelte";
   import LoginBulletin from "./components/Account/Login/LoginBulletin.svelte";
   import SignupBulletin from "./components/Account/Login/signupBulletin.svelte";
+  import AdminPage from "./routes/Admin/AdminPage.svelte";
 </script>
 
 <Router basepath="/">
@@ -20,6 +22,9 @@
     <Route path="profile"><ProfilePage /></Route>
     <Route path="settings"><SettingsPage /></Route>
     <Route path="timeline"><TimelinePage /></Route>
+    {#if $userInformationStore.isAdmin}
+      <Route path="admin"><AdminPage /></Route>
+    {/if}
   {/if}
   <Route path="/"><WelcomePage /></Route>
 </Router>
@@ -69,7 +74,7 @@
     color: var(--dark-paperlike);
     font-size: 1rem;
     margin: 0.1rem;
-    text-align: justify;
+    text-align: left;
   }
 
   :global(body) {
