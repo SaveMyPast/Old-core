@@ -67,7 +67,9 @@
       <Fa icon={faFloppyDisk} />
     </span>
 
-    <label id="promptLabel" for="prompt">Prompt: {selectedPrompt.prompt}</label>
+    <label id="promptLabel" for="prompt"
+      ><p>Prompt: {selectedPrompt.prompt}</p></label
+    >
     <textarea
       id="promptTextarea"
       bind:value={newPromptData.prompt}
@@ -130,6 +132,7 @@
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
+    margin: 1rem;
   }
 
   #backButton {
@@ -147,14 +150,14 @@
     text-align: center;
   }
 
-  #promptLabel {
+  #promptLabel > * {
     flex: 1 0 100%;
     text-align: center;
   }
 
   #promptTextarea {
     flex: 1 0 100%;
-    height: 16rem;
+    height: 8rem;
     resize: none;
   }
 
