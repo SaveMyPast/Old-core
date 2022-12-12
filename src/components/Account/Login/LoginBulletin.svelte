@@ -4,10 +4,13 @@
     loginWithUsernameAndPassword,
     loginWithGoogle,
     logout,
+    attemptForgotPassword,
   } from "../../../services/Auth/login-service.js";
   import { writable } from "svelte/store";
+  import Toast from "../../General/Toast.svelte";
 
   const validationStore = writable();
+  let passwordResetToast = false;
 
   const emailRegex = () => {
     return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
@@ -30,7 +33,29 @@
       credentials = { email: "", password: "" };
     }
   };
+
+  const handleForgotPassword = () => {
+    emailValidation();
+
+    if ($validationStore != "Invalid email address.") {
+      attemptForgotPassword(credentials.email)
+        .then(() => {
+          passwordResetToast = true;
+          credentials = { email: "", password: "" };
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
 </script>
+
+{#if passwordResetToast}
+  <Toast
+    on:closeToast={() => (passwordResetToast = false)}
+    notification={"Password Reset email has been sent."}
+  />
+{/if}
 
 <form on:submit|preventDefault={handleLogin}>
   <section class="bulletin">
@@ -60,6 +85,11 @@
       <button id="button2" on:click|once={loginWithGoogle} disabled
         >Log in with Google</button
       >
+      <span
+        id="forgotPassword"
+        on:click={handleForgotPassword}
+        on:keydown={handleForgotPassword}><h3>Reset Password?</h3></span
+      >
     {:else}
       <section>
         <button id="logout" on:click={logout}>Log out </button>
@@ -77,7 +107,7 @@
       "email email"
       "message1 message1"
       "password password"
-      "message2 message2"
+      "message2 message3"
       "button1 button2";
     justify-items: center;
     padding: 1rem;
@@ -109,6 +139,13 @@
   #button2 {
     grid-area: button2;
     justify-self: start;
+    margin: 1rem;
+  }
+
+  #forgotPassword {
+    grid-area: message3;
+    justify-self: center;
+    align-self: center;
     margin: 1rem;
   }
 
