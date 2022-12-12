@@ -2,6 +2,7 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
   signOut,
   deleteUser,
 } from "firebase/auth";
@@ -114,14 +115,6 @@ export const deleteUserAccount = () => {
   navigate("/", { replace: true });
 };
 
-// export const updateProfile => {
-//   updateProfile(auth.currentUser, {
-//   displayName: "",
-// }).then(() => {
-//   // Profile updated!
-//   // ...
-// }).catch((error) => {
-//   // An error occurred
-//   // ...
-// });
-// }
+export const attemptForgotPassword = (email) => {
+  return sendPasswordResetEmail(auth, email);
+};
