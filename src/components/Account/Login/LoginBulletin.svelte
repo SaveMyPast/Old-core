@@ -35,6 +35,8 @@
   };
 
   const handleForgotPassword = () => {
+    emailValidation();
+
     if ($validationStore != "Invalid email address.") {
       attemptForgotPassword(credentials.email)
         .then(() => {
