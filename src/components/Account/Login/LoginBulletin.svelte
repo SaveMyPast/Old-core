@@ -2,7 +2,6 @@
   import { userAuth, userAuthFailStore } from "../../../stores/loginStore.js";
   import {
     loginWithUsernameAndPassword,
-    loginWithGoogle,
     logout,
     attemptForgotPassword,
   } from "../../../services/Auth/login-service.js";
