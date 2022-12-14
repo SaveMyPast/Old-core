@@ -1,8 +1,8 @@
 <script>
-  import { promptStore } from "./../../stores/promptStore.js";
+  import { promptStore } from "../../stores/promptStore.ts";
   import AdminPrompt from "./AdminPrompt.svelte";
   import { onMount } from "svelte";
-  import { getAllPrompts } from "../../services/DB/CRUD.js";
+  import { getAllPrompts } from "../../services/DB/CRUD.ts";
   import AdminSelectedPromptEdit from "./AdminSelectedPromptEdit.svelte";
 
   let selectedPrompt = {

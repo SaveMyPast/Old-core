@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { userInformationStore } from "./stores/loginStore.js";
   import { Router, Route } from "svelte-routing";
   import WelcomePage from "./routes/Welcome/WelcomePage.svelte";

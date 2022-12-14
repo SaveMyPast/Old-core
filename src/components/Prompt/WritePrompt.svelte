@@ -6,9 +6,9 @@
     singleRandomPromptStore,
     promptStore,
     modifiedRandomPromptStore,
-  } from "./../../stores/promptStore.js";
-  import { userInformationStore } from "../../stores/loginStore.js";
-  import { addPromptResponse } from "../../services/DB/CRUD.js";
+  } from "../../stores/promptStore.ts";
+  import { userInformationStore } from "../../stores/loginStore.ts";
+  import { addPromptResponse } from "../../services/DB/CRUD.ts";
 
   // A list of categories to choose from
   const promptCategories = [

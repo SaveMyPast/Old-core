@@ -1,12 +1,11 @@
 import {
   signInWithEmailAndPassword,
-  signInWithPopup,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
   deleteUser,
 } from "firebase/auth";
-import { auth, googleProvider } from "../DB/firebase.js";
+import { auth } from "../DB/firebase.js";
 import {
   userAuth,
   userAuthFailStore,
@@ -67,25 +66,6 @@ export const signUpNewUser = (signUpObject) => {
   }
 };
 
-export const loginWithGoogle = () => {
-  signInWithPopup(auth, googleProvider)
-    .then((result) => {
-      userAuth.set(result.user);
-      getUserAccountInformation();
-      getUserRespondedPrompts();
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      console.error(`${errorCode}: ${errorMessage}`);
-      userAuthFailStore.set(`${errorCode}: ${errorMessage}`);
-    });
-  if (userAuthFailStore == null) {
-    navigate("/", { replace: true });
-  }
-};
-
 export const logout = () => {
   signOut(auth)
     .then(() => {
@@ -98,7 +78,6 @@ export const logout = () => {
   navigate("/", { replace: true });
 };
 
-// delete userAuth
 export const deleteUserAccount = () => {
   deleteCurrentUserAccount()
     .then(() => {
