@@ -5,6 +5,7 @@
   import { userAuth } from "../../stores/loginStore";
   import Modal from "./Modal.svelte";
   import LoginBulletin from "../Account/Login/LoginBulletin.svelte";
+  import SignupBulletin from "../Account/Login/SignupBulletin.svelte";
 
   let showLogin = false;
   let showSignup = false;
