@@ -16,7 +16,7 @@
     location: null,
   };
 
-  const handleSelectedPrompt = (event) => {
+  const handleSelectedPrompt = (event: any) => {
     selectedPrompt = $promptStore[event.detail];
   };
 

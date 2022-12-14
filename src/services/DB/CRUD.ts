@@ -13,8 +13,8 @@ import {
   deleteDoc,
   updateDoc,
 } from "firebase/firestore";
-import { userInformationStore } from "../../stores/loginStore.js";
-import PromptData from "../../Interfaces/Interface.PromptData.js";
+import { userInformationStore } from "../../stores/loginStore";
+import PromptData from "../../Interfaces/Interface.PromptData";
 
 // Create
 export const addUser = async (signUpObject) => {
