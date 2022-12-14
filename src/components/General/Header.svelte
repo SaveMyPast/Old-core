@@ -1,6 +1,6 @@
-<script>
-  import { userInformationStore } from "../../stores/loginStore.ts";
-  import { logout } from "./../../services/Auth/login-service.ts";
+<script lang="ts">
+  import { userInformationStore } from "../../stores/loginStore";
+  import { logout } from "./../../services/Auth/login-service";
   import { link } from "svelte-routing";
   import { userAuth } from "../../stores/loginStore";
   import Modal from "./Modal.svelte";

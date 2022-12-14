@@ -1,11 +1,12 @@
-<script>
-  import { promptStore } from "../../stores/promptStore.ts";
+<script lang="ts">
+  import { promptStore } from "../../stores/promptStore";
   import AdminPrompt from "./AdminPrompt.svelte";
   import { onMount } from "svelte";
-  import { getAllPrompts } from "../../services/DB/CRUD.ts";
+  import { getAllPrompts } from "../../services/DB/CRUD";
   import AdminSelectedPromptEdit from "./AdminSelectedPromptEdit.svelte";
 
   let selectedPrompt = {
+    id: null,
     age: null,
     goodMemory: null,
     prompt: null,
@@ -25,6 +26,7 @@
 
   const resetSelectedPrompt = () => {
     selectedPrompt = {
+      id: null,
       age: null,
       goodMemory: null,
       prompt: null,

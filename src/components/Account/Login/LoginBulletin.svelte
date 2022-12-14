@@ -1,5 +1,5 @@
-<script>
-  import { userAuth, userAuthFailStore } from "../../../stores/loginStore.js";
+<script lang="ts">
+  import { userAuth, userAuthFailStore } from "../../../stores/loginStore";
   import {
     loginWithUsernameAndPassword,
     logout,
@@ -19,7 +19,7 @@
 
   const emailValidation = () => {
     emailRegex()
-      ? validationStore.set()
+      ? validationStore.set("")
       : validationStore.set("Invalid email address.");
   };
 

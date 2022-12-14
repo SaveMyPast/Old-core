@@ -1,19 +1,17 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from "svelte";
 
   export let index;
   export let id;
-  export let promptData = [
-    {
-      age: null,
-      goodMemory: null,
-      prompt: null,
-      userResponse: null,
-      year: null,
-      category: null,
-      location: null,
-    },
-  ];
+  export let promptData = {
+    age: null,
+    goodMemory: null,
+    prompt: null,
+    userResponse: null,
+    year: null,
+    category: null,
+    location: null,
+  };
 
   const dispatcher = createEventDispatcher();
   const selectPrompt = () => {

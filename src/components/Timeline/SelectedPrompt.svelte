@@ -1,5 +1,5 @@
-<script>
-  import { selectedPromptStore } from "./TimelineStore.js";
+<script lang="ts">
+  import { selectedPromptStore } from "../../stores/TimelineStore.js";
 </script>
 
 <h1>{$selectedPromptStore.promptData.prompt}</h1>

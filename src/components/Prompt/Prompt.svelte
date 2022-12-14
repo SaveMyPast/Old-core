@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
   import {
     modifiedRandomPromptStore,
     singleRandomPromptStore,
-  } from "../../stores/promptStore.ts";
+  } from "../../stores/promptStore";
   import { onMount } from "svelte";
   import { getAllPrompts } from "../../services/DB/CRUD";
 

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { deleteUserAccount } from "../../../services/Auth/login-service";
   import Modal from "./../../General/Modal.svelte";
   let deleteConfirm = false;

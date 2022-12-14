@@ -14,6 +14,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { userInformationStore } from "../../stores/loginStore.js";
+import PromptData from "../../Interfaces/Interface.PromptData.js";
 
 // Create
 export const addUser = async (signUpObject) => {
@@ -59,7 +60,7 @@ export const addPromptResponse = async (promptData) => {
 export const getAllPrompts = async () => {
   let allPrompts = [];
 
-  const querySnapshot = await getDocs(collection(db, "prompts")).catch(
+  const querySnapshot: any = await getDocs(collection(db, "prompts")).catch(
     (error) => {
       console.error(error);
     }
@@ -74,10 +75,10 @@ export const getAllPrompts = async () => {
 };
 
 export const getUserAccountInformation = async () => {
-  const docSnapshot = await getDoc(doc(db, "users", auth.currentUser.uid));
+  const docSnapshot: any = await getDoc(doc(db, "users", auth.currentUser.uid));
 
   if (docSnapshot.exists()) {
-    userInformationStore.set({ id: doc.id, ...docSnapshot.data() });
+    userInformationStore.set({ id: docSnapshot.id, ...docSnapshot.data() });
   } else {
     console.log("No such document!");
   }
@@ -86,7 +87,7 @@ export const getUserAccountInformation = async () => {
 export const getUserRespondedPrompts = async () => {
   let allUserResponses = [];
 
-  const querySnapshot = await getDocs(
+  const querySnapshot: any = await getDocs(
     collection(db, "users", auth.currentUser.uid, "promptResponses")
   ).catch((err) => {
     console.error(err);
@@ -114,12 +115,6 @@ export const updatePrompt = async ({ id, promptData }) => {
 };
 
 // Delete
-
-export const deletePromptResponse = async (promptData) => {
-  await deleteDoc(
-    doc(db, "users", auth.currentUser.uid, "promptResponses", promptData)
-  ).catch((err) => console.error(err));
-};
 
 export const deleteCurrentUserAccount = async () => {
   await deleteDoc(doc(db, "users", auth.currentUser.uid));

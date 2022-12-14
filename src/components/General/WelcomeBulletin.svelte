@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   const headerTitle = "Welcome to Save my Past.";
   const headerSubtitle = "The place for making your personal history happen";
   const welcomeParagraph =
@@ -44,7 +44,7 @@
 </section>
 
 <style>
-  .bulletin {
+  /* .bulletin {
     display: flex;
     flex-direction: column;
     padding: 1rem;
@@ -53,7 +53,7 @@
     border: 1px solid var(--dark-paperlike);
     border-radius: 0.33rem;
     box-shadow: -2px 5px 5px darkgrey;
-  }
+  } */
 
   .bulletin-content {
     display: flex;

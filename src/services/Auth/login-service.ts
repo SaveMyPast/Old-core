@@ -19,7 +19,10 @@ import {
 } from "../DB/CRUD.js";
 import { navigate } from "svelte-routing";
 
-export const loginWithUsernameAndPassword = (email, password) => {
+export const loginWithUsernameAndPassword = (
+  email: string,
+  password: string
+) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       userAuth.set(userCredential.user);
@@ -40,7 +43,10 @@ export const loginWithUsernameAndPassword = (email, password) => {
   }
 };
 
-export const signUpNewUser = (signUpObject) => {
+export const signUpNewUser = (signUpObject: {
+  email: string;
+  password: string;
+}) => {
   createUserWithEmailAndPassword(
     auth,
     signUpObject.email,
@@ -70,7 +76,13 @@ export const logout = () => {
   signOut(auth)
     .then(() => {
       userAuth.set(null);
-      userInformationStore.set({ isAdmin: false });
+      userInformationStore.set({
+        isAdmin: false,
+        birthdate: null,
+        email: null,
+        name: null,
+        id: null,
+      });
     })
     .catch((error) => {
       console.error(error);
@@ -84,7 +96,13 @@ export const deleteUserAccount = () => {
       deleteUser(auth.currentUser)
         .then(() => {
           userAuth.set(null);
-          userInformationStore.set({ isAdmin: false });
+          userInformationStore.set({
+            isAdmin: false,
+            birthdate: null,
+            email: null,
+            name: null,
+            id: null,
+          });
         })
         .catch((error) => console.error(error));
     })
@@ -94,6 +112,6 @@ export const deleteUserAccount = () => {
   navigate("/", { replace: true });
 };
 
-export const attemptForgotPassword = (email) => {
+export const attemptForgotPassword = (email: string) => {
   return sendPasswordResetEmail(auth, email);
 };

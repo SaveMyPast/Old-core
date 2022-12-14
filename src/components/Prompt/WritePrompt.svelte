@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import Toast from "./../General/Toast.svelte";
   import ModifyPrompt from "./ModifyPrompt.svelte";
   import Modal from "./../General/Modal.svelte";
@@ -6,9 +6,10 @@
     singleRandomPromptStore,
     promptStore,
     modifiedRandomPromptStore,
-  } from "../../stores/promptStore.ts";
-  import { userInformationStore } from "../../stores/loginStore.ts";
-  import { addPromptResponse } from "../../services/DB/CRUD.ts";
+  } from "../../stores/promptStore";
+  import { userInformationStore } from "../../stores/loginStore";
+  import { addPromptResponse } from "../../services/DB/CRUD";
+  import type PromptData from "../../Interfaces/Interface.PromptData";
 
   // A list of categories to choose from
   const promptCategories = [
@@ -28,7 +29,7 @@
   let showPromptSavedToast = false;
   let showPromptFailedToast = false;
 
-  let promptData = {
+  let promptData: PromptData = {
     age: null,
     year: null,
     prompt: null,
@@ -45,7 +46,7 @@
   const calculateAge = () => {
     let birthdate = $userInformationStore.birthdate.split("-");
     let year = promptData.year.split("-");
-    promptData.age = `${Number(year[0]) - Number(birthdate[0])}`;
+    promptData.age = Number(year[0]) - Number(birthdate[0]);
   };
 
   const calculateYear = () => {

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { link } from "svelte-routing";
   let prompts = [
     "Write about a defining moment when you were in middle school that changed the course of your future. What was the moment, and how did it impact your choices and decisions moving forward? How do you view that moment now, and how has it shaped the person you are today?",

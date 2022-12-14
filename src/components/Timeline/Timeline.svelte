@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import TimelinePromptList from "./TimelinePromptList.svelte";
   import SelectedPrompt from "./SelectedPrompt.svelte";
 </script>
