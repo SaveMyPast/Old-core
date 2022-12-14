@@ -1,17 +1,23 @@
 <script lang="ts">
+  import { logEvent } from "firebase/analytics";
   import { onMount } from "svelte";
+  import { analytics } from "../../services/DB/firebase";
   import {
     singleRandomPromptStore,
     modifiedRandomPromptStore,
   } from "../../stores/promptStore";
 
-  let newPrompt;
+  let newPrompt: string;
 
   onMount(() => {
     modifiedRandomPromptStore.set($singleRandomPromptStore);
+    logEvent(analytics, "modify_prompt_page_view");
   });
 
   const onSave = () => {
+    logEvent(analytics, "modify_prompt_form_modified", {
+      prompt: newPrompt,
+    });
     modifiedRandomPromptStore.update((promptData) => {
       let newPromptData = { ...promptData };
       newPromptData.prompt = newPrompt;

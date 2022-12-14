@@ -10,6 +10,8 @@
   import { userInformationStore } from "../../stores/loginStore";
   import { addPromptResponse } from "../../services/DB/CRUD";
   import type PromptData from "../../Interfaces/Interface.PromptData";
+  import { analytics } from "../../services/DB/firebase";
+  import { logEvent } from "firebase/analytics";
 
   // A list of categories to choose from
   const promptCategories = [
@@ -41,15 +43,22 @@
 
   const handleNew = () => {
     promptStore.update((data) => data);
+    logEvent(analytics, "prompt_form_new_prompt");
   };
 
   const calculateAge = () => {
+    logEvent(analytics, "prompt_form_calculate_age", {
+      prompt: promptData.prompt,
+    });
     let birthdate = $userInformationStore.birthdate.split("-");
     let year = promptData.year.split("-");
     promptData.age = Number(year[0]) - Number(birthdate[0]);
   };
 
   const calculateYear = () => {
+    logEvent(analytics, "prompt_form_calculate_year", {
+      prompt: promptData.prompt,
+    });
     let birthdate = $userInformationStore.birthdate.split("-");
     let age = promptData.age;
     promptData.year = `${Number(birthdate[0]) + Number(age)}-${birthdate[1]}-${
@@ -60,18 +69,22 @@
   const validateForm = () => {
     if (promptData.userResponse === null) {
       alert("Please enter a response.");
+      logEvent(analytics, "prompt_form_invalid_response");
       return false;
     }
     if (promptData.positive === null) {
       alert("Please select a positive or negative response.");
+      logEvent(analytics, "prompt_form_invalid_positive");
       return false;
     }
     if (promptData.category === null) {
       alert("Please select a category.");
+      logEvent(analytics, "prompt_form_invalid_category");
       return false;
     }
     if (promptData.location === null) {
       alert("Please select a location.");
+      logEvent(analytics, "prompt_form_invalid_location");
       return false;
     }
     return true;
@@ -84,6 +97,12 @@
       } else {
         promptData.prompt = $singleRandomPromptStore.prompt;
       }
+      logEvent(analytics, "save_prompt", {
+        prompt: promptData.prompt,
+        positive: promptData.positive,
+        category: promptData.category,
+        location: promptData.location,
+      });
       addPromptResponse(promptData)
         .then(() => {
           promptData = {
@@ -98,6 +117,13 @@
         })
         .catch((error) => {
           console.error(error);
+          showPromptFailedToast = true;
+          logEvent(analytics, "save_prompt_error", {
+            prompt: promptData.prompt,
+            positive: promptData.positive,
+            category: promptData.category,
+            location: promptData.location,
+          });
         });
       showPromptSavedToast = true;
     } else {
@@ -135,6 +161,7 @@
     <button
       on:click={() => {
         showModifyPromptModal = true;
+        logEvent(analytics, "prompt_form_modify_prompt_click");
       }}>Modify Prompt</button
     >
     <button on:click={handleNew}>Replace Prompt</button>

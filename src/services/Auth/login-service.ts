@@ -5,7 +5,7 @@ import {
   signOut,
   deleteUser,
 } from "firebase/auth";
-import { auth } from "../DB/firebase.js";
+import { analytics, auth } from "../DB/firebase.js";
 import {
   userAuth,
   userAuthFailStore,
@@ -18,6 +18,7 @@ import {
   getUserRespondedPrompts,
 } from "../DB/CRUD.js";
 import { navigate } from "svelte-routing";
+import { logEvent } from "firebase/analytics";
 
 // Auth Listener, will update userAuth store if user is logged in or out.
 auth.onAuthStateChanged((user) => {
@@ -43,6 +44,9 @@ export const loginWithUsernameAndPassword = (
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      logEvent(analytics, "login_failed", {
+        error_code: errorCode,
+      });
       if (errorCode == "auth/user-not-found") {
       } else {
         console.error(`${errorCode}: ${errorMessage}`);
@@ -69,6 +73,9 @@ export const signUpNewUser = (signUpObject: {
       getUserAccountInformation();
     })
     .catch((error) => {
+      logEvent(analytics, "sign_up_failed", {
+        error_code: error.code,
+      });
       if (error.message == "auth/email-already-in-use") {
       } else {
         const errorCode = error.code;
@@ -86,6 +93,7 @@ export const signUpNewUser = (signUpObject: {
 export const logout = () => {
   signOut(auth)
     .then(() => {
+      logEvent(analytics, "logout_successful");
       userAuth.set(null);
       userInformationStore.set({
         isAdmin: false,
@@ -96,6 +104,9 @@ export const logout = () => {
       });
     })
     .catch((error) => {
+      logEvent(analytics, "logout_failed", {
+        error_code: error.code,
+      });
       console.error(error);
     });
   navigate("/", { replace: true });
@@ -104,6 +115,7 @@ export const logout = () => {
 export const deleteUserAccount = () => {
   deleteCurrentUserAccount()
     .then(() => {
+      logEvent(analytics, "delete_account_successful");
       deleteUser(auth.currentUser)
         .then(() => {
           userAuth.set(null);
@@ -115,9 +127,17 @@ export const deleteUserAccount = () => {
             id: null,
           });
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error(error);
+          logEvent(analytics, "delete_account_failed", {
+            error_code: error.code,
+          });
+        });
     })
     .catch((error) => {
+      logEvent(analytics, "delete_account_failed", {
+        error_code: error.code,
+      });
       console.error(error);
     });
   navigate("/", { replace: true });

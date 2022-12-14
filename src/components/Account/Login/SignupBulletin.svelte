@@ -3,6 +3,9 @@
   import { signUpNewUser, logout } from "../../../services/Auth/login-service";
   import { writable } from "svelte/store";
   import passwordValidator from "password-validator";
+  import { logEvent } from "firebase/analytics";
+  import { analytics } from "../../../services/DB/firebase";
+  import { onMount } from "svelte";
 
   const validationMessageStore = writable(
     "Password: must be at least 6 characters long"
@@ -50,6 +53,7 @@
   let handleSignup = () => {
     if ($formValidStore) {
       signUpNewUser(credentials);
+      logEvent(analytics, "signup_event");
       credentials = {
         email: null,
         password: null,
@@ -58,6 +62,7 @@
       };
     } else {
       validationMessageStore.set("Form is invalid");
+      logEvent(analytics, "signup_failed_invalid_form");
     }
   };
 
@@ -67,6 +72,14 @@
     fullName: null,
     birthdate: null,
   };
+
+  onMount(() => {
+    logEvent(analytics, "page_view", {
+      page_title: "Signup",
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+    });
+  });
 </script>
 
 <form on:submit|preventDefault={handleSignup}>
