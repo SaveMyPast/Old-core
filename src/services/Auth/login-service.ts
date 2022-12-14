@@ -19,6 +19,17 @@ import {
 } from "../DB/CRUD.js";
 import { navigate } from "svelte-routing";
 
+// Auth Listener, will update userAuth store if user is logged in or out.
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    userAuth.set(user);
+    getUserAccountInformation();
+    getUserRespondedPrompts();
+  } else {
+    userAuth.set(null);
+  }
+});
+
 export const loginWithUsernameAndPassword = (
   email: string,
   password: string
