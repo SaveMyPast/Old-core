@@ -7,6 +7,9 @@
   } from "../../../services/Auth/login-service.js";
   import { writable } from "svelte/store";
   import Toast from "../../General/Toast.svelte";
+  import { logEvent } from "firebase/analytics";
+  import { analytics } from "../../../services/DB/firebase";
+  import { onMount } from "svelte";
 
   const validationStore = writable();
   let passwordResetToast = false;
@@ -28,7 +31,7 @@
   const handleLogin = () => {
     if ($validationStore != "Invalid email address.") {
       loginWithUsernameAndPassword(credentials.email, credentials.password);
-
+      logEvent(analytics, "login_event");
       credentials = { email: "", password: "" };
     }
   };
@@ -37,6 +40,7 @@
     emailValidation();
 
     if ($validationStore != "Invalid email address.") {
+      logEvent(analytics, "forgot_password_clicked");
       attemptForgotPassword(credentials.email)
         .then(() => {
           passwordResetToast = true;
@@ -47,6 +51,13 @@
         });
     }
   };
+  onMount(() => {
+    logEvent(analytics, "page_view", {
+      page_title: "Login",
+      page_location: window.location.href,
+      page_path: window.location.pathname,
+    });
+  });
 </script>
 
 {#if passwordResetToast}
@@ -88,7 +99,14 @@
       >
     {:else}
       <section>
-        <button id="logout" on:click={logout}>Log out </button>
+        <button
+          id="logout"
+          on:click={() => {
+            logout();
+            logEvent(analytics, "logout");
+          }}
+          >Log out
+        </button>
       </section>
     {/if}
   </section>
