@@ -1,12 +1,11 @@
 import {
   signInWithEmailAndPassword,
-  signInWithPopup,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
   deleteUser,
 } from "firebase/auth";
-import { auth, googleProvider } from "../DB/firebase.js";
+import { auth } from "../DB/firebase.js";
 import {
   userAuth,
   userAuthFailStore,
@@ -20,7 +19,10 @@ import {
 } from "../DB/CRUD.js";
 import { navigate } from "svelte-routing";
 
-export const loginWithUsernameAndPassword = (email, password) => {
+export const loginWithUsernameAndPassword = (
+  email: string,
+  password: string
+) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       userAuth.set(userCredential.user);
@@ -41,7 +43,10 @@ export const loginWithUsernameAndPassword = (email, password) => {
   }
 };
 
-export const signUpNewUser = (signUpObject) => {
+export const signUpNewUser = (signUpObject: {
+  email: string;
+  password: string;
+}) => {
   createUserWithEmailAndPassword(
     auth,
     signUpObject.email,
@@ -67,30 +72,17 @@ export const signUpNewUser = (signUpObject) => {
   }
 };
 
-export const loginWithGoogle = () => {
-  signInWithPopup(auth, googleProvider)
-    .then((result) => {
-      userAuth.set(result.user);
-      getUserAccountInformation();
-      getUserRespondedPrompts();
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-      console.error(`${errorCode}: ${errorMessage}`);
-      userAuthFailStore.set(`${errorCode}: ${errorMessage}`);
-    });
-  if (userAuthFailStore == null) {
-    navigate("/", { replace: true });
-  }
-};
-
 export const logout = () => {
   signOut(auth)
     .then(() => {
       userAuth.set(null);
-      userInformationStore.set({ isAdmin: false });
+      userInformationStore.set({
+        isAdmin: false,
+        birthdate: null,
+        email: null,
+        name: null,
+        id: null,
+      });
     })
     .catch((error) => {
       console.error(error);
@@ -98,14 +90,19 @@ export const logout = () => {
   navigate("/", { replace: true });
 };
 
-// delete userAuth
 export const deleteUserAccount = () => {
   deleteCurrentUserAccount()
     .then(() => {
       deleteUser(auth.currentUser)
         .then(() => {
           userAuth.set(null);
-          userInformationStore.set({ isAdmin: false });
+          userInformationStore.set({
+            isAdmin: false,
+            birthdate: null,
+            email: null,
+            name: null,
+            id: null,
+          });
         })
         .catch((error) => console.error(error));
     })
@@ -115,6 +112,6 @@ export const deleteUserAccount = () => {
   navigate("/", { replace: true });
 };
 
-export const attemptForgotPassword = (email) => {
+export const attemptForgotPassword = (email: string) => {
   return sendPasswordResetEmail(auth, email);
 };

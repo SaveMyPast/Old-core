@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { deleteUserAccount } from "../../../services/Auth/login-service";
   import Modal from "./../../General/Modal.svelte";
   let deleteConfirm = false;
@@ -19,11 +19,11 @@
   >
     <section class="modal-content">
       <h3 style:color={"var(--warn)"}>
-        I understand that deleting my account is permenant and no one will be
+        I understand that deleting my account is permanent and no one will be
         able to retrieve anything.
       </h3>
       <label for="deleteCheck">
-        <input id="deleteCheck" type="checkbox" bind:value={deleteConfirm} />
+        <input id="deleteCheck" type="checkbox" bind:checked={deleteConfirm} />
         Select to confirm</label
       >
       <button disabled={!deleteConfirm} on:click={deleteAccount}

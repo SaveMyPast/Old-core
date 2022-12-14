@@ -3,7 +3,7 @@ import { sample } from "lodash";
 
 export const promptStore = writable(null);
 
-export const singleRandomPromptStore = derived(
+export const singleRandomPromptStore: any = derived(
   promptStore,
   ($promptStore, set) => {
     set(sample($promptStore));

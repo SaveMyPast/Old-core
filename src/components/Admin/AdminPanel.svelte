@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import AdminPromptPanel from "./AdminPromptPanel.svelte";
   import Modal from "../General/Modal.svelte";
   import AdminNewPrompt from "./AdminNewPrompt.svelte";

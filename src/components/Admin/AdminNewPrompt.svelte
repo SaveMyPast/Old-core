@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { faFloppyDisk } from "@fortawesome/free-solid-svg-icons";
   import Fa from "svelte-fa";
   import { adminAddNewPrompt } from "../../services/DB/CRUD";

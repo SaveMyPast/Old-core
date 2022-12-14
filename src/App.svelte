@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { userInformationStore } from "./stores/loginStore.js";
   import { Router, Route } from "svelte-routing";
   import WelcomePage from "./routes/Welcome/WelcomePage.svelte";
@@ -9,7 +9,7 @@
   import { userAuth } from "./stores/loginStore";
   import Header from "./components/General/Header.svelte";
   import LoginBulletin from "./components/Account/Login/LoginBulletin.svelte";
-  import SignupBulletin from "./components/Account/Login/signupBulletin.svelte";
+  import SignupBulletin from "./components/Account/Login/SignupBulletin.svelte";
   import AdminPage from "./routes/Admin/AdminPage.svelte";
 </script>
 

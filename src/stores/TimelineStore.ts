@@ -4,7 +4,8 @@ export const selectedPromptStore = writable({
   promptData: {
     prompt: "",
     userResponse: "",
-    age: "",
+    age: 0,
     year: "",
+    positive: false,
   },
 });

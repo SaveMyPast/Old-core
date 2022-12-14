@@ -1,5 +1,5 @@
-<script>
-  import { userInformationStore } from "./../../../stores/loginStore.js";
+<script lang="ts">
+  import { userInformationStore } from "../../../stores/loginStore";
 </script>
 
 <h1>Hello, {$userInformationStore.name}</h1>

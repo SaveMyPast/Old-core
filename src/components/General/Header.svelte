@@ -1,11 +1,11 @@
-<script>
-  import { userInformationStore } from "./../../stores/loginStore.js";
-  import { logout } from "./../../services/Auth/login-service.js";
+<script lang="ts">
+  import { userInformationStore } from "../../stores/loginStore";
+  import { logout } from "./../../services/Auth/login-service";
   import { link } from "svelte-routing";
   import { userAuth } from "../../stores/loginStore";
   import Modal from "./Modal.svelte";
   import LoginBulletin from "../Account/Login/LoginBulletin.svelte";
-  import SignupBulletin from "../Account/Login/signupBulletin.svelte";
+  import SignupBulletin from "../Account/Login/SignupBulletin.svelte";
 
   let showLogin = false;
   let showSignup = false;

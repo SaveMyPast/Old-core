@@ -1,6 +1,6 @@
-<script>
+<script lang="ts">
   import { userRespondedPromptStore } from "../../stores/promptStore";
-  import { selectedPromptStore } from "./TimelineStore.js";
+  import { selectedPromptStore } from "../../stores/TimelineStore.js";
 
   const selectPrompt = (index) => {
     selectedPromptStore.set($userRespondedPromptStore[index]);

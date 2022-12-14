@@ -1,8 +1,7 @@
-<script>
-  import { userAuth, userAuthFailStore } from "../../../stores/loginStore.js";
+<script lang="ts">
+  import { userAuth, userAuthFailStore } from "../../../stores/loginStore";
   import {
     loginWithUsernameAndPassword,
-    loginWithGoogle,
     logout,
     attemptForgotPassword,
   } from "../../../services/Auth/login-service.js";
@@ -20,7 +19,7 @@
 
   const emailValidation = () => {
     emailRegex()
-      ? validationStore.set()
+      ? validationStore.set("")
       : validationStore.set("Invalid email address.");
   };
 
@@ -82,9 +81,6 @@
       {/if}
 
       <button id="button1" type="submit">Log in</button>
-      <button id="button2" on:click|once={loginWithGoogle} disabled
-        >Log in with Google</button
-      >
       <span
         id="forgotPassword"
         on:click={handleForgotPassword}
@@ -108,7 +104,7 @@
       "message1 message1"
       "password password"
       "message2 message3"
-      "button1 button2";
+      "button button";
     justify-items: center;
     padding: 1rem;
   }
@@ -131,14 +127,8 @@
     margin: 1rem;
   }
   #button1 {
-    grid-area: button1;
-    justify-self: end;
-    margin: 1rem;
-  }
-
-  #button2 {
-    grid-area: button2;
-    justify-self: start;
+    grid-area: button;
+    justify-self: center;
     margin: 1rem;
   }
 

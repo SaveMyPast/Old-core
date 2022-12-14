@@ -1,10 +1,6 @@
-<script>
-  import { userAuth } from "../../../stores/loginStore.js";
-  import {
-    signUpNewUser,
-    loginWithGoogle,
-    logout,
-  } from "../../../services/Auth/login-service.js";
+<script lang="ts">
+  import { userAuth } from "../../../stores/loginStore";
+  import { signUpNewUser, logout } from "../../../services/Auth/login-service";
   import { writable } from "svelte/store";
   import passwordValidator from "password-validator";
 
@@ -123,9 +119,6 @@
       {$validationMessageStore}
     </h3>
     <button id="submit" type="submit">Sign Up</button>
-    <button id="google" on:click={loginWithGoogle} disabled
-      >Sign up with Google</button
-    >
   {:else}
     <h3 class="message">You are signed up.</h3>
     <button on:click={logout}>Log out</button>

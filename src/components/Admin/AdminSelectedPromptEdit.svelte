@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { createEventDispatcher } from "svelte";
   import {
     faChevronLeft,
@@ -10,6 +10,7 @@
   const dispatcher = createEventDispatcher();
 
   export let selectedPrompt = {
+    id: null,
     age: null,
     goodMemory: null,
     prompt: null,
