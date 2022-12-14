@@ -9,7 +9,7 @@
   import { userAuth } from "./stores/loginStore";
   import Header from "./components/General/Header.svelte";
   import LoginBulletin from "./components/Account/Login/LoginBulletin.svelte";
-  import SignupBulletin from "./components/Account/Login/signupBulletin.svelte";
+
   import AdminPage from "./routes/Admin/AdminPage.svelte";
 </script>
 
