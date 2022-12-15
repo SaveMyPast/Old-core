@@ -13,6 +13,7 @@
 
   const validationStore = writable();
   let passwordResetToast = false;
+  let passwordResetFailToast = false;
 
   const emailRegex = () => {
     return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(
@@ -33,6 +34,10 @@
       loginWithUsernameAndPassword(credentials.email, credentials.password);
       logEvent(analytics, "login_event");
       credentials = { email: "", password: "" };
+    } else {
+      logEvent(analytics, "login_event_failed", {
+        error: "Invalid email address.",
+      });
     }
   };
 
@@ -40,7 +45,7 @@
     emailValidation();
 
     if ($validationStore != "Invalid email address.") {
-      logEvent(analytics, "forgot_password_clicked");
+      logEvent(analytics, "forgot_password_email_sent");
       attemptForgotPassword(credentials.email)
         .then(() => {
           passwordResetToast = true;
@@ -49,6 +54,11 @@
         .catch((error) => {
           console.log(error);
         });
+    } else {
+      logEvent(analytics, "forgot_password_email_failed", {
+        error: "Invalid email address.",
+      });
+      passwordResetFailToast = true;
     }
   };
   onMount(() => {
@@ -60,10 +70,18 @@
   });
 </script>
 
+{#if passwordResetFailToast}
+  <Toast
+    on:closeToast={() => (passwordResetFailToast = false)}
+    notification={"Password reset email could not be sent."}
+    warning
+  />
+{/if}
+
 {#if passwordResetToast}
   <Toast
     on:closeToast={() => (passwordResetToast = false)}
-    notification={"Password Reset email has been sent."}
+    notification={"Password reset email has been sent."}
   />
 {/if}
 
