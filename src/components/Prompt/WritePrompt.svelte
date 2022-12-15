@@ -105,6 +105,7 @@
       });
       addPromptResponse(promptData)
         .then(() => {
+          showPromptSavedToast = true;
           promptData = {
             age: null,
             year: null,
@@ -125,7 +126,6 @@
             location: promptData.location,
           });
         });
-      showPromptSavedToast = true;
     } else {
       showPromptFailedToast = true;
     }
