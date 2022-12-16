@@ -1,8 +1,6 @@
 <script lang="ts">
   import { promptStore } from "../../stores/promptStore";
   import AdminPrompt from "./AdminPrompt.svelte";
-  import { onMount } from "svelte";
-  import { getAllPrompts } from "../../services/DB/CRUD";
   import AdminSelectedPromptEdit from "./AdminSelectedPromptEdit.svelte";
 
   let selectedPrompt = {
@@ -16,7 +14,7 @@
     location: null,
   };
 
-  const handleSelectedPrompt = (event: any) => {
+  const handleSelectedPrompt = (event) => {
     selectedPrompt = $promptStore[event.detail];
   };
 
@@ -36,10 +34,6 @@
       location: null,
     };
   };
-
-  onMount(() => {
-    getAllPrompts();
-  });
 </script>
 
 <section class="promptList">

@@ -82,7 +82,7 @@
     --secondary: #5c88c1;
     --dark-primary: #3e72cc;
     --dark-secondary: #2d4d76;
-    --paperlike: #efede7;
+    --paperlike: #ffffff;
     --dark-paperlike: #21070a;
     --warn: #f28482;
     margin: 0;

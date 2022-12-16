@@ -1,4 +1,4 @@
-import { auth, db } from "./firebase.js";
+import { analytics, auth, db } from "./firebase.js";
 import {
   userRespondedPromptStore,
   promptStore,
@@ -12,9 +12,10 @@ import {
   addDoc,
   deleteDoc,
   updateDoc,
+  onSnapshot,
 } from "firebase/firestore";
 import { userInformationStore } from "../../stores/loginStore";
-import PromptData from "../../Interfaces/Interface.PromptData";
+import { logEvent } from "firebase/analytics";
 
 // Create
 export const addUser = async (signUpObject) => {
@@ -46,58 +47,57 @@ export const addPromptResponse = async (promptData) => {
     {
       promptData,
     }
-  )
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => {
-      console.error(err.code);
-    });
-  userRespondedPromptStore.update((data) => data.push(promptData));
+  ).catch((err) => {
+    console.error(err.code);
+  });
 };
 
 // Read
 export const getAllPrompts = async () => {
-  let allPrompts = [];
-
-  const querySnapshot: any = await getDocs(collection(db, "prompts")).catch(
-    (error) => {
-      console.error(error);
-    }
-  );
-
-  querySnapshot.forEach((doc) => {
-    const docObject = { id: doc.id, ...doc.data() };
-    allPrompts.push(docObject);
+  onSnapshot(collection(db, "prompts"), (querySnapshot) => {
+    let allPrompts = [];
+    console.log("All Prompts: ", querySnapshot.docs);
+    querySnapshot.docs.forEach((doc) => {
+      const docObject = { id: doc.id, ...doc.data() };
+      allPrompts.push(docObject);
+    });
+    promptStore.set(allPrompts);
   });
-
-  promptStore.set(allPrompts);
 };
 
 export const getUserAccountInformation = async () => {
-  const docSnapshot: any = await getDoc(doc(db, "users", auth.currentUser.uid));
-
-  if (docSnapshot.exists()) {
-    userInformationStore.set({ id: docSnapshot.id, ...docSnapshot.data() });
-  } else {
-    console.log("No such document!");
-  }
+  onSnapshot(doc(db, "users", auth.currentUser.uid), (doc) => {
+    if (doc.exists()) {
+      const docObject = {
+        id: doc.id,
+        isAdmin: doc.data().isAdmin,
+        birthdate: doc.data().birthdate,
+        email: doc.data().email,
+        name: doc.data().name,
+      };
+      userInformationStore.set(docObject);
+    } else {
+      console.error("No such document!");
+      logEvent(analytics, "no_user_document", {
+        user: auth.currentUser.uid,
+      });
+    }
+  });
 };
 
 export const getUserRespondedPrompts = async () => {
-  let allUserResponses = [];
-
-  const querySnapshot: any = await getDocs(
-    collection(db, "users", auth.currentUser.uid, "promptResponses")
-  ).catch((err) => {
-    console.error(err);
-  });
-
-  querySnapshot.forEach((doc) => {
-    allUserResponses.push({ id: doc.id, ...doc.data() });
-  });
-
-  userRespondedPromptStore.set(allUserResponses);
+  onSnapshot(
+    collection(db, "users", auth.currentUser.uid, "promptResponses"),
+    (querySnapshot) => {
+      let userResponses = [];
+      console.log("User Responses: ", querySnapshot.docs);
+      querySnapshot.docs.forEach((doc) => {
+        const docObject = { id: doc.id, ...doc.data() };
+        userResponses.push(docObject);
+      });
+      userRespondedPromptStore.set(userResponses);
+    }
+  );
 };
 
 // Update
