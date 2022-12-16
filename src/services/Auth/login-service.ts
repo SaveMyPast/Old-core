@@ -14,6 +14,7 @@ import {
 import {
   addUser,
   deleteCurrentUserAccount,
+  getAllPrompts,
   getUserAccountInformation,
   getUserRespondedPrompts,
 } from "../DB/CRUD.js";
@@ -26,7 +27,9 @@ auth.onAuthStateChanged((user) => {
     userAuth.set(user);
     getUserAccountInformation();
     getUserRespondedPrompts();
+    getAllPrompts();
   } else {
+    console.log("User is not logged in.");
     userAuth.set(null);
   }
 });
@@ -37,9 +40,8 @@ export const loginWithUsernameAndPassword = (
 ) => {
   signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      userAuth.set(userCredential.user);
-      getUserAccountInformation();
-      getUserRespondedPrompts();
+      console.log("logged in");
+      logEvent(analytics, "login_successful");
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -68,9 +70,9 @@ export const signUpNewUser = (signUpObject: {
     signUpObject.password
   )
     .then((userCredential) => {
-      userAuth.set(userCredential.user);
+      logEvent(analytics, "sign_up_successful");
       addUser(signUpObject);
-      getUserAccountInformation();
+      console.log("signed up");
     })
     .catch((error) => {
       logEvent(analytics, "sign_up_failed", {
@@ -137,6 +139,7 @@ export const deleteUserAccount = () => {
     .catch((error) => {
       logEvent(analytics, "delete_account_failed", {
         error_code: error.code,
+        user: auth.currentUser.email,
       });
       console.error(error);
     });
@@ -144,5 +147,6 @@ export const deleteUserAccount = () => {
 };
 
 export const attemptForgotPassword = (email: string) => {
+  logEvent(analytics, "forgot_password_email_attempt");
   return sendPasswordResetEmail(auth, email);
 };

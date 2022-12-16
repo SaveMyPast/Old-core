@@ -3,12 +3,6 @@
     modifiedRandomPromptStore,
     singleRandomPromptStore,
   } from "../../stores/promptStore";
-  import { onMount } from "svelte";
-  import { getAllPrompts } from "../../services/DB/CRUD";
-
-  onMount(() => {
-    getAllPrompts();
-  });
 </script>
 
 <section id="wrapper">
