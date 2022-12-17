@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { userAuth, userAuthFailStore } from "../../../stores/loginStore";
+  import { userAuth$, userAuthFailStore } from "../../../stores/loginStore";
   import {
     loginWithUsernameAndPassword,
     logout,
@@ -87,7 +87,7 @@
 
 <form on:submit|preventDefault={handleLogin}>
   <section class="bulletin">
-    {#if !$userAuth}
+    {#if !$userAuth$}
       <input
         id="email"
         required

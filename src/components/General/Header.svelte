@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { userInformationStore } from "../../stores/loginStore";
+  import { userInformation$ } from "../../stores/loginStore";
   import { logout } from "./../../services/Auth/login-service";
   import { link } from "svelte-routing";
-  import { userAuth } from "../../stores/loginStore";
+  import { userAuth$ } from "../../stores/loginStore";
   import Modal from "./Modal.svelte";
   import LoginBulletin from "../Account/Login/LoginBulletin.svelte";
   import SignupBulletin from "../Account/Login/SignupBulletin.svelte";
@@ -34,8 +34,8 @@
 {/if}
 
 <nav>
-  {#if $userAuth}
-    {#if $userInformationStore.isAdmin}
+  {#if $userAuth$}
+    {#if $userInformation$.isAdmin}
       <a class="link" href="/admin" use:link>Administration</a>
     {/if}
     <a class="link" href="prompts" use:link>Prompts</a>
@@ -44,7 +44,7 @@
     <a class="link" href="timeline" use:link>Timeline</a>
   {/if}
   <a class="link" href="/" use:link>Welcome</a>
-  {#if !$userAuth}
+  {#if !$userAuth$}
     <span
       class="link"
       on:click={() => (showSignup = true)}

@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { userInformationStore } from "./stores/loginStore.js";
+  import { userInformation$ } from "./stores/loginStore";
   import { Router, Route } from "svelte-routing";
   import WelcomePage from "./routes/Welcome/WelcomePage.svelte";
   import PromptPage from "./routes/Prompts/PromptPage.svelte";
   import TimelinePage from "./routes/Timeline/TimelinePage.svelte";
   import ProfilePage from "./routes/Profile/ProfilePage.svelte";
   import SettingsPage from "./routes/Settings/SettingsPage.svelte";
-  import { userAuth } from "./stores/loginStore";
+  import { userAuth$ } from "./stores/loginStore";
   import Header from "./components/General/Header.svelte";
   import LoginBulletin from "./components/Account/Login/LoginBulletin.svelte";
   import SignupBulletin from "./components/Account/Login/SignupBulletin.svelte";
@@ -17,12 +17,12 @@
   <Header />
   <Route path="login"><LoginBulletin /></Route>
   <Route path="signup"><SignupBulletin /></Route>
-  {#if $userAuth}
+  {#if $userAuth$}
     <Route path="prompts"><PromptPage /></Route>
     <Route path="profile"><ProfilePage /></Route>
     <Route path="settings"><SettingsPage /></Route>
     <Route path="timeline"><TimelinePage /></Route>
-    {#if $userInformationStore.isAdmin}
+    {#if $userInformation$.isAdmin}
       <Route path="admin"><AdminPage /></Route>
     {/if}
   {/if}

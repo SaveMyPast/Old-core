@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { userAuth } from "../../../stores/loginStore";
+  import { userAuth$ } from "../../../stores/loginStore";
   import { signUpNewUser, logout } from "../../../services/Auth/login-service";
   import { writable } from "svelte/store";
   import passwordValidator from "password-validator";
@@ -83,7 +83,7 @@
 </script>
 
 <form on:submit|preventDefault={handleSignup}>
-  {#if !$userAuth}
+  {#if !$userAuth$}
     <label for="fullName" id="flabel">
       <p>Full Name</p>
     </label>

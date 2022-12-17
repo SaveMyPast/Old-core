@@ -7,7 +7,7 @@
     promptStore,
     modifiedRandomPromptStore,
   } from "../../stores/promptStore";
-  import { userInformationStore } from "../../stores/loginStore";
+  import { userInformation$ } from "../../stores/loginStore";
   import { addPromptResponse } from "../../services/DB/CRUD";
   import type PromptData from "../../Interfaces/Interface.PromptData";
   import { analytics } from "../../services/DB/firebase";
@@ -50,7 +50,7 @@
     logEvent(analytics, "prompt_form_calculate_age", {
       prompt: promptData.prompt,
     });
-    let birthdate = $userInformationStore.birthdate.split("-");
+    let birthdate = $userInformation$.birthdate.split("-");
     let year = promptData.year.split("-");
     promptData.age = Number(year[0]) - Number(birthdate[0]);
   };
@@ -59,7 +59,7 @@
     logEvent(analytics, "prompt_form_calculate_year", {
       prompt: promptData.prompt,
     });
-    let birthdate = $userInformationStore.birthdate.split("-");
+    let birthdate = $userInformation$.birthdate.split("-");
     let age = promptData.age;
     promptData.year = `${Number(birthdate[0]) + Number(age)}-${birthdate[1]}-${
       birthdate[2]

@@ -6,44 +6,33 @@ import {
   deleteUser,
 } from "firebase/auth";
 import { analytics, auth } from "../DB/firebase.js";
-import {
-  userAuth,
-  userAuthFailStore,
-  userInformationStore,
-} from "../../stores/loginStore";
+import { userAuthFailStore } from "../../stores/loginStore";
 import {
   addUser,
   deleteCurrentUserAccount,
   getAllPrompts,
-  getUserAccountInformation,
   getUserRespondedPrompts,
 } from "../DB/CRUD.js";
 import { navigate } from "svelte-routing";
 import { logEvent } from "firebase/analytics";
 
 // Auth Listener, will update userAuth store if user is logged in or out.
-auth.onAuthStateChanged((user) => {
+auth.onAuthStateChanged(user => {
   if (user) {
-    userAuth.set(user);
-    getUserAccountInformation();
     getUserRespondedPrompts();
     getAllPrompts();
   } else {
     console.log("User is not logged in.");
-    userAuth.set(null);
   }
 });
 
-export const loginWithUsernameAndPassword = (
-  email: string,
-  password: string
-) => {
+export const loginWithUsernameAndPassword = (email: string, password: string) => {
   signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
+    .then(userCredential => {
       console.log("logged in");
       logEvent(analytics, "login_successful");
     })
-    .catch((error) => {
+    .catch(error => {
       const errorCode = error.code;
       const errorMessage = error.message;
       logEvent(analytics, "login_failed", {
@@ -60,21 +49,14 @@ export const loginWithUsernameAndPassword = (
   }
 };
 
-export const signUpNewUser = (signUpObject: {
-  email: string;
-  password: string;
-}) => {
-  createUserWithEmailAndPassword(
-    auth,
-    signUpObject.email,
-    signUpObject.password
-  )
-    .then((userCredential) => {
+export const signUpNewUser = (signUpObject: { email: string; password: string }) => {
+  createUserWithEmailAndPassword(auth, signUpObject.email, signUpObject.password)
+    .then(userCredential => {
       logEvent(analytics, "sign_up_successful");
       addUser(signUpObject);
       console.log("signed up");
     })
-    .catch((error) => {
+    .catch(error => {
       logEvent(analytics, "sign_up_failed", {
         error_code: error.code,
       });
@@ -96,16 +78,8 @@ export const logout = () => {
   signOut(auth)
     .then(() => {
       logEvent(analytics, "logout_successful");
-      userAuth.set(null);
-      userInformationStore.set({
-        isAdmin: false,
-        birthdate: null,
-        email: null,
-        name: null,
-        id: null,
-      });
     })
-    .catch((error) => {
+    .catch(error => {
       logEvent(analytics, "logout_failed", {
         error_code: error.code,
       });
@@ -119,24 +93,14 @@ export const deleteUserAccount = () => {
     .then(() => {
       logEvent(analytics, "delete_account_successful");
       deleteUser(auth.currentUser)
-        .then(() => {
-          userAuth.set(null);
-          userInformationStore.set({
-            isAdmin: false,
-            birthdate: null,
-            email: null,
-            name: null,
-            id: null,
-          });
-        })
-        .catch((error) => {
+        .catch(error => {
           console.error(error);
           logEvent(analytics, "delete_account_failed", {
             error_code: error.code,
           });
         });
     })
-    .catch((error) => {
+    .catch(error => {
       logEvent(analytics, "delete_account_failed", {
         error_code: error.code,
         user: auth.currentUser.email,
