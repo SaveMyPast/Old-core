@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import * as React from "react";
+import "./App.css";
+import Welcome from "./routes/Welcome";
+import { Route, Routes } from "react-router-dom";
+import Profile from "./routes/Profile";
+import Prompts from "./routes/Prompts";
+import Settings from "./routes/Settings";
+import Timeline from "./routes/Timeline";
+import Administration from "./routes/Administration";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import Navigation from "./components/general/navigation/Navigation";
+import Login from "./components/general/Auth/Login";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navigation></Navigation>
+      <Routes>
+        <Route path="/" element={<Welcome />} />
+        <Route path="/welcome" element={<Welcome />} />
+        <Route path="/prompts" element={<Prompts />} />
+        <Route path="/timeline" element={<Timeline />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/administration" element={<Administration />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Welcome />} />
+      </Routes>
+    </>
   );
 }
 
