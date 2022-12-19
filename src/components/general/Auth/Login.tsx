@@ -15,7 +15,7 @@ import {
   useSignInWithEmailAndPassword,
 } from "react-firebase-hooks/auth";
 import { auth } from "../../../services/firebase";
-import Signout from "./Signout";
+import Logout from "./Logout";
 
 interface loginCredential {
   email: string;
@@ -59,7 +59,7 @@ export const Login = () => {
         >
           <Typography>You are currently signed in as</Typography>
           <Typography>{user.email}</Typography>
-          <Signout />
+          <Logout />
         </Container>
       </>
     );

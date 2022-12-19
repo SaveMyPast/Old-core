@@ -13,11 +13,22 @@ import MenuItem from "@mui/material/MenuItem";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Link from "@mui/material/Link";
 import { Link as RouterLink } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../../services/firebase";
 
-const pages = ["Prompts", "Timeline"];
-const settings = ["Profile", "Settings", "Administration", "Logout"];
+function Navigation() {
+  const [user, loading] = useAuthState(auth);
 
-function ResponsiveAppBar() {
+  let pages: any[] = [];
+  let settings = [];
+
+  if (user) {
+    pages = ["Prompts", "Timeline"];
+    settings = ["Profile", "Settings", "Administration", "Logout"];
+  } else {
+    settings = ["Login", "Register"];
+  }
+
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -189,4 +200,4 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default Navigation;

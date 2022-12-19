@@ -13,8 +13,27 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import Navigation from "./components/general/navigation/Navigation";
 import Login from "./components/general/Auth/Login";
+import ForgotPassword from "./components/general/Auth/ForgotPassword";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./services/firebase";
 
 function App() {
+  const [user, loading] = useAuthState(auth);
+  if (!user) {
+    return (
+      <>
+        <Navigation></Navigation>
+        <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="*" element={<Login />} />
+        </Routes>
+      </>
+    );
+  }
+
   return (
     <>
       <Navigation></Navigation>
@@ -27,7 +46,8 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/administration" element={<Administration />} />
         <Route path="/login" element={<Login />} />
-        <Route path="*" element={<Welcome />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="*" element={<Login />} />
       </Routes>
     </>
   );
