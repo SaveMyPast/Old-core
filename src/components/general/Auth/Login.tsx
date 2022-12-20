@@ -40,10 +40,7 @@ export const Login = () => {
   if (loading) {
     return (
       <>
-        <Container
-          maxWidth={"sm"}
-          sx={{ marginTop: "5%", textAlign: "center" }}
-        >
+        <Container maxWidth={"sm"} sx={{ textAlign: "center" }}>
           <CircularProgress />
         </Container>
       </>
@@ -68,7 +65,7 @@ export const Login = () => {
   const signIn = (
     <>
       <CssBaseline />
-      <Container maxWidth={"sm"} sx={{ marginTop: "5%" }}>
+      <Container maxWidth={"sm"}>
         <form onSubmit={handleLogin} autoComplete="off">
           <Grid
             container
@@ -118,7 +115,7 @@ export const Login = () => {
                   Login
                 </Button>
                 <Link
-                  href="/forgot"
+                  href="/forgot-password"
                   variant="body1"
                   sx={{
                     flexGrow: 1,
