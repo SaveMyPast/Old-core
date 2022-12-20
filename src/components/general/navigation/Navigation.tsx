@@ -17,7 +17,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../services/firebase";
 
 function Navigation() {
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
   let pages: any[] = [];
   let settings = [];
