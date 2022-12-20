@@ -52,7 +52,7 @@ function Navigation() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link underline={"none"} color="white" component={RouterLink} to="/">

@@ -1,21 +1,22 @@
 import * as React from "react";
 import "./App.css";
-import Welcome from "./routes/Welcome";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 import { Route, Routes } from "react-router-dom";
+import Welcome from "./routes/Welcome";
 import Profile from "./routes/Profile";
 import Prompts from "./routes/Prompts";
 import Settings from "./routes/Settings";
 import Timeline from "./routes/Timeline";
 import Administration from "./routes/Administration";
-import "@fontsource/roboto/300.css";
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
 import Navigation from "./components/general/navigation/Navigation";
 import Login from "./components/general/Auth/Login";
 import ForgotPassword from "./components/general/Auth/ForgotPassword";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./services/firebase";
+import { Container } from "@mui/system";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -23,6 +24,8 @@ function App() {
     return (
       <>
         <Navigation></Navigation>
+        <Container sx={{ height: "100px" }} />
+
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/welcome" element={<Welcome />} />
@@ -37,6 +40,8 @@ function App() {
   return (
     <>
       <Navigation></Navigation>
+      <Container sx={{ height: "100px" }} />
+
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/welcome" element={<Welcome />} />
