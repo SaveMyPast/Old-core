@@ -31,7 +31,7 @@ const Register = () => {
     registerNewUser(registerObject);
   };
 
-  if (loading) {
+  if (loading || creatingUser) {
     return (
       <>
         <Container maxWidth={"sm"} sx={{ textAlign: "center" }}>
@@ -50,6 +50,21 @@ const Register = () => {
         >
           <Typography>You are currently signed in as</Typography>
           <Typography>{user.email}</Typography>
+          <Logout />
+        </Container>
+      </>
+    );
+  }
+
+  if (userCreated) {
+    return (
+      <>
+        <Container
+          maxWidth={"sm"}
+          sx={{ marginTop: "5%", textAlign: "center" }}
+        >
+          <Typography>You are currently signed in as</Typography>
+          <Typography>{userCreated.email}</Typography>
           <Logout />
         </Container>
       </>
@@ -79,6 +94,8 @@ const Register = () => {
                 type={"text"}
                 autoComplete="full name"
                 required
+                error={error ? true : false}
+                helperText={error ? error : ""}
                 fullWidth
                 onChange={(event) =>
                   setRegisterObject({
@@ -95,6 +112,8 @@ const Register = () => {
                 type={"email"}
                 autoComplete="email"
                 required
+                error={error ? true : false}
+                helperText={error ? error : ""}
                 fullWidth
                 onChange={(event) =>
                   setRegisterObject({
@@ -111,6 +130,8 @@ const Register = () => {
                 type={"date"}
                 autoComplete="birthdate"
                 required
+                error={error ? true : false}
+                helperText={error ? error : ""}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 onChange={(event) =>
@@ -128,6 +149,8 @@ const Register = () => {
                 autoComplete="current-password"
                 required
                 fullWidth
+                error={error ? true : false}
+                helperText={error ? error : ""}
                 type={"password"}
                 onChange={(event) =>
                   setRegisterObject({
