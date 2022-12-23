@@ -16,11 +16,7 @@ import {
 } from "react-firebase-hooks/auth";
 import { auth } from "../../../services/firebase";
 import Logout from "./Logout";
-
-interface loginCredential {
-  email: string;
-  password: string;
-}
+import { LoginCredential } from "../../../services/interfaces";
 
 export const Login = () => {
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
@@ -32,7 +28,7 @@ export const Login = () => {
     signInWithEmailAndPassword(loginObject.email, loginObject.password);
   };
 
-  const [loginObject, setLoginObject] = useState<loginCredential>({
+  const [loginObject, setLoginObject] = useState<LoginCredential>({
     email: "",
     password: "",
   });
@@ -75,6 +71,11 @@ export const Login = () => {
             direction={"column"}
           >
             <Grid item />
+            <Grid item>
+              <Typography variant="h4" textAlign="center">
+                Login
+              </Typography>
+            </Grid>
             <Grid item>
               <TextField
                 id="Email"

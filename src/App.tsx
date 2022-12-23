@@ -17,6 +17,7 @@ import ForgotPassword from "./components/general/Auth/ForgotPassword";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./services/firebase";
 import { Container } from "@mui/system";
+import Register from "./components/general/Auth/Register";
 
 function App() {
   const [user] = useAuthState(auth);
@@ -30,32 +31,33 @@ function App() {
           <Route path="/" element={<Welcome />} />
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="*" element={<Login />} />
+        </Routes>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Navigation></Navigation>
+        <Container sx={{ height: "100px" }} />
+
+        <Routes>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/welcome" element={<Welcome />} />
+          <Route path="/prompts" element={<Prompts />} />
+          <Route path="/timeline" element={<Timeline />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/administration" element={<Administration />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="*" element={<Login />} />
         </Routes>
       </>
     );
   }
-
-  return (
-    <>
-      <Navigation></Navigation>
-      <Container sx={{ height: "100px" }} />
-
-      <Routes>
-        <Route path="/" element={<Welcome />} />
-        <Route path="/welcome" element={<Welcome />} />
-        <Route path="/prompts" element={<Prompts />} />
-        <Route path="/timeline" element={<Timeline />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/administration" element={<Administration />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="*" element={<Login />} />
-      </Routes>
-    </>
-  );
 }
 
 export default App;
