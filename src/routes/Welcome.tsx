@@ -1,9 +1,10 @@
-import { Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper, Typography, Link, Button } from "@mui/material";
 import * as React from "react";
 import WelcomeCards from "../components/Welcome/WelcomeCards";
-import Login from "../components/general/Auth/Login";
+import { useNavigate } from "react-router-dom";
 
 const Welcome = () => {
+  const Navigator = useNavigate();
   return (
     <>
       <Grid container flexDirection={"column"} spacing={3}>
@@ -48,8 +49,21 @@ const Welcome = () => {
         </Grid>
         <Grid item xs={12}>
           <Paper sx={{ padding: "12px" }} elevation={0}>
-            <Login />
+            <Typography variant="h6" textAlign="center">
+              Sign up to get started
+            </Typography>
           </Paper>
+        </Grid>
+        <Grid item xs={12} alignSelf={"center"}>
+          <Button
+            variant="contained"
+            onClick={() => {
+              Navigator("/register");
+            }}
+            sx={{ marginBottom: "36px" }}
+          >
+            Register
+          </Button>
         </Grid>
       </Grid>
     </>

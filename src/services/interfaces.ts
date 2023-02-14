@@ -56,6 +56,7 @@ export interface PromptData {
  * @param {boolean} isAdmin - user admin status `true` or `false`
  *
  */
+
 export interface UserInformation {
   id: string;
   fullName: string;
@@ -63,4 +64,25 @@ export interface UserInformation {
   birthdate: string;
   isAdmin: boolean;
   password?: string;
+}
+
+/**
+ * @interface FirebasePromptData
+ *
+ * @param {string} id - prompt id `firebase.firestore.doc.id`
+ * @param {number} age - prompt age `0-100`
+ * @param {string} prompt - prompt text `What is your favorite color?`
+ * @param {string} userResponse - user response to prompt `Blue`
+ * @param {number} year - year prompt was created `YYYY`
+ * @param {boolean} goodMemory - prompt good memory `true` or `false`
+ * @param {string} location - prompt location `United States`
+ *
+ */
+export interface FirebasePromptData {
+  age: number;
+  prompt: string;
+  userResponse: string;
+  year: number;
+  goodMemory: boolean;
+  location: string;
 }
