@@ -54,7 +54,6 @@ function App() {
           <Route path="/administration" element={<Administration />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/modify-prompt" element={<ModifyPrompt />} />
           <Route path="*" element={<Login />} />
         </Routes>
       </>
