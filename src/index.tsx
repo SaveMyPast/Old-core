@@ -5,17 +5,21 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
+import { AdaptContext } from "@state-adapt/react";
+import { stateAdapt } from "./state-adapt";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <CssBaseline />
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
+  <AdaptContext.Provider value={stateAdapt}>
+    <React.StrictMode>
+      <BrowserRouter>
+        <CssBaseline />
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
+  </AdaptContext.Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
