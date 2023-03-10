@@ -14,7 +14,6 @@ import {
   SubmitPromptData,
 } from "../../services/interfaces";
 import { promptStore } from "../../services/stores/promptStore";
-import { useAdapt } from "@state-adapt/react";
 
 export const ModifyPrompt = ({
   prompt,

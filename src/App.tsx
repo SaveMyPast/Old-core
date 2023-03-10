@@ -18,7 +18,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./services/firebase";
 import { Container } from "@mui/system";
 import Register from "./components/general/Auth/Register";
-import ModifyPrompt from "./components/Prompt/ModifyPrompt";
 
 function App() {
   const [user] = useAuthState(auth);

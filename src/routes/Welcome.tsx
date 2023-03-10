@@ -1,4 +1,4 @@
-import { Grid, Paper, Typography, Link, Button } from "@mui/material";
+import { Grid, Paper, Typography, Button } from "@mui/material";
 import * as React from "react";
 import WelcomeCards from "../components/Welcome/WelcomeCards";
 import { useNavigate } from "react-router-dom";
