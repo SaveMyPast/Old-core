@@ -1,7 +1,16 @@
 import * as React from "react";
+import DeleteUser from "../components/settings/DeleteUser";
+import { Container, Typography } from "@mui/material";
 
 const Settings = () => {
-  return <h1>there is nothing here</h1>;
+  return (
+    <>
+      <Container>
+        <Typography variant="h2">User Settings</Typography>
+        <DeleteUser />
+      </Container>
+    </>
+  );
 };
 
 export default Settings;
