@@ -51,3 +51,5 @@ export const useRegisterNewUser = () => {
 
   return [registerNewUser, user, error, loading] as const;
 };
+
+export default useRegisterNewUser;
