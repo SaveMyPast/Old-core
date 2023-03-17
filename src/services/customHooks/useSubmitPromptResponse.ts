@@ -6,7 +6,7 @@ import { firestore } from "../firebase";
 
 const useSubmitPromptResponse = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
   const submitPromptResponse = async (promptData: SubmitPromptData) => {
