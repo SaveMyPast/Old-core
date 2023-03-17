@@ -91,7 +91,10 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
 
   if (failSend) {
     return (
-      <Typography variant="h4">Failed to send, try again later</Typography>
+      <>
+        <Typography variant="h4">Failed to send, try again later</Typography>
+        <Typography color={"warning"}>{failSend}</Typography>
+      </>
     );
   }
 
