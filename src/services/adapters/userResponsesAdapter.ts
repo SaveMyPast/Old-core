@@ -1,12 +1,20 @@
 import { SelectablePromptData } from "./../interfaces";
 import { createAdapter } from "@state-adapt/core";
 
+const deselectAllResponses = (state: SelectablePromptData[]) => {
+  const newPromptDataArray = state.map((p) => {
+    return { ...p, selected: false };
+  });
+  return newPromptDataArray;
+};
+
 const userResponsesAdapter = createAdapter<SelectablePromptData[]>()({
   selectResponse: (
     state: SelectablePromptData[],
     selectedPrompt: SelectablePromptData
   ) => {
-    const newPromptDataArray = state.map((p) => {
+    const prompts = deselectAllResponses(state);
+    const newPromptDataArray = prompts.map((p) => {
       if (p.id === selectedPrompt.id) {
         return { ...p, selected: !p.selected };
       }
@@ -14,12 +22,7 @@ const userResponsesAdapter = createAdapter<SelectablePromptData[]>()({
     });
     return newPromptDataArray;
   },
-  deselectAllResponses: (state: SelectablePromptData[]) => {
-    const newPromptDataArray = state.map((p) => {
-      return { ...p, selected: false };
-    });
-    return newPromptDataArray;
-  },
+  deselectAllResponses: deselectAllResponses,
 
   selectors: {
     viewSelectedResponse: (state: SelectablePromptData[]) => {

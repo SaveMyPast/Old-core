@@ -11,7 +11,6 @@ import { Container } from "@mui/system";
 import { PromptData } from "../../services/interfaces";
 import SaveIcon from "@mui/icons-material/Save";
 import useSubmitPromptResponse from "../../services/customHooks/useSubmitPromptResponse";
-import { SubmitPromptData } from "../../services/interfaces";
 import AddTags from "../Prompt/AddTags";
 import SwapPrompt from "./SwapPrompt";
 import ModifyPrompt from "./ModifyPrompt";
@@ -25,12 +24,10 @@ const promptActions = {
 };
 
 const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
-  const [formData, formDataStore] = useAdapt<SubmitPromptData>(
+  const [formData, formDataStore] = useAdapt<PromptData>(
     "promptResponse.formData",
-    {
-      ...prompt,
-      promptId: prompt.id,
-    }
+
+    prompt
   );
   // TODO: change tags to useAdapt :)
   const [tags, tagsStore] = useAdapt<string[]>(
@@ -66,11 +63,17 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
       setFormValid(false);
       return;
     }
+    if (formData.state.id.length < 1) {
+      formDataStore.set({ ...formData.state, id: prompt.id });
+    }
+    if (formData.state.prompt.length < 1) {
+      formDataStore.set({ ...formData.state, prompt: prompt.prompt });
+    }
+
     setFormValid(true);
   };
 
-  const savePrompt = () => {
-    validateForm();
+  const savePrompt = async () => {
     if (formValid) {
       console.log(formData);
       submitPromptResponse(formData.state);
@@ -112,8 +115,9 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
           <ModifyPrompt
             prompt={prompt}
             formData={formData.state}
-            setFormData={(formData: SubmitPromptData) => {
+            setFormData={(formData: PromptData) => {
               formDataStore.set(formData);
+              validateForm();
             }}
           />
         </Container>
@@ -124,12 +128,13 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
           multiline
           fullWidth
           rows={10}
-          onChange={(e) =>
+          onChange={(e) => {
             formDataStore.set({
               ...formData.state,
               userResponse: e.target.value,
-            })
-          }
+            });
+            validateForm();
+          }}
         />
         <Container
           sx={{
@@ -146,9 +151,10 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
             size="small"
             InputLabelProps={{ shrink: true }}
             label="Year"
-            onChange={(e) =>
-              formDataStore.set({ ...formData.state, year: e.target.value })
-            }
+            onChange={(e) => {
+              formDataStore.set({ ...formData.state, year: e.target.value });
+              validateForm();
+            }}
             type="date"
           />
           <TextField
@@ -160,6 +166,7 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
                 ...formData.state,
                 age: parseInt(e.target.value),
               });
+              validateForm();
             }}
             InputLabelProps={{ shrink: true }}
             label="Your Age"
@@ -168,9 +175,13 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
           <TextField
             variant="outlined"
             size="small"
-            onChange={(e) =>
-              formDataStore.set({ ...formData.state, location: e.target.value })
-            }
+            onChange={(e) => {
+              formDataStore.set({
+                ...formData.state,
+                location: e.target.value,
+              });
+              validateForm();
+            }}
             label="Location"
             InputLabelProps={{ shrink: true }}
             placeholder="Where this took place"
@@ -184,6 +195,7 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
             addTags={(tag: string[]) => {
               tagsStore.set(tag);
               formDataStore.set({ ...formData.state, tags: tag });
+              validateForm();
             }}
           />
 

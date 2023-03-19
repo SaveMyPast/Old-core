@@ -8,11 +8,7 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { IconButton, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  ModifyPromptPayload,
-  PromptData,
-  SubmitPromptData,
-} from "../../services/interfaces";
+import { ModifyPromptPayload, PromptData } from "../../services/interfaces";
 import { promptStore } from "../../services/stores/promptStore";
 
 export const ModifyPrompt = ({
@@ -21,8 +17,8 @@ export const ModifyPrompt = ({
   setFormData,
 }: {
   prompt: PromptData;
-  formData: SubmitPromptData;
-  setFormData: (formData: SubmitPromptData) => void;
+  formData: PromptData;
+  setFormData: (formData: PromptData) => void;
 }) => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {

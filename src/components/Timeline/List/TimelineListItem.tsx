@@ -1,36 +1,35 @@
 import * as React from "react";
-import { Divider, ListItem, ListItemText } from "@mui/material";
+import { Divider, IconButton, ListItem, ListItemText } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { SelectablePromptData } from "../../../services/interfaces";
 import { userResponseStore } from "../../../services/stores/userResponseStore";
+
+const shortenString = (string: string) => {
+  const colWidth = window.innerWidth / 12;
+  const numChars = Math.floor((colWidth / 10) * 4);
+  return string.length > numChars
+    ? string.substring(0, numChars) + "..."
+    : string;
+};
 
 export const TimelineListItem = ({
   prompt,
 }: {
   prompt: SelectablePromptData;
 }) => {
-  const promptShortened =
-    prompt.prompt.length > 15
-      ? prompt.prompt.substring(0, 15) + "..."
-      : prompt.prompt;
-  const userResponseShortened =
-    prompt.userResponse.length > 30
-      ? prompt.userResponse.substring(0, 30) + "..."
-      : prompt.userResponse;
+  const promptShortened = shortenString(prompt.prompt);
 
   return (
     <>
-      <ListItem
-        onClick={() => {
-          userResponseStore.selectResponse(prompt);
-        }}
-      >
-        <ListItemText
-          inset
-          primary={promptShortened}
-          secondary={userResponseShortened}
-        ></ListItemText>
-        <ChevronRightIcon />
+      <ListItem>
+        <ListItemText secondary={promptShortened}></ListItemText>
+        <IconButton
+          onClick={() => {
+            userResponseStore.selectResponse(prompt);
+          }}
+        >
+          <ChevronRightIcon />
+        </IconButton>
       </ListItem>
       <Divider />
     </>
