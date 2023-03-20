@@ -29,6 +29,13 @@ const userResponsesAdapter = createAdapter<SelectablePromptData[]>()({
       const selectedResponse = state.find((p) => p.selected);
       return selectedResponse;
     },
+    isSelected: (state: SelectablePromptData[]) => {
+      const selectedResponse = state.find((p) => p.selected);
+      if (selectedResponse) {
+        return true;
+      }
+      return false;
+    },
   },
 });
 

@@ -1,11 +1,7 @@
 import * as React from "react";
 
 export const Scrollable = () => {
-  return (
-    <>
-      <div>Scrollable</div>
-    </>
-  );
+  return <></>;
 };
 
 export default Scrollable;

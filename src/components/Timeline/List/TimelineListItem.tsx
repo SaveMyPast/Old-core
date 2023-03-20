@@ -17,7 +17,18 @@ export const TimelineListItem = ({
 }: {
   prompt: SelectablePromptData;
 }) => {
-  const promptShortened = shortenString(prompt.prompt);
+  const [promptShortened, setPromptShortened] = React.useState<string>(
+    shortenString(prompt.prompt)
+  );
+
+  React.useEffect(() => {
+    function handleResize() {
+      setPromptShortened(shortenString(prompt.prompt));
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
