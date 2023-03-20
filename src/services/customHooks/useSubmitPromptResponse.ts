@@ -1,16 +1,23 @@
+import { PromptData } from "./../interfaces";
 import { auth } from "./../firebase";
 import { useState } from "react";
-import { SubmitPromptData } from "../interfaces";
 import { doc, setDoc } from "firebase/firestore";
 import { firestore } from "../firebase";
 
 const useSubmitPromptResponse = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const submitPromptResponse = async (promptData: SubmitPromptData) => {
+  const submitPromptResponse = async (promptData: PromptData) => {
     setLoading(true);
+
+    if (!promptData.id) {
+      setError("No prompt id provided");
+      setLoading(false);
+      return;
+    }
+
     try {
       if (!auth.currentUser) {
         throw new Error("User not logged in");
@@ -21,7 +28,7 @@ const useSubmitPromptResponse = () => {
           "users",
           auth.currentUser.uid,
           "userResponses",
-          promptData.promptId
+          promptData.id
         ),
         promptData,
         { merge: true }
