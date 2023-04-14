@@ -45,20 +45,18 @@ export interface PromptData {
   location: string;
   tags: string[];
 }
+
 /**
- * @interface SubmitPromptData
- *
- * @param {string} promptId - prompt id `firebase.firestore.doc.id`
+ * @interface AddPromptData
+ * @description - used to add prompt to firebase
  * @param {number} age - prompt age `0-100`
  * @param {string} prompt - prompt text `What is your favorite color?`
- * @param {string} userResponse - user response to prompt `Blue`
+ * @param {string} userResponse - user response to prompt should be empty `""`
  * @param {string} year - year prompt was created `YYYY`
  * @param {string} location - prompt location `United States`
  * @param {string[]} tags - prompt category `Family`
- *
- */
-export interface SubmitPromptData {
-  promptId: string;
+ **/
+export interface AddPromptData {
   age: number;
   prompt: string;
   userResponse: string;
