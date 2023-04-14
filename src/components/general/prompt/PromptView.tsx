@@ -35,11 +35,13 @@ const PromptMetaData = (prompt: PromptData) => {
 export const PromptView = (prompt: PromptData) => {
   if (prompt.userResponse === undefined)
     return (
-      <Stack spacing={2}>
-        <Typography variant="h5">{prompt.prompt}</Typography>
-        <PromptMetaData {...prompt} />
-        <Divider />
-      </Stack>
+      <>
+        <Stack spacing={2}>
+          <Typography variant="h5">{prompt.prompt}</Typography>
+          <PromptMetaData {...prompt} />
+          <Divider />
+        </Stack>
+      </>
     );
 
   return (
@@ -48,7 +50,7 @@ export const PromptView = (prompt: PromptData) => {
         <Typography variant="h5">{prompt.prompt}</Typography>
         <PromptMetaData {...prompt} />
         <Divider />
-        <Typography variant="body1">{prompt.userResponse}</Typography>;
+        <Typography variant="body1">{prompt.userResponse}</Typography>
       </Stack>
     </>
   );
