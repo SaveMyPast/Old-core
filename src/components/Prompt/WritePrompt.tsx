@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Container } from "@mui/system";
-import { PromptData } from "../../services/interfaces";
+import { PromptData } from "../../services/interfaces/interfaces";
 import SaveIcon from "@mui/icons-material/Save";
 import useSubmitPromptResponse from "../../services/customHooks/useSubmitPromptResponse";
 import AddTags from "../Prompt/AddTags";

@@ -16,7 +16,7 @@ import {
 } from "react-firebase-hooks/auth";
 import { auth } from "../../../services/firebase";
 import Logout from "./Logout";
-import { LoginCredential } from "../../../services/interfaces";
+import { LoginCredential } from "../../../services/interfaces/interfaces";
 
 export const Login = () => {
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);

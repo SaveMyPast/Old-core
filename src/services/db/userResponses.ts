@@ -1,8 +1,8 @@
-import { SelectablePromptData } from "./../interfaces";
+import { SelectablePromptData } from "./../interfaces/interfaces";
 import { collection, onSnapshot } from "firebase/firestore";
 import { firestore } from "../firebase";
 import { Observable } from "rxjs";
-import { PromptData } from "../interfaces";
+import { PromptData } from "./../interfaces/interfaces";
 import { auth } from "../firebase";
 
 const userResponses$: Observable<SelectablePromptData[]> = new Observable(

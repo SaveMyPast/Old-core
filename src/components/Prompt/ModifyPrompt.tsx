@@ -8,7 +8,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { IconButton, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { ModifyPromptPayload, PromptData } from "../../services/interfaces";
+import {
+  ModifyPromptPayload,
+  PromptData,
+} from "../../services/interfaces/interfaces";
 import { promptStore } from "../../services/stores/promptStore";
 
 export const ModifyPrompt = ({

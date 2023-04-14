@@ -1,4 +1,4 @@
-import { PromptData } from "./../interfaces";
+import { PromptData } from "./../interfaces/interfaces";
 import { auth } from "./../firebase";
 import { useState } from "react";
 import { doc, setDoc } from "firebase/firestore";

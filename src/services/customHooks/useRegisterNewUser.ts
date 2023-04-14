@@ -1,6 +1,6 @@
 import { firestore } from "./../firebase";
 import { useState } from "react";
-import { RegistrationCredential } from "./../interfaces";
+import { RegistrationCredential } from "./../interfaces/interfaces";
 import { User, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";

@@ -1,4 +1,4 @@
-import { UserInformation } from "./../interfaces";
+import { UserInformation } from "./../interfaces/interfaces";
 import { useState } from "react";
 import { auth, firestore } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";

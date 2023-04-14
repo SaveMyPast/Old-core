@@ -1,4 +1,4 @@
-import { SelectablePromptData } from "./../interfaces";
+import { SelectablePromptData } from "./../interfaces/interfaces";
 import { createAdapter } from "@state-adapt/core";
 
 const deselectAllResponses = (state: SelectablePromptData[]) => {

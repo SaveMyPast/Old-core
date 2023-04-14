@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../../services/firebase";
 import Logout from "./Logout";
-import { RegistrationCredential } from "../../../services/interfaces";
+import { RegistrationCredential } from "../../../services/interfaces/interfaces";
 import { useRegisterNewUser } from "../../../services/customHooks/useRegisterNewUser";
 
 const Register = () => {

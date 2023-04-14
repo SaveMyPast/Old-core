@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Divider, IconButton, ListItem, ListItemText } from "@mui/material";
+import { IconButton, ListItem, ListItemText } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { SelectablePromptData } from "../../../services/interfaces";
+import { SelectablePromptData } from "../../../services/interfaces/interfaces";
 import { userResponseStore } from "../../../services/stores/userResponseStore";
 
 const shortenString = (string: string) => {
@@ -32,7 +32,7 @@ export const TimelineListItem = ({
 
   return (
     <>
-      <ListItem>
+      <ListItem divider>
         <ListItemText secondary={promptShortened}></ListItemText>
         <IconButton
           onClick={() => {
@@ -42,7 +42,6 @@ export const TimelineListItem = ({
           <ChevronRightIcon />
         </IconButton>
       </ListItem>
-      <Divider />
     </>
   );
 };

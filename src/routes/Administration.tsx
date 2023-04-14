@@ -1,7 +1,12 @@
 import * as React from "react";
+import Admin from "../components/Administration/Admin";
 
 const Administration = () => {
-  return <h1>Administration works</h1>;
+  return (
+    <>
+      <Admin />
+    </>
+  );
 };
 
 export default Administration;

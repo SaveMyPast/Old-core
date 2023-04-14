@@ -1,6 +1,6 @@
 import * as React from "react";
 import { CircularProgress, Container, Paper, Typography } from "@mui/material";
-import { PromptData } from "../../services/interfaces";
+import { PromptData } from "../../services/interfaces/interfaces";
 
 const ViewPrompt = ({ prompt }: { prompt: PromptData | null }) => {
   if (prompt === null) {
