@@ -1,7 +1,7 @@
 import { AddPromptData } from "../interfaces/interfaces";
 import { auth } from "../firebase";
 import { useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import { firestore } from "../firebase";
 
 const useAdminAddPrompt = () => {
@@ -16,7 +16,7 @@ const useAdminAddPrompt = () => {
       if (!auth.currentUser) {
         throw new Error("User not logged in");
       }
-      await setDoc(doc(firestore, "prompts"), promptData).then(() => {
+      await addDoc(collection(firestore, "prompts"), promptData).then(() => {
         setSuccess(true);
         setLoading(false);
       });

@@ -10,15 +10,6 @@ const reset = (state: PromptStoreInterface) => {
 };
 
 const promptAdapter = createAdapter<PromptStoreInterface>()({
-  addPrompt: (store: PromptStoreInterface, prompt: PromptData) => {
-    const state = reset(store);
-
-    const newPromptDataArray = [...state.prompts];
-    return {
-      prompts: newPromptDataArray,
-      immutablePrompts: state.immutablePrompts,
-    };
-  },
   modifyPrompt: (
     store: PromptStoreInterface,
     promptPayload: ModifyPromptPayload
@@ -47,9 +38,12 @@ const promptAdapter = createAdapter<PromptStoreInterface>()({
   },
   filterPromptsByTag: (store: PromptStoreInterface, tag: string) => {
     const state = reset(store);
+
     const filteredPromptDataArray = state.prompts.filter((p) => {
       return p.tags.includes(tag);
     });
+
+    if (tag === "all tags") return reset(store);
     return {
       prompts: filteredPromptDataArray,
       immutablePrompts: state.immutablePrompts,
@@ -63,10 +57,10 @@ const promptAdapter = createAdapter<PromptStoreInterface>()({
       return state.prompts[0];
     },
     getAllTags: (state: PromptStoreInterface) => {
-      let tags: string[] = [];
+      let tags: string[] = ["all tags"];
       state.immutablePrompts.forEach((prompt) => {
         prompt.tags.forEach((tag) => {
-          tags.push(tag);
+          if (tags.find((t) => t === tag) === undefined) tags.push(tag);
         });
       });
       return tags;

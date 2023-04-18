@@ -1,9 +1,7 @@
 import * as React from "react";
 import {
-  Chip,
   CircularProgress,
   IconButton,
-  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -15,6 +13,7 @@ import AddTags from "../Prompt/AddTags";
 import SwapPrompt from "./SwapPrompt";
 import ModifyPrompt from "./ModifyPrompt";
 import { useAdapt } from "@state-adapt/react";
+import ShowTags from "./ShowTags";
 
 const promptActions = {
   display: "flex",
@@ -29,7 +28,7 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
 
     prompt
   );
-  // TODO: change tags to useAdapt :)
+
   const [tags, tagsStore] = useAdapt<string[]>(
     "promptResponse.tags",
     prompt.tags
@@ -105,11 +104,7 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
     <>
       <Container sx={{ display: "flex", flexDirection: "column" }}>
         <Container sx={promptActions}>
-          <Stack direction={"row"} spacing={1}>
-            {tags.state.map((tag, key) => (
-              <Chip variant="outlined" label={tag} key={key} />
-            ))}
-          </Stack>
+          <ShowTags tags={tags.state} />
 
           <SwapPrompt />
           <ModifyPrompt
