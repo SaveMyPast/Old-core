@@ -2,18 +2,19 @@ import { PromptStoreInterface } from "./../interfaces/PromptStoreInterface";
 import { ModifyPromptPayload, PromptData } from "./../interfaces/interfaces";
 import { createAdapter } from "@state-adapt/core";
 
+const reset = (state: PromptStoreInterface) => {
+  return {
+    prompts: state.immutablePrompts,
+    immutablePrompts: state.immutablePrompts,
+  };
+};
+
 const promptAdapter = createAdapter<PromptStoreInterface>()({
-  addPrompt: (state: PromptStoreInterface, prompt: PromptData) => {
-    const newPromptDataArray = [...state.prompts];
-    return {
-      prompts: newPromptDataArray,
-      immutablePrompts: state.immutablePrompts,
-    };
-  },
   modifyPrompt: (
-    state: PromptStoreInterface,
+    store: PromptStoreInterface,
     promptPayload: ModifyPromptPayload
   ) => {
+    const state = reset(store);
     const modifiedPromptDataArray = state.prompts.map((p) => {
       if (p.id === promptPayload.current.id) {
         return promptPayload.new;
@@ -25,7 +26,8 @@ const promptAdapter = createAdapter<PromptStoreInterface>()({
       immutablePrompts: state.immutablePrompts,
     };
   },
-  filterByPrompt: (state: PromptStoreInterface, prompt: PromptData) => {
+  filterByPrompt: (store: PromptStoreInterface, prompt: PromptData) => {
+    const state = reset(store);
     const filteredPromptDataArray = state.prompts.filter(
       (p) => p.id !== prompt.id
     );
@@ -34,30 +36,31 @@ const promptAdapter = createAdapter<PromptStoreInterface>()({
       immutablePrompts: state.immutablePrompts,
     };
   },
-  filterPromptsByTag: (state: PromptStoreInterface, tag: string) => {
+  filterPromptsByTag: (store: PromptStoreInterface, tag: string) => {
+    const state = reset(store);
+
     const filteredPromptDataArray = state.prompts.filter((p) => {
       return p.tags.includes(tag);
     });
+
+    if (tag === "all tags") return reset(store);
     return {
       prompts: filteredPromptDataArray,
       immutablePrompts: state.immutablePrompts,
     };
   },
-  reset: (state: PromptStoreInterface) => {
-    return {
-      prompts: state.immutablePrompts,
-      immutablePrompts: state.immutablePrompts,
-    };
-  },
+
+  reset,
+
   selectors: {
     viewFirstPrompt: (state: PromptStoreInterface) => {
       return state.prompts[0];
     },
     getAllTags: (state: PromptStoreInterface) => {
-      let tags: string[] = [];
+      let tags: string[] = ["all tags"];
       state.immutablePrompts.forEach((prompt) => {
         prompt.tags.forEach((tag) => {
-          tags.push(tag);
+          if (tags.find((t) => t === tag) === undefined) tags.push(tag);
         });
       });
       return tags;

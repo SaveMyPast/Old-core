@@ -15,7 +15,6 @@ const AdminListView = () => {
   const prompts = useStore(promptStore);
 
   const handleClick = (tag: string) => {
-    promptStore.reset();
     promptStore.filterPromptsByTag(tag);
   };
 
