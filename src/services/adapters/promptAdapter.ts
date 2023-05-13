@@ -54,7 +54,7 @@ const promptAdapter = createAdapter<PromptStoreInterface>()({
 
   selectors: {
     viewFirstPrompt: (state: PromptStoreInterface) => {
-      return state.prompts[0];
+      return state.immutablePrompts[0];
     },
     getAllTags: (state: PromptStoreInterface) => {
       let tags: string[] = ["all tags"];
@@ -66,7 +66,7 @@ const promptAdapter = createAdapter<PromptStoreInterface>()({
       return tags;
     },
     allPrompts: (state: PromptStoreInterface) => {
-      return state.prompts;
+      return state.immutablePrompts;
     },
   },
 });
