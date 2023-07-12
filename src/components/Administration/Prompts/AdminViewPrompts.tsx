@@ -11,7 +11,7 @@ const AdminViewPrompts = () => {
     <>
       <List>
         {prompts.allPrompts.map((prompt, key) => (
-          <PromptView {...prompt} key={key} />
+          <PromptView prompt={prompt} key={key} />
         ))}
       </List>
     </>
