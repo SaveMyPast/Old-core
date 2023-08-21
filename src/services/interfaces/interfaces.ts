@@ -34,7 +34,8 @@ export interface LoginCredential {
  * @param {string} year - year prompt was created `YYYY`
  * @param {string} location - prompt location `United States`
  * @param {string[]} tags - prompt category `Family`
- *
+ * @param {boolean} activePrompt - currently viewed prompt; `false`
+ * @param {boolean} viewedPrompt - prompt has been viewed; `false`
  */
 export interface PromptData {
   id: string;
@@ -44,6 +45,8 @@ export interface PromptData {
   year: string;
   location: string;
   tags: string[];
+  activePrompt?: boolean;
+  viewedPrompt?: boolean;
 }
 
 /**
@@ -88,7 +91,6 @@ export interface UserInformation {
 /**
  * @interface FirebasePromptData
  *
- * @param {string} id - prompt id `firebase.firestore.doc.id`
  * @param {number} age - prompt age `0-100`
  * @param {string} prompt - prompt text `What is your favorite color?`
  * @param {string} userResponse - user response to prompt `Blue`

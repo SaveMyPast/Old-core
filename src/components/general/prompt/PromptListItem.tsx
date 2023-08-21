@@ -1,8 +1,8 @@
 import * as React from "react";
 import { IconButton, ListItem, ListItemText } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { SelectablePromptData } from "../../../services/interfaces/interfaces";
-import { userResponseStore } from "../../../services/stores/userResponseStore";
+import { PromptData } from "../../../services/interfaces/interfaces";
+import { promptStore } from "../../../services/stores/promptStore";
 
 const shortenString = (string: string) => {
   const colWidth = window.innerWidth / 12;
@@ -12,11 +12,7 @@ const shortenString = (string: string) => {
     : string;
 };
 
-export const TimelineListItem = ({
-  prompt,
-}: {
-  prompt: SelectablePromptData;
-}) => {
+export const PromptListItem = ({ prompt }: { prompt: PromptData }) => {
   const [promptShortened, setPromptShortened] = React.useState<string>(
     shortenString(prompt.prompt)
   );
@@ -35,7 +31,7 @@ export const TimelineListItem = ({
         <ListItemText secondary={promptShortened}></ListItemText>
         <IconButton
           onClick={() => {
-            userResponseStore.selectResponse(prompt);
+            promptStore.setActivePrompt(prompt);
           }}
         >
           <ChevronRightIcon />
@@ -45,4 +41,4 @@ export const TimelineListItem = ({
   );
 };
 
-export default TimelineListItem;
+export default PromptListItem;

@@ -11,7 +11,7 @@ export const SwapPrompt = () => {
       <IconButton
         color="primary"
         sx={{ display: "flex", flexDirection: "column" }}
-        onClick={() => promptStore.filterByPrompt(prompts.viewFirstPrompt)}
+        onClick={() => promptStore.setActivePrompt(prompts.nextUnviewedPrompt)}
       >
         <RefreshIcon fontSize="medium" />
         <Typography variant="caption">Swap</Typography>
