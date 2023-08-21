@@ -12,7 +12,7 @@ import AddTags from "../../Prompt/AddTags";
 import ShowTags from "../../Prompt/ShowTags";
 import AdminViewPrompts from "./AdminViewPrompts";
 import SaveIcon from "@mui/icons-material/Save";
-import { PromptData } from "../../../services/interfaces/interfaces";
+import { AddPromptData } from "../../../services/interfaces/interfaces";
 import { emptyPromptData } from "../../../services/stores/promptStore";
 import useAdminAddPrompt from "../../../services/customHooks/useAdminAddPrompt";
 
@@ -37,7 +37,7 @@ const AdminAddPrompt = () => {
     tagsValid: false,
   });
 
-  const [form, formStore] = useAdapt<PromptData>(
+  const [form, formStore] = useAdapt<AddPromptData>(
     "admin.addPrompt.form",
     emptyPromptData
   );

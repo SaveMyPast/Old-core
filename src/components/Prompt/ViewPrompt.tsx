@@ -1,27 +1,22 @@
 import * as React from "react";
 import { CircularProgress, Container, Paper, Typography } from "@mui/material";
-import { PromptData } from "../../services/interfaces/interfaces";
+import { useStore } from "@state-adapt/react";
+import { promptStore } from "../../services/stores/promptStore";
 
-const ViewPrompt = ({ prompt }: { prompt: PromptData | null }) => {
-  if (prompt === null) {
-    return (
-      <>
-        <Container>
-          <Typography variant="h6" textAlign={"left"}>
-            No prompts available
-          </Typography>
-        </Container>
-      </>
-    );
-  }
+const ViewPrompt = () => {
+  const store = useStore(promptStore);
 
-  if (prompt) {
+  React.useEffect(() => {
+    promptStore.toggleViewedPrompt(store.viewActivePrompt);
+  }, [store.viewActivePrompt]);
+
+  if (store.viewActivePrompt) {
     return (
       <>
         <Paper elevation={0}>
           <Container sx={{ padding: "12px" }}>
             <Typography variant="h6" textAlign={"left"}>
-              {prompt.prompt}
+              {store.viewActivePrompt.prompt}
             </Typography>
           </Container>
         </Paper>

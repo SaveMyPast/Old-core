@@ -10,8 +10,14 @@ const prompts$: Observable<PromptStoreInterface> = new Observable(
       collection(firestore, "prompts"),
       (snapshot) => {
         const prompts: PromptData[] = snapshot.docs.map((doc) => {
-          return { id: doc.id, ...(doc.data() as FirebasePromptData) };
+          return {
+            id: doc.id,
+            ...(doc.data() as FirebasePromptData),
+            activePrompt: false,
+            viewedPrompt: false,
+          };
         });
+
         subscriber.next({ prompts: prompts, immutablePrompts: prompts });
       }
     );

@@ -12,8 +12,9 @@ import useSubmitPromptResponse from "../../services/customHooks/useSubmitPromptR
 import AddTags from "../Prompt/AddTags";
 import SwapPrompt from "./SwapPrompt";
 import ModifyPrompt from "./ModifyPrompt";
-import { useAdapt } from "@state-adapt/react";
+import { useAdapt, useStore } from "@state-adapt/react";
 import ShowTags from "./ShowTags";
+import { promptStore } from "../../services/stores/promptStore";
 
 const promptActions = {
   display: "flex",
@@ -22,17 +23,23 @@ const promptActions = {
   gap: "1rem",
 };
 
-const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
+const WritePrompt = () => {
+  const store = useStore(promptStore);
+
   const [formData, formDataStore] = useAdapt<PromptData>(
     "promptResponse.formData",
-
-    prompt
+    store.viewActivePrompt
   );
 
-  const [tags, tagsStore] = useAdapt<string[]>(
-    "promptResponse.tags",
-    prompt.tags
-  );
+  const handleDeleteTag = (tag: string) => {
+    const payload = {
+      tag: tag,
+      prompt: store.viewActivePrompt,
+    };
+
+    promptStore.deleteActivePromptTag(payload);
+  };
+
   const [formValid, setFormValid] = React.useState<boolean>(false);
   const [submitPromptResponse, , failSend, sending] = useSubmitPromptResponse();
 
@@ -63,10 +70,13 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
       return;
     }
     if (formData.state.id.length < 1) {
-      formDataStore.set({ ...formData.state, id: prompt.id });
+      formDataStore.set({ ...formData.state, id: store.viewActivePrompt.id });
     }
     if (formData.state.prompt.length < 1) {
-      formDataStore.set({ ...formData.state, prompt: prompt.prompt });
+      formDataStore.set({
+        ...formData.state,
+        prompt: store.viewActivePrompt.prompt,
+      });
     }
 
     setFormValid(true);
@@ -74,17 +84,10 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
 
   const savePrompt = async () => {
     if (formValid) {
-      console.log(formData);
       submitPromptResponse(formData.state);
     } else {
       console.log("form not valid");
     }
-  };
-
-  const handleDeleteTag = (tag: string) => {
-    const newTags = tags.state.filter((t) => t !== tag);
-    tagsStore.set(newTags);
-    formDataStore.set({ ...formData.state, tags: newTags });
   };
 
   if (sending) {
@@ -104,11 +107,11 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
     <>
       <Container sx={{ display: "flex", flexDirection: "column" }}>
         <Container sx={promptActions}>
-          <ShowTags tags={tags.state} />
+          <ShowTags tags={store.viewActivePrompt.tags} />
 
           <SwapPrompt />
           <ModifyPrompt
-            prompt={prompt}
+            prompt={store.viewActivePrompt}
             formData={formData.state}
             setFormData={(formData: PromptData) => {
               formDataStore.set(formData);
@@ -183,13 +186,17 @@ const WritePrompt = ({ prompt }: { prompt: PromptData }) => {
           />
 
           <AddTags
-            tags={tags.state}
+            tags={store.viewActivePrompt.tags}
             deleteTag={(tag) => {
               handleDeleteTag(tag);
             }}
-            addTags={(tag: string[]) => {
-              tagsStore.set(tag);
-              formDataStore.set({ ...formData.state, tags: tag });
+            addTags={(tags: string[]) => {
+              const payload = {
+                tags: tags,
+                prompt: store.viewActivePrompt,
+              };
+              promptStore.addActivePromptTags(payload);
+              formDataStore.set({ ...formData.state, tags: tags });
               validateForm();
             }}
           />
