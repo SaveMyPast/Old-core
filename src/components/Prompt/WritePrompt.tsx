@@ -154,6 +154,7 @@ const WritePrompt = () => {
               validateForm();
             }}
             type="date"
+            defaultValue={formData.state.year}
           />
           <TextField
             variant="outlined"
