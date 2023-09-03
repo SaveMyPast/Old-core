@@ -9,10 +9,16 @@ import PromptMetaData from "./PromptMetaData";
 export const PromptView = ({ prompt }: { prompt: PromptData }) => {
   return (
     <>
-      <Stack spacing={2}>
-        <Typography variant="h5">{prompt.prompt}</Typography>
+      <Stack spacing={2} className="w-full">
+        <Typography textAlign={"center"} variant="h5">
+          {prompt.prompt}
+        </Typography>
         <PromptMetaData prompt={prompt} />
-        {prompt.userResponse && <Typography>{prompt.userResponse}</Typography>}
+        {prompt.userResponse && (
+          <Typography justifyContent={"center"}>
+            {prompt.userResponse}
+          </Typography>
+        )}
 
         <Divider />
       </Stack>

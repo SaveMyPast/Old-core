@@ -1,3 +1,4 @@
+import { promptFormStore } from "./../../components/Prompt/PromptFormStore/PromptFormStore";
 import { PromptStoreInterface } from "./../interfaces/PromptStoreInterface";
 import { ModifyPromptPayload, PromptData } from "./../interfaces/interfaces";
 import { createAdapter } from "@state-adapt/core";
@@ -93,37 +94,56 @@ const promptAdapter = createAdapter<PromptStoreInterface>()({
   setActivePrompt: (store: PromptStoreInterface, prompt: PromptData) => {
     const activePromptArray = store.prompts.map((p) => {
       if (p.id === prompt.id) {
-        return { ...p, activePrompt: true };
+        return { ...p, activePrompt: true, viewedPrompt: true };
       }
       return { ...p, activePrompt: false };
     });
+
+    const setFormPrompt = () => {
+      promptFormStore.syncPrompt({ prompt: prompt.prompt, id: prompt.id });
+    };
+    setFormPrompt();
 
     return {
       prompts: activePromptArray,
       immutablePrompts: store.immutablePrompts,
     };
   },
-  toggleViewedPrompt: (store: PromptStoreInterface, prompt: PromptData) => {
-    const viewedPromptArray = store.prompts.map((p) => {
-      if (p.id === prompt.id) {
-        return { ...p, viewedPrompt: true };
+
+  resetActiveTags: (state: PromptStoreInterface) => {
+    const activePrompt = state.prompts.find((p) => p.activePrompt);
+    const originalPrompt = state.immutablePrompts.find(
+      (p) => p.id === activePrompt?.id
+    );
+
+    if (activePrompt === undefined || originalPrompt === undefined) {
+      return {
+        prompts: state.prompts,
+        immutablePrompts: state.immutablePrompts,
+      };
+    }
+
+    const newState: PromptData[] = state.prompts.map((p) => {
+      if (p.id === activePrompt?.id) {
+        return { ...p, tags: originalPrompt?.tags };
       }
-      return { ...p };
+      return p;
     });
+
     return {
-      prompts: viewedPromptArray,
-      immutablePrompts: store.immutablePrompts,
+      prompts: newState,
+      immutablePrompts: state.immutablePrompts,
     };
   },
 
   reset,
 
   selectors: {
-    viewFirstPrompt: (state: PromptStoreInterface) => {
+    firstPrompt: (state: PromptStoreInterface) => {
       return state.prompts[0];
     },
 
-    viewActivePrompt: (state: PromptStoreInterface) => {
+    activePrompt: (state: PromptStoreInterface) => {
       const activePrompt = state.prompts.find((p) => p.activePrompt);
 
       return activePrompt?.activePrompt ? activePrompt : state.prompts[0];

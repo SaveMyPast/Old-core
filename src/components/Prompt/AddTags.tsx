@@ -13,10 +13,12 @@ export default function AddTags({
   tags,
   addTags,
   deleteTag,
+  resetTags,
 }: {
   tags: string[];
   addTags: (tags: string[]) => void;
   deleteTag: (tag: string) => void;
+  resetTags: () => void;
 }) {
   const [open, setOpen] = React.useState(false);
   const [tagField, setTagField] = React.useState<string>("");
@@ -52,6 +54,10 @@ export default function AddTags({
     "sad",
     "love",
   ];
+
+  const handleResetTags = () => {
+    resetTags();
+  };
 
   return (
     <>
@@ -130,6 +136,7 @@ export default function AddTags({
           />
         </DialogContent>
         <DialogActions>
+          <Button onClick={handleResetTags}>Reset Tags</Button>
           <Button
             onClick={() => {
               handleTagAdd(tagField);
