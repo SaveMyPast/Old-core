@@ -6,17 +6,13 @@ import { promptStore } from "../../services/stores/promptStore";
 const ViewPrompt = () => {
   const store = useStore(promptStore);
 
-  React.useEffect(() => {
-    promptStore.toggleViewedPrompt(store.viewActivePrompt);
-  }, [store.viewActivePrompt]);
-
-  if (store.viewActivePrompt) {
+  if (store.activePrompt) {
     return (
       <>
         <Paper elevation={0}>
           <Container sx={{ padding: "12px" }}>
             <Typography variant="h6" textAlign={"left"}>
-              {store.viewActivePrompt.prompt}
+              {store.activePrompt.prompt}
             </Typography>
           </Container>
         </Paper>
@@ -32,4 +28,5 @@ const ViewPrompt = () => {
     </>
   );
 };
+
 export default ViewPrompt;

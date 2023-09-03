@@ -1,217 +1,80 @@
 import * as React from "react";
-import {
-  CircularProgress,
-  IconButton,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { Container } from "@mui/system";
-import { PromptData } from "../../services/interfaces/interfaces";
+import { CircularProgress, IconButton, Typography } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import useSubmitPromptResponse from "../../services/customHooks/useSubmitPromptResponse";
-import AddTags from "../Prompt/AddTags";
 import SwapPrompt from "./SwapPrompt";
 import ModifyPrompt from "./ModifyPrompt";
-import { useAdapt, useStore } from "@state-adapt/react";
 import ShowTags from "./ShowTags";
-import { promptStore } from "../../services/stores/promptStore";
-
-const promptActions = {
-  display: "flex",
-  justifyContent: "end",
-  alignItems: "center",
-  gap: "1rem",
-};
+import { promptFormStore } from "./PromptFormStore/PromptFormStore";
+import YearField from "./TextFields/YearField";
+import AgeField from "./TextFields/AgeField";
+import LocationField from "./TextFields/LocationField";
+import PromptField from "./TextFields/PromptField";
+import JoinedStores from "./PromptFormStore/JoinedPromptsAndFormStore";
+import TagsField from "./TextFields/TagsField";
+import { useStore } from "@state-adapt/react";
+import { PromptData } from "../../services/interfaces/interfaces";
 
 const WritePrompt = () => {
-  const store = useStore(promptStore);
+  const store = useStore(JoinedStores);
 
-  const [formData, formDataStore] = useAdapt<PromptData>(
-    "promptResponse.formData",
-    store.viewActivePrompt
-  );
-
-  const handleDeleteTag = (tag: string) => {
-    const payload = {
-      tag: tag,
-      prompt: store.viewActivePrompt,
-    };
-
-    promptStore.deleteActivePromptTag(payload);
-  };
-
-  const [formValid, setFormValid] = React.useState<boolean>(false);
-  const [submitPromptResponse, , failSend, sending] = useSubmitPromptResponse();
-
-  const validateForm = () => {
-    if (formData.state.userResponse.length < 1) {
-      console.log("no response");
-      setFormValid(false);
-      return;
-    }
-    if (formData.state.age === 0) {
-      console.log("no age");
-      setFormValid(false);
-      return;
-    }
-    if (formData.state.location.length < 1) {
-      console.log("no location");
-      setFormValid(false);
-      return;
-    }
-    if (formData.state.year.length < 1) {
-      console.log("no year");
-      setFormValid(false);
-      return;
-    }
-    if (formData.state.tags.length < 1) {
-      console.log("no tags");
-      setFormValid(false);
-      return;
-    }
-    if (formData.state.id.length < 1) {
-      formDataStore.set({ ...formData.state, id: store.viewActivePrompt.id });
-    }
-    if (formData.state.prompt.length < 1) {
-      formDataStore.set({
-        ...formData.state,
-        prompt: store.viewActivePrompt.prompt,
-      });
-    }
-
-    setFormValid(true);
-  };
+  const [submitPromptResponse, , failPromptSend, promptSending] =
+    useSubmitPromptResponse();
 
   const savePrompt = async () => {
-    if (formValid) {
-      submitPromptResponse(formData.state);
-    } else {
-      console.log("form not valid");
+    promptFormStore.checkValidity();
+    if (store.formValidity) {
+      const promptResponseData: PromptData = {
+        prompt: store.form.prompt.prompt,
+        id: store.form.promptId.promptId,
+        year: store.form.year.year,
+        age: store.form.age.age,
+        location: store.form.location.location,
+        tags: store.form.tags.tags,
+        userResponse: store.form.userResponse.response,
+      };
+      await submitPromptResponse(promptResponseData);
     }
   };
 
-  if (sending) {
+  if (promptSending) {
     return <CircularProgress />;
   }
 
-  if (failSend) {
+  if (failPromptSend) {
     return (
       <>
-        <Typography variant="h4">Failed to send, try again later</Typography>
-        <Typography color={"warning"}>{failSend}</Typography>
+        <Typography variant="h4">
+          There was an error saving the prompt
+        </Typography>
+        <Typography color={"warning"}>{failPromptSend}</Typography>
       </>
     );
   }
 
   return (
     <>
-      <Container sx={{ display: "flex", flexDirection: "column" }}>
-        <Container sx={promptActions}>
-          <ShowTags tags={store.viewActivePrompt.tags} />
+      <section className="flex flex-col">
+        <section className="flex flex-row justify-end items-center gap-4">
+          <ShowTags tags={store.promptsActivePrompt.tags} />
 
           <SwapPrompt />
-          <ModifyPrompt
-            prompt={store.viewActivePrompt}
-            formData={formData.state}
-            setFormData={(formData: PromptData) => {
-              formDataStore.set(formData);
-              validateForm();
-            }}
-          />
-        </Container>
-        <TextField
-          id="outlined-multiline-static"
-          label="Write your experience here."
-          placeholder="Around this time of my life..."
-          multiline
-          fullWidth
-          rows={10}
-          onChange={(e) => {
-            formDataStore.set({
-              ...formData.state,
-              userResponse: e.target.value,
-            });
-            validateForm();
-          }}
-        />
-        <Container
-          sx={{
-            marginTop: "1rem",
-            display: "flex",
-            gap: "1rem",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <TextField
-            variant="outlined"
-            size="small"
-            InputLabelProps={{ shrink: true }}
-            label="Year"
-            onChange={(e) => {
-              formDataStore.set({ ...formData.state, year: e.target.value });
-              validateForm();
-            }}
-            type="date"
-          />
-          <TextField
-            variant="outlined"
-            size="small"
-            type={"number"}
-            onChange={(e) => {
-              formDataStore.set({
-                ...formData.state,
-                age: parseInt(e.target.value),
-              });
-              validateForm();
-            }}
-            InputLabelProps={{ shrink: true }}
-            label="Your Age"
-            placeholder="Your age at the time"
-          />
-          <TextField
-            variant="outlined"
-            size="small"
-            onChange={(e) => {
-              formDataStore.set({
-                ...formData.state,
-                location: e.target.value,
-              });
-              validateForm();
-            }}
-            label="Location"
-            InputLabelProps={{ shrink: true }}
-            placeholder="Where this took place"
-          />
-
-          <AddTags
-            tags={store.viewActivePrompt.tags}
-            deleteTag={(tag) => {
-              handleDeleteTag(tag);
-            }}
-            addTags={(tags: string[]) => {
-              const payload = {
-                tags: tags,
-                prompt: store.viewActivePrompt,
-              };
-              promptStore.addActivePromptTags(payload);
-              formDataStore.set({ ...formData.state, tags: tags });
-              validateForm();
-            }}
-          />
-
-          <IconButton
-            onClick={savePrompt}
-            sx={{ display: "flex", flexDirection: "column" }}
-          >
+          <ModifyPrompt />
+        </section>
+        <PromptField />
+        <section className="mt-4 flex flex-wrap justify-between gap-2 md:flex-nowrap">
+          <YearField />
+          <AgeField />
+          <LocationField />
+          <TagsField />
+          <IconButton onClick={savePrompt} className="flex flex-col">
             <SaveIcon color="primary" fontSize="medium" />
             <Typography color={"primary"} variant="caption">
               Save
             </Typography>
           </IconButton>
-        </Container>
-      </Container>
+        </section>
+      </section>
     </>
   );
 };

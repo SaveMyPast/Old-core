@@ -8,25 +8,18 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { IconButton, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import {
-  ModifyPromptPayload,
-  PromptData,
-} from "../../services/interfaces/interfaces";
+import { ModifyPromptPayload } from "../../services/interfaces/interfaces";
 import { promptStore } from "../../services/stores/promptStore";
+import { useStore } from "@state-adapt/react";
+import { promptFormStore } from "./PromptFormStore/PromptFormStore";
 
-export const ModifyPrompt = ({
-  prompt,
-  formData,
-  setFormData,
-}: {
-  prompt: PromptData;
-  formData: PromptData;
-  setFormData: (formData: PromptData) => void;
-}) => {
+export const ModifyPrompt = () => {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const prompt = useStore(promptStore);
+  const form = useStore(promptFormStore);
 
   const handleClose = () => {
     setOpen(false);
@@ -34,9 +27,10 @@ export const ModifyPrompt = ({
 
   const handleModifyPrompt = (newPrompt: string) => {
     const payload: ModifyPromptPayload = {
-      current: { ...prompt },
-      new: { ...prompt, prompt: newPrompt },
+      current: prompt.activePrompt,
+      new: { ...prompt.activePrompt, prompt: newPrompt },
     };
+
     promptStore.modifyPrompt(payload);
   };
 
@@ -56,7 +50,7 @@ export const ModifyPrompt = ({
         <DialogContent>
           <DialogContentText>
             Modify the prompt below or create a custom prompt. This will replace
-            the current prompt and you will not be presented this prompt again.
+            the current prompt as though it were the original.
           </DialogContentText>
 
           <TextField
@@ -69,9 +63,10 @@ export const ModifyPrompt = ({
             variant="outlined"
             multiline
             rows={4}
-            defaultValue={prompt.prompt}
+            error={!form.state.prompt.promptValid}
+            helperText={form.state.prompt.promptError}
+            defaultValue={prompt.activePrompt.prompt}
             onChange={(e) => {
-              setFormData({ ...formData, prompt: e.target.value });
               handleModifyPrompt(e.target.value);
             }}
           />
@@ -83,7 +78,7 @@ export const ModifyPrompt = ({
               handleClose();
             }}
           >
-            Save Prompt
+            Close dialogue
           </Button>
         </DialogActions>
       </Dialog>

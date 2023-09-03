@@ -1,7 +1,7 @@
 import { PromptData } from "./../interfaces/interfaces";
 import { auth } from "./../firebase";
 import { useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { firestore } from "../firebase";
 
 const useSubmitPromptResponse = () => {
@@ -22,19 +22,36 @@ const useSubmitPromptResponse = () => {
       if (!auth.currentUser) {
         throw new Error("User not logged in");
       }
-      await setDoc(
+
+      const answered = await getDoc(
         doc(
           firestore,
           "users",
           auth.currentUser.uid,
           "userResponses",
           promptData.id
-        ),
-        promptData,
-        { merge: true }
+        )
       );
-      setSuccess(true);
-      setLoading(false);
+
+      if (answered.exists()) {
+        setSuccess(false);
+        setLoading(false);
+        throw new Error("Prompt already answered");
+      } else {
+        await setDoc(
+          doc(
+            firestore,
+            "users",
+            auth.currentUser.uid,
+            "userResponses",
+            promptData.id
+          ),
+          promptData,
+          { merge: false }
+        );
+        setSuccess(true);
+        setLoading(false);
+      }
     } catch (error: any) {
       setError(error.message);
       setLoading(false);

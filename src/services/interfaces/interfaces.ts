@@ -36,6 +36,7 @@ export interface LoginCredential {
  * @param {string[]} tags - prompt category `Family`
  * @param {boolean} activePrompt - currently viewed prompt; `false`
  * @param {boolean} viewedPrompt - prompt has been viewed; `false`
+ * @param {boolean} selected - prompt selected status `true` or `false`
  */
 export interface PromptData {
   id: string;
@@ -47,6 +48,7 @@ export interface PromptData {
   tags: string[];
   activePrompt?: boolean;
   viewedPrompt?: boolean;
+  selected?: boolean;
 }
 
 /**
