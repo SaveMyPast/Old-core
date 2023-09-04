@@ -22,37 +22,37 @@ export const Selected = () => {
     <>
       <Stack spacing={2}>
         <Typography variant="h5">
-          {userResponses.viewSelectedResponse?.prompt}
+          {userResponses.selectedResponse?.prompt}
         </Typography>
 
         <Stack direction="row" alignItems={"center"} spacing={2}>
           <Stack direction={"row"} spacing={1} alignItems={"center"}>
             <DateRangeIcon />
             <Typography variant="caption">
-              {userResponses.viewSelectedResponse?.year}
+              {userResponses.selectedResponse?.year}
             </Typography>
             <Typography variant="caption">
-              Age {userResponses.viewSelectedResponse?.age}
+              Age {userResponses.selectedResponse?.age}
             </Typography>
           </Stack>
           <Divider orientation="vertical" flexItem />
           <Stack direction={"row"} spacing={1} alignItems={"center"}>
             <LocationIcon />
             <Typography variant="caption">
-              {userResponses.viewSelectedResponse?.location}
+              {userResponses.selectedResponse?.location}
             </Typography>
           </Stack>
           <Divider orientation="vertical" flexItem />
           <Stack direction={"row"} spacing={1}>
             <Bookmarks />
-            {userResponses.viewSelectedResponse?.tags.map((tag) => (
+            {userResponses.selectedResponse?.tags.map((tag) => (
               <Chip variant="outlined" key={tag} label={tag} size="small" />
             ))}
           </Stack>
         </Stack>
 
         <Typography variant="body1">
-          {userResponses.viewSelectedResponse?.userResponse}
+          {userResponses.selectedResponse?.userResponse}
         </Typography>
       </Stack>
     </>

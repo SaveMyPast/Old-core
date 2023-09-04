@@ -41,7 +41,6 @@ export default function AddTags({
     if (tag.includes(",")) {
       tag = tag.replace(",", "");
     }
-
     addTags([...tags, tag]);
   };
 
@@ -123,6 +122,7 @@ export default function AddTags({
             onKeyUp={(e) => {
               if (e.key === "Enter") {
                 handleTagAdd(tagField);
+
                 setTagField("");
               }
               if (e.key === "Escape") {

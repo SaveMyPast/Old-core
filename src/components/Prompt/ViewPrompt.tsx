@@ -2,6 +2,8 @@ import * as React from "react";
 import { CircularProgress, Container, Paper, Typography } from "@mui/material";
 import { useStore } from "@state-adapt/react";
 import { promptStore } from "../../services/stores/promptStore";
+import { analytics } from "../../services/firebase";
+import { logEvent } from "firebase/analytics";
 
 const ViewPrompt = () => {
   const store = useStore(promptStore);

@@ -17,6 +17,8 @@ import {
 import { auth } from "../../../services/firebase";
 import Logout from "./Logout";
 import { LoginCredential } from "../../../services/interfaces/interfaces";
+import { analytics } from "../../../services/firebase";
+import { logEvent } from "firebase/analytics";
 
 export const Login = () => {
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
@@ -25,6 +27,7 @@ export const Login = () => {
 
   const handleLogin = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    logEvent(analytics, "login_attempt", { user: user?.uid });
     signInWithEmailAndPassword(loginObject.email, loginObject.password);
   };
 
