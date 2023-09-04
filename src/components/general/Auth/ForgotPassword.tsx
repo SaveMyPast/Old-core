@@ -3,6 +3,8 @@ import { Button, Grid, TextField, Typography } from "@mui/material";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { auth } from "../../../services/firebase";
 import { useState } from "react";
+import { analytics } from "../../../services/firebase";
+import { logEvent } from "firebase/analytics";
 
 const ForgotPassword = () => {
   const [sendPasswordResetEmail, sending, error] =
@@ -13,6 +15,8 @@ const ForgotPassword = () => {
   const handleReset = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     sendPasswordResetEmail(resetEmail);
+    logEvent(analytics, "password_reset_attempt", { email: resetEmail });
+
     if (!error) {
       setEmailSent(true);
     }

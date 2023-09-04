@@ -3,6 +3,8 @@ import AddTags from "../AddTags";
 import { promptStore } from "../../../services/stores/promptStore";
 import { promptFormStore } from "../PromptFormStore/PromptFormStore";
 import { useStore } from "@state-adapt/react";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../../../services/firebase";
 
 const TagsField = () => {
   const prompts = useStore(promptStore);
@@ -13,6 +15,13 @@ const TagsField = () => {
       tag: tag,
       prompt: prompts.activePrompt,
     };
+
+    logEvent(analytics, "delete_tag", {
+      tag: tag,
+      prompt: prompts.activePrompt.prompt,
+      id: prompts.activePrompt.id,
+    });
+
     promptStore.deleteActivePromptTag(payload);
   };
 
@@ -22,11 +31,21 @@ const TagsField = () => {
       prompt: prompts.activePrompt,
     };
 
+    logEvent(analytics, "add_tags", {
+      tags: tags,
+      prompt: prompts.activePrompt.prompt,
+      id: prompts.activePrompt.id,
+    });
+
     promptStore.addActivePromptTags(payload);
     promptFormStore.update;
   };
 
   const handleResetTags = () => {
+    logEvent(analytics, "reset_tags", {
+      prompt: prompts.activePrompt.prompt,
+      id: prompts.activePrompt.id,
+    });
     promptStore.resetActiveTags();
   };
 

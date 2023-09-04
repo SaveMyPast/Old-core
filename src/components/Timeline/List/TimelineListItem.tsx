@@ -3,6 +3,8 @@ import { IconButton, ListItem, ListItemText } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { SelectablePromptData } from "../../../services/interfaces/interfaces";
 import { userResponseStore } from "../../../services/stores/userResponseStore";
+import { analytics } from "../../../services/firebase";
+import { logEvent } from "firebase/analytics";
 
 const shortenString = (string: string) => {
   const colWidth = window.innerWidth / 12;
@@ -36,6 +38,10 @@ export const TimelineListItem = ({
         <IconButton
           onClick={() => {
             userResponseStore.selectResponse(prompt);
+            logEvent(analytics, "timeline_select_prompt", {
+              prompt: prompt.prompt,
+              id: prompt.id,
+            });
           }}
         >
           <ChevronRightIcon />

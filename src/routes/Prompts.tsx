@@ -4,8 +4,14 @@ import ViewPrompt from "../components/Prompt/ViewPrompt";
 import WritePrompt from "../components/Prompt/WritePrompt";
 import SelectAPrompt from "../components/Prompt/SelectAPrompt";
 import { Container, Grid } from "@mui/material";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../services/firebase";
 
 const Prompts = () => {
+  React.useEffect(() => {
+    logEvent(analytics, "view", { page: "prompts" });
+  }, []);
+
   return (
     <>
       <Container>

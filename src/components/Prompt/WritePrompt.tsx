@@ -14,6 +14,12 @@ import JoinedStores from "./PromptFormStore/JoinedPromptsAndFormStore";
 import TagsField from "./TextFields/TagsField";
 import { useStore } from "@state-adapt/react";
 import { PromptData } from "../../services/interfaces/interfaces";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../../services/firebase";
+
+const calculateWordCount = (input: string) => {
+  return input.split(" ").length;
+};
 
 const WritePrompt = () => {
   const store = useStore(JoinedStores);
@@ -22,17 +28,31 @@ const WritePrompt = () => {
     useSubmitPromptResponse();
 
   const savePrompt = async () => {
+    const promptResponseData: PromptData = {
+      prompt: store.form.prompt.prompt,
+      id: store.form.promptId.promptId,
+      year: store.form.year.year,
+      age: store.form.age.age,
+      location: store.form.location.location,
+      tags: store.form.tags.tags,
+      userResponse: store.form.userResponse.response,
+    };
+
+    logEvent(analytics, "prompt_submit_attempt", {
+      prompt: promptResponseData.prompt,
+      id: promptResponseData.id,
+    });
+
     promptFormStore.checkValidity();
     if (store.formValidity) {
-      const promptResponseData: PromptData = {
-        prompt: store.form.prompt.prompt,
-        id: store.form.promptId.promptId,
-        year: store.form.year.year,
-        age: store.form.age.age,
-        location: store.form.location.location,
-        tags: store.form.tags.tags,
-        userResponse: store.form.userResponse.response,
-      };
+      logEvent(analytics, "prompt_submit_success", {
+        prompt: promptResponseData.prompt,
+        id: promptResponseData.id,
+        age: promptResponseData.age,
+        responseWordCount: calculateWordCount(promptResponseData.userResponse),
+        tags: promptResponseData.tags,
+      });
+
       await submitPromptResponse(promptResponseData);
     }
   };

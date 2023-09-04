@@ -3,6 +3,8 @@ import { useStore } from "@state-adapt/react";
 import * as React from "react";
 import { promptFormStore } from "../PromptFormStore/PromptFormStore";
 import { UserResponseFormObject } from "../../../services/interfaces/PromptFormStoreInterface";
+import { analytics } from "../../../services/firebase";
+import { logEvent } from "firebase/analytics";
 
 const PromptField = () => {
   const form = useStore(promptFormStore);

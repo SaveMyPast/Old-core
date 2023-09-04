@@ -22,7 +22,7 @@ const userResponsesAdapter = createAdapter<PromptData[]>()({
   deselectAllResponses: deselectAllResponses,
 
   selectors: {
-    viewSelectedResponse: (state: PromptData[]) => {
+    selectedResponse: (state: PromptData[]) => {
       const selectedResponse = state.find((p) => p.selected);
       return selectedResponse;
     },

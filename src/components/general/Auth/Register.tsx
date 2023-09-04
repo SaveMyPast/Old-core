@@ -14,6 +14,8 @@ import { auth } from "../../../services/firebase";
 import Logout from "./Logout";
 import { RegistrationCredential } from "../../../services/interfaces/interfaces";
 import { useRegisterNewUser } from "../../../services/customHooks/useRegisterNewUser";
+import { analytics } from "../../../services/firebase";
+import { logEvent } from "firebase/analytics";
 
 const Register = () => {
   const [user, loading] = useAuthState(auth);
@@ -28,6 +30,10 @@ const Register = () => {
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    logEvent(analytics, "register_attempt", {
+      email: registerObject.email,
+      birthdate: registerObject.birthdate,
+    });
     registerNewUser(registerObject);
   };
 

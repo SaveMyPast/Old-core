@@ -2,9 +2,21 @@ import { Grid, Paper, Typography, Button } from "@mui/material";
 import * as React from "react";
 import WelcomeCards from "../components/Welcome/WelcomeCards";
 import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { analytics, auth } from "../services/firebase";
+import { logEvent } from "firebase/analytics";
 
 const Welcome = () => {
   const Navigator = useNavigate();
+  const [user] = useAuthState(auth);
+
+  React.useEffect(() => {
+    if (user) {
+      logEvent(analytics, "visit", { user: user.uid, page: "welcome" });
+      console.log("user");
+    }
+  }, [user]);
+
   return (
     <>
       <Grid container flexDirection={"column"} spacing={3}>

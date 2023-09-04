@@ -28,7 +28,6 @@ const LocationField = () => {
 
     const locationRegex = /^[a-zA-Z ]*$/;
 
-    // TODO: Location verification -- string, not empty, not too long, no special characters.
     if (location.location.length > 0) {
       if (location.location.length > 30) {
         location.locationValid = false;

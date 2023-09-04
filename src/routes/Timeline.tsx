@@ -3,8 +3,14 @@ import Scrollable from "../components/Timeline/Scrollable/Scrollable";
 import Selected from "../components/Timeline/Selected/Selected";
 import TimelineList from "../components/Timeline/List/TimelineList";
 import { Container, Grid, Typography } from "@mui/material";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../services/firebase";
 
 const Timeline = () => {
+  React.useEffect(() => {
+    logEvent(analytics, "view", { page: "timeline" });
+  }, []);
+
   return (
     <>
       <Container>
