@@ -15,13 +15,15 @@ const useSubmitPromptResponse = () => {
 		if (!promptData.id) {
 			setError('No prompt id provided');
 			setLoading(false);
-			return;
+		}
+		if (!auth.currentUser) {
+			setError('User not logged in');
+			setLoading(false);
 		}
 
-		try {
-			if (!auth.currentUser) {
-				throw new Error('User not logged in');
-			}
+		if (auth.currentUser) {
+
+
 
 			const answered = await getDoc(
 				doc(
@@ -36,7 +38,7 @@ const useSubmitPromptResponse = () => {
 			if (answered.exists()) {
 				setSuccess(false);
 				setLoading(false);
-				throw new Error('Prompt already answered');
+				setError('Prompt already answered');
 			} else {
 				await setDoc(
 					doc(
@@ -52,9 +54,6 @@ const useSubmitPromptResponse = () => {
 				setSuccess(true);
 				setLoading(false);
 			}
-		} catch (error: any) {
-			setError(error.message);
-			setLoading(false);
 		}
 	};
 

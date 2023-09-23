@@ -24,8 +24,7 @@ const useGetCurrentUserInformation = () => {
 					}
 				})
 				.catch(error => {
-					console.error('Error getting document:', error);
-					setError(error.message);
+					setError(`Error getting document: ${error.message}`);
 					setLoading(false);
 				});
 		} else {

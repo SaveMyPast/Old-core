@@ -15,7 +15,7 @@ export const useRegisterNewUser = () => {
 		registrationInfo: RegistrationCredential
 	) => {
 		if (!user) {
-			console.error('No user found when creating DB entry');
+			setError('No user found when creating entry');
 			return;
 		} else {
 			await setDoc(doc(firestore, 'users', user.uid), {
@@ -24,7 +24,7 @@ export const useRegisterNewUser = () => {
 				birthdate: registrationInfo.birthdate,
 				isAdmin: false
 			}).catch(err => {
-				console.error(err);
+				setError(err);
 			});
 		}
 	};
@@ -33,20 +33,23 @@ export const useRegisterNewUser = () => {
 		registrationCredential: RegistrationCredential
 	) => {
 		setLoading(true);
-		try {
-			await createUserWithEmailAndPassword(
-				auth,
-				registrationCredential.email,
-				registrationCredential.password
-			).then(userCredential => {
-				setUser(userCredential.user);
-				setLoading(false);
-			});
-			await setUserData(auth.currentUser, registrationCredential);
-		} catch (error: any) {
-			setError(error.message);
+		await createUserWithEmailAndPassword(
+			auth,
+			registrationCredential.email,
+			registrationCredential.password
+		).then(userCredential => {
+			setUser(userCredential.user);
+			setLoading(false);
+		}).catch(err => {
+			setError(err.message);
+			setLoading(false);
+		});
+		await setUserData(auth.currentUser, registrationCredential).catch(err => {
+			setError(err.message);
 			setLoading(false);
 		}
+		);
+		
 	};
 
 	return [registerNewUser, user, error, loading] as const;
