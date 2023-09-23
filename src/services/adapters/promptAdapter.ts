@@ -153,10 +153,11 @@ const promptAdapter = createAdapter<PromptStoreInterface>()({
 			const activePrompt = state.prompts.find(p => p.activePrompt);
 
 			const unviewedPrompt = state.prompts.map((p, i) => {
-				if (activePrompt === undefined) {return state.prompts[0];}
-				if (p.id === activePrompt.id) {
+				if (activePrompt?.id === p.id) {
 					return state.prompts[i + 1];
 				}
+				return state.prompts[0];
+
 			});
 
 			return unviewedPrompt[0] ? unviewedPrompt[0] : state.prompts[0];

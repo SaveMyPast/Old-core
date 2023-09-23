@@ -17,187 +17,221 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../../services/firebase';
 
 function Navigation() {
-	const [user] = useAuthState(auth);
+    const [user] = useAuthState(auth);
 
-	let pages: any[] = [];
-	let settings = [];
+    let pages: string[] = [];
+    let settings = [];
 
-	if (user) {
-		pages = ['Prompts', 'Timeline'];
-		settings = ['Profile', 'Settings', 'Administration', 'Logout'];
-	} else {
-		settings = ['Login', 'Register'];
-	}
+    if (user) {
+        pages = ['Prompts', 'Timeline'];
+        settings = ['Profile', 'Settings', 'Administration', 'Logout'];
+    } else {
+        settings = ['Login', 'Register'];
+    }
 
-	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-		null
-	);
-	const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-		null
-	);
+    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
+        null
+    );
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+        null
+    );
 
-	const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorElNav(event.currentTarget);
-	};
-	const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorElUser(event.currentTarget);
-	};
+    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElUser(event.currentTarget);
+    };
 
-	const handleCloseNavMenu = () => {
-		setAnchorElNav(null);
-	};
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
 
-	const handleCloseUserMenu = () => {
-		setAnchorElUser(null);
-	};
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
 
-	return (
-		<AppBar position="fixed">
-			<Container maxWidth="xl">
-				<Toolbar disableGutters>
-					<Link underline={'none'} color="white" component={RouterLink} to="/">
-						<Typography
-							variant="h4"
-							noWrap
-							sx={{
-								mr: 2,
-								display: { xs: 'none', md: 'flex' },
-								fontFamily: 'roboto',
-								fontWeight: 100,
-								color: 'inherit',
-								textDecoration: 'none'
-							}}
-						>
-              SaveMyPast.com
-						</Typography>
-					</Link>
+    return (
+        <AppBar position="fixed">
+            <Container maxWidth="xl">
+                <Toolbar disableGutters>
+                    <Link
+                        underline={'none'}
+                        color="white"
+                        component={RouterLink}
+                        to="/"
+                    >
+                        <Typography
+                            variant="h4"
+                            noWrap
+                            sx={{
+                                mr: 2,
+                                display: { xs: 'none', md: 'flex' },
+                                fontFamily: 'roboto',
+                                fontWeight: 100,
+                                color: 'inherit',
+                                textDecoration: 'none',
+                            }}
+                        >
+                            SaveMyPast.com
+                        </Typography>
+                    </Link>
 
-					<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-						<IconButton
-							size="large"
-							aria-label="account of current user"
-							aria-controls="menu-appbar"
-							aria-haspopup="true"
-							onClick={handleOpenNavMenu}
-							color="inherit"
-						>
-							<MenuIcon />
-						</IconButton>
-						<Menu
-							id="menu-appbar"
-							anchorEl={anchorElNav}
-							anchorOrigin={{
-								vertical: 'bottom',
-								horizontal: 'left'
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'left'
-							}}
-							open={Boolean(anchorElNav)}
-							onClose={handleCloseNavMenu}
-							sx={{
-								display: { xs: 'block', md: 'none' }
-							}}
-						>
-							{pages.map(page => (
-								<Link
-									underline={'none'}
-									color="black"
-									component={RouterLink}
-									to={`${page}`}
-									key={page}
-								>
-									<MenuItem key={page} onClick={handleCloseNavMenu}>
-										<Typography textAlign="center">{page}</Typography>
-									</MenuItem>
-								</Link>
-							))}
-						</Menu>
-					</Box>
-					<Typography
-						variant="h5"
-						noWrap
-						sx={{
-							mr: 2,
-							display: { xs: 'flex', md: 'none' },
-							flexGrow: 1,
-							fontFamily: 'roboto',
-							fontWeight: 100,
-							color: 'inherit',
-							textDecoration: 'none'
-						}}
-					>
-						<Link
-							underline={'none'}
-							color="white"
-							component={RouterLink}
-							to="/"
-						>
-              SaveMyPast.com
-						</Link>
-					</Typography>
-					<Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-						{pages.map(page => (
-							<Link
-								underline={'none'}
-								color="white"
-								component={RouterLink}
-								to={`${page}`}
-								key={page}
-							>
-								<Button
-									key={page}
-									onClick={handleCloseNavMenu}
-									sx={{ my: 2, color: 'white', display: 'block' }}
-								>
-									{page}
-								</Button>
-							</Link>
-						))}
-					</Box>
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                            display: { xs: 'flex', md: 'none' },
+                        }}
+                    >
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
+                            {pages.map(page => (
+                                <Link
+                                    underline={'none'}
+                                    color="black"
+                                    component={RouterLink}
+                                    to={`${page}`}
+                                    key={page}
+                                >
+                                    <MenuItem
+                                        key={page}
+                                        onClick={handleCloseNavMenu}
+                                    >
+                                        <Typography textAlign="center">
+                                            {page}
+                                        </Typography>
+                                    </MenuItem>
+                                </Link>
+                            ))}
+                        </Menu>
+                    </Box>
+                    <Typography
+                        variant="h5"
+                        noWrap
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'flex', md: 'none' },
+                            flexGrow: 1,
+                            fontFamily: 'roboto',
+                            fontWeight: 100,
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        <Link
+                            underline={'none'}
+                            color="white"
+                            component={RouterLink}
+                            to="/"
+                        >
+                            SaveMyPast.com
+                        </Link>
+                    </Typography>
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                            display: { xs: 'none', md: 'flex' },
+                        }}
+                    >
+                        {pages.map(page => (
+                            <Link
+                                underline={'none'}
+                                color="white"
+                                component={RouterLink}
+                                to={`${page}`}
+                                key={page}
+                            >
+                                <Button
+                                    key={page}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{
+                                        my: 2,
+                                        color: 'white',
+                                        display: 'block',
+                                    }}
+                                >
+                                    {page}
+                                </Button>
+                            </Link>
+                        ))}
+                    </Box>
 
-					<Box sx={{ flexGrow: 0 }}>
-						<Tooltip title="Open settings">
-							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<AccountCircleIcon sx={{ fontSize: 30, color: 'white' }} />
-							</IconButton>
-						</Tooltip>
-						<Menu
-							sx={{ mt: '45px' }}
-							id="menu-appbar"
-							anchorEl={anchorElUser}
-							anchorOrigin={{
-								vertical: 'top',
-								horizontal: 'right'
-							}}
-							keepMounted
-							transformOrigin={{
-								vertical: 'top',
-								horizontal: 'right'
-							}}
-							open={Boolean(anchorElUser)}
-							onClose={handleCloseUserMenu}
-						>
-							{settings.map(setting => (
-								<Link
-									underline={'none'}
-									color="black"
-									component={RouterLink}
-									to={`${setting}`}
-									key={setting}
-								>
-									<MenuItem key={setting} onClick={handleCloseUserMenu}>
-										<Typography textAlign="center">{setting}</Typography>
-									</MenuItem>
-								</Link>
-							))}
-						</Menu>
-					</Box>
-				</Toolbar>
-			</Container>
-		</AppBar>
-	);
+                    <Box sx={{ flexGrow: 0 }}>
+                        <Tooltip title="Open settings">
+                            <IconButton
+                                onClick={handleOpenUserMenu}
+                                sx={{ p: 0 }}
+                            >
+                                <AccountCircleIcon
+                                    sx={{ fontSize: 30, color: 'white' }}
+                                />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map(setting => (
+                                <Link
+                                    underline={'none'}
+                                    color="black"
+                                    component={RouterLink}
+                                    to={`${setting}`}
+                                    key={setting}
+                                >
+                                    <MenuItem
+                                        key={setting}
+                                        onClick={handleCloseUserMenu}
+                                    >
+                                        <Typography textAlign="center">
+                                            {setting}
+                                        </Typography>
+                                    </MenuItem>
+                                </Link>
+                            ))}
+                        </Menu>
+                    </Box>
+                </Toolbar>
+            </Container>
+        </AppBar>
+    );
 }
 export default Navigation;

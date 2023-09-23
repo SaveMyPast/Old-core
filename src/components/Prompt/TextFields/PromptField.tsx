@@ -3,56 +3,56 @@ import { useStore } from '@state-adapt/react';
 import * as React from 'react';
 import { promptFormStore } from '../PromptFormStore/PromptFormStore';
 import { UserResponseFormObject } from '../../../services/interfaces/PromptFormStoreInterface';
-import { analytics } from '../../../services/firebase';
-import { logEvent } from 'firebase/analytics';
+// import { analytics } from '../../../services/firebase';
+// import { logEvent } from 'firebase/analytics';
 
 const PromptField = () => {
-	const form = useStore(promptFormStore);
+    const form = useStore(promptFormStore);
 
-	const validateResponse = () => {
-		const response: UserResponseFormObject = {
-			response: form.state.userResponse.response,
-			responseValid: form.state.userResponse.responseValid,
-			responseError: form.state.userResponse.responseError
-		};
+    const validateResponse = () => {
+        const response: UserResponseFormObject = {
+            response: form.state.userResponse.response,
+            responseValid: form.state.userResponse.responseValid,
+            responseError: form.state.userResponse.responseError,
+        };
 
-		if (form.state.userResponse.response.length > 0) {
-			response.responseValid = true;
-			response.responseError = '';
-			promptFormStore.set({ ...form.state, userResponse: response });
-		} else {
-			response.responseValid = false;
-			response.responseError = 'Response is required';
-			promptFormStore.set({ ...form.state, userResponse: response });
-		}
-	};
+        if (form.state.userResponse.response.length > 0) {
+            response.responseValid = true;
+            response.responseError = '';
+            promptFormStore.set({ ...form.state, userResponse: response });
+        } else {
+            response.responseValid = false;
+            response.responseError = 'Response is required';
+            promptFormStore.set({ ...form.state, userResponse: response });
+        }
+    };
 
-	const handleChange = (input: string) => {
-		const response: UserResponseFormObject = {
-			response: input,
-			responseValid: form.state.userResponse.responseValid,
-			responseError: form.state.userResponse.responseError
-		};
+    const handleChange = (input: string) => {
+        const response: UserResponseFormObject = {
+            response: input,
+            responseValid: form.state.userResponse.responseValid,
+            responseError: form.state.userResponse.responseError,
+        };
 
-		promptFormStore.set({ ...form.state, userResponse: response });
-		validateResponse();
-	};
-	return (
-		<TextField
-			id="outlined-multiline-static"
-			label="Write your experience here."
-			placeholder="Around this time of my life..."
-			multiline
-			fullWidth
-			rows={10}
-			onChange={e => {
-				handleChange(e.target.value);
-			}}
-			error={!form.state.userResponse.responseValid}
-			helperText={form.state.userResponse.responseError}
-			value={form.state.userResponse.response}
-		/>
-	);
+        promptFormStore.set({ ...form.state, userResponse: response });
+        validateResponse();
+    };
+    return (
+        <TextField
+            id="outlined-multiline-static"
+            label="Write your experience here."
+            placeholder="Around this time of my life..."
+            multiline
+            fullWidth
+            rows={10}
+            onChange={e => {
+                handleChange(e.target.value);
+            }}
+            error={!form.state.userResponse.responseValid}
+            helperText={form.state.userResponse.responseError}
+            value={form.state.userResponse.response}
+        />
+    );
 };
 
 export default PromptField;

@@ -13,7 +13,6 @@ const Welcome = () => {
 	React.useEffect(() => {
 		if (user) {
 			logEvent(analytics, 'visit', { user: user.uid, page: 'welcome' });
-			console.log('user');
 		}
 	}, [user]);
 

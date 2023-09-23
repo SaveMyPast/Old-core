@@ -11,7 +11,6 @@ const Profile = () => {
 	React.useEffect(() => {
 		getUserInformation();
 		logEvent(analytics, 'view', { page: 'profile' });
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	if (error) {

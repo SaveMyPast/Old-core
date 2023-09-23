@@ -52,7 +52,6 @@ export const DeleteUser = () => {
 			}
 		} else {
 			setValid(false);
-			console.error('No user is signed in');
 		}
 	};
 

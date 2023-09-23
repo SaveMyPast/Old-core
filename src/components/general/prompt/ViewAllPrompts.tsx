@@ -19,7 +19,7 @@ export const ViewAllPrompts = () => {
 	return (
 		<>
 			<List>
-				{selectablePrompts.allPrompts.map((prompt, key) => (
+				{selectablePrompts.allPrompts.map((prompt) => (
 					<PromptListItem key={prompt.id} prompt={prompt} />
 				))}
 			</List>
