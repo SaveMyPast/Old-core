@@ -1,7 +1,7 @@
 name: ESLINT
 "on": pull_request
 jobs:
-  build_and_preview:
+  Lint:
     if: "${{ github.event.pull_request.head.repo.full_name == github.repository }}"
     runs-on: ubuntu-latest
     steps:
