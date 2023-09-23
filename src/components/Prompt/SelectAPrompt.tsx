@@ -1,12 +1,12 @@
-import * as React from "react";
+import * as React from 'react';
 
-import ViewAllPrompts from "../general/prompt/ViewAllPrompts";
+import ViewAllPrompts from '../general/prompt/ViewAllPrompts';
 
 const SelectAPrompt = () => {
-  return (
-    <>
-      <ViewAllPrompts />
-    </>
-  );
+	return (
+		<>
+			<ViewAllPrompts />
+		</>
+	);
 };
 export default SelectAPrompt;
