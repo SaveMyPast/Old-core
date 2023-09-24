@@ -18,18 +18,9 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './services/firebase';
 import { Container } from '@mui/system';
 import Register from './components/general/Auth/Register';
-import useGetCurrentUserInformation from './services/customHooks/useGetUserInformation';
 
 function App() {
     const [user] = useAuthState(auth);
-    const [getUserInformation, userInformation, error, loading] =
-        useGetCurrentUserInformation();
-
-    React.useEffect(() => {
-        if (user) {
-            getUserInformation();
-        }
-    }, []);
 
     if (!user) {
         return (
