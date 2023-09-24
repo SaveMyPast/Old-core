@@ -54,11 +54,11 @@ function App() {
                     <Route path="/timeline" element={<Timeline />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/login" element={<Login />} />
                     <Route
                         path="/administration"
                         element={<Administration />}
                     />
-                    <Route path="/login" element={<Login />} />
                     <Route
                         path="/forgot-password"
                         element={<ForgotPassword />}

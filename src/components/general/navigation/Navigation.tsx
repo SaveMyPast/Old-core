@@ -24,7 +24,7 @@ function Navigation() {
 
     if (user) {
         pages = ['Prompts', 'Timeline'];
-        settings = ['Profile', 'Settings', 'Administration', 'Logout'];
+        settings = ['Profile', 'Settings', 'Logout'];
     } else {
         settings = ['Login', 'Register'];
     }
