@@ -1,4 +1,4 @@
-import { PromptData } from "./interfaces";
+import { PromptData } from './interfaces';
 
 export interface PromptStoreInterface {
   prompts: PromptData[];
