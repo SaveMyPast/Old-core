@@ -18,9 +18,18 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './services/firebase';
 import { Container } from '@mui/system';
 import Register from './components/general/Auth/Register';
+import useGetCurrentUserInformation from './services/customHooks/useGetUserInformation';
 
 function App() {
     const [user] = useAuthState(auth);
+    const [getUserInformation, userInformation, error, loading] =
+        useGetCurrentUserInformation();
+
+    React.useEffect(() => {
+        if (user) {
+            getUserInformation();
+        }
+    }, []);
 
     if (!user) {
         return (
@@ -54,11 +63,11 @@ function App() {
                     <Route path="/timeline" element={<Timeline />} />
                     <Route path="/settings" element={<Settings />} />
                     <Route path="/profile" element={<Profile />} />
+                    <Route path="/login" element={<Login />} />
                     <Route
                         path="/administration"
                         element={<Administration />}
                     />
-                    <Route path="/login" element={<Login />} />
                     <Route
                         path="/forgot-password"
                         element={<ForgotPassword />}
