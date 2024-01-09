@@ -16,7 +16,6 @@ import Login from './components/general/Auth/Login';
 import ForgotPassword from './components/general/Auth/ForgotPassword';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './services/firebase';
-import { Container } from '@mui/system';
 import Register from './components/general/Auth/Register';
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
         return (
             <>
                 <Navigation></Navigation>
-                <Container sx={{ height: '100px' }} />
 
                 <Routes>
                     <Route path="/" element={<Welcome />} />
@@ -45,7 +43,6 @@ function App() {
         return (
             <>
                 <Navigation></Navigation>
-                <Container sx={{ height: '100px' }} />
 
                 <Routes>
                     <Route path="/" element={<Welcome />} />
